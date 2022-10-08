@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".ui.RootActivity">
 
     <Button
         android:id="@+id/button_java"
@@ -14,11 +14,11 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:text="@string/java"
-        style="@style/button_main" />
+        style="@style/activity_layout" />
 
     <Button
         android:id="@+id/button_kotlin"
-        style="@style/button_main"
+        style="@style/activity_layout"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
