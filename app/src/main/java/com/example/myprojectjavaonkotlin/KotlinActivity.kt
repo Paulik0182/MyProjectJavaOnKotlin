@@ -1,43 +1,41 @@
-package com.example.myprojectjavaonkotlin;
+package com.example.myprojectjavaonkotlin
 
-import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
+import androidx.appcompat.app.AppCompatActivity
+import android.widget.TextView
+import android.os.Bundle
+import android.view.View
+import android.widget.Button
 
-import androidx.appcompat.app.AppCompatActivity;
+class KotlinActivity : AppCompatActivity() {
 
-public class KotlinActivity extends AppCompatActivity {
+    private lateinit var minusButton: Button
+    private lateinit var plusButton: Button
+    private lateinit var textViewCounter: TextView
 
-    private Button minusButton = null;
-    private Button plusButton = null;
-    private TextView textViewCounter = null;
+    private var counter = 0
 
-    private int counter = 0;
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_counter)
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate ( savedInstanceState );
-        setContentView ( R.layout.activity_counter );
+        minusButton = findViewById(R.id.button_minus)
+        plusButton = findViewById(R.id.button_plus)
+        textViewCounter = findViewById(R.id.text_view_counter)
 
-        minusButton = findViewById ( R.id.button_minus );
-        plusButton = findViewById ( R.id.button_plus );
-        textViewCounter = findViewById ( R.id.text_view_counter );
+        counterUpdate(counter)
 
-        counterUpdate(counter);
+        minusButton.setOnClickListener {
+            counterUpdate(--counter)
+        }
 
-        minusButton.setOnClickListener ( new View.OnClickListener () {
-            @Override
-            public void onClick(View v) {
-                counterUpdate ( --counter );
+        plusButton.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(v: View?) {
+                counterUpdate(++counter)
             }
-        } );
-
-        plusButton.setOnClickListener ( v ->
-                counterUpdate ( ++counter ) );
+        })
     }
 
-    private  void counterUpdate (int counter){
-        textViewCounter.setText ( String.valueOf ( counter ) );
+    private fun counterUpdate(counter: Int) {
+        textViewCounter.text = counter.toString()
     }
 }

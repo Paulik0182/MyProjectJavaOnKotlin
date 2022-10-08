@@ -1,33 +1,30 @@
-package com.example.myprojectjavaonkotlin;
+package com.example.myprojectjavaonkotlin
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import android.content.Intent
+import android.view.View
+import android.widget.Button
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
+class MainActivity : AppCompatActivity() {
 
-public class MainActivity extends AppCompatActivity {
+    private lateinit var javaButton: Button
+    private lateinit var kotlinButton: Button
 
-    private Button javaButton = null;
-    private Button kotlinButton = null;
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        javaButton = findViewById(R.id.button_java)
+        javaButton.setOnClickListener {
+            val intent = Intent(this@MainActivity, JavaActivity::class.java)
+            startActivity(intent)
+        }
 
-        javaButton = findViewById(R.id.button_java);
-        javaButton.setOnClickListener(view -> {
-            Intent intent = new Intent(MainActivity.this, JavaActivity.class);
-            startActivity(intent);
-        });
-
-        kotlinButton = findViewById(R.id.button_kotlin);
-        kotlinButton.setOnClickListener(view -> {
-            Intent intent = new Intent(MainActivity.this, KotlinActivity.class);
-            startActivity(intent);
-        });
+        kotlinButton = findViewById(R.id.button_kotlin)
+        kotlinButton.setOnClickListener(View.OnClickListener { view: View? ->
+            val intent = Intent(this@MainActivity, KotlinActivity::class.java)
+            startActivity(intent)
+        })
     }
 }
