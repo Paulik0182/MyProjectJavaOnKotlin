@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">MyProjectJavaOnKotlin</string>
+    <string name="minus">-\nминус</string>
+    <string name="plus">+ \n плюс</string>
+    <string name="text_view">0</string>
+    <string name="java">Java</string>
+    <string name="kotlin">Kotlin</string>
 </resources>
