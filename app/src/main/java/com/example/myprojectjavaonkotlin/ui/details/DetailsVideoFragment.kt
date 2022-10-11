@@ -4,29 +4,43 @@ import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
-import androidx.recyclerview.widget.RecyclerView
-import com.example.myprojectjavaonkotlin.App
+import android.widget.TextView
 import com.example.myprojectjavaonkotlin.R
 import com.example.myprojectjavaonkotlin.domain.entity.VideoEntity
-import com.example.myprojectjavaonkotlin.domain.repo.VideoRepo
 
 private const val DETAILS_VIDEO_KEY = "DETAILS_VIDEO_KEY"
 
 class DetailsVideoFragment : Fragment(R.layout.fragment_details_video) {
 
-    private val app: App by lazy { requireActivity().application as App }
-    private lateinit var videoRepo: VideoRepo
-    private lateinit var videoList: MutableList<VideoEntity>
+    private lateinit var videoEntity: VideoEntity
+
+    private lateinit var nameTv: TextView
+    private lateinit var genreTv: TextView
+    private lateinit var yearReleaseTv: TextView
+    private lateinit var descriptionTv: TextView
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        initView(view)
+
+        initView(view)
+
+        videoEntity = requireArguments().getParcelable(DETAILS_VIDEO_KEY)!!
+        setVideoEntity(videoEntity)
     }
 
     private fun initView(view: View) {
-        TODO("Not yet implemented")
+        nameTv = view.findViewById(R.id.name_details_text_view)
+        genreTv = view.findViewById(R.id.genre_details_text_view)
+        yearReleaseTv = view.findViewById(R.id.year_release_details_text_view)
+        descriptionTv = view.findViewById(R.id.description_details_text_view)
     }
 
+    private fun setVideoEntity(videoEntity: VideoEntity) {
+        nameTv.text = videoEntity.name
+        genreTv.text = videoEntity.genre
+        yearReleaseTv.text = videoEntity.yearRelease
+        descriptionTv.text = videoEntity.description
+    }
 
     interface Controller {
         // TODO
