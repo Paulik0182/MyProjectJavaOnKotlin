@@ -5,7 +5,8 @@ import android.os.Bundle
 import com.example.myprojectjavaonkotlin.R
 import com.example.myprojectjavaonkotlin.ui.video.VideoListFragment
 
-class RootActivity : AppCompatActivity() {
+class RootActivity : AppCompatActivity(),
+    VideoListFragment.Controller {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
