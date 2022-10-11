@@ -33,6 +33,9 @@ class VideoListFragment : Fragment(R.layout.fragment_video_list) {
         videoRepo = app.videoRepo
 
         adapter.setData(videoRepo.getVideo())
+        adapter.setOnItemClickListener{
+            getController().openDetailsVideo(it)
+        }
     }
 
     private fun fillView(){
@@ -47,7 +50,7 @@ class VideoListFragment : Fragment(R.layout.fragment_video_list) {
     }
 
     interface Controller {
-        // TODO
+        fun openDetailsVideo(videoEntity: VideoEntity)
     }
 
     private fun getController(): Controller = activity as Controller
