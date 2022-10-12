@@ -6,11 +6,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myprojectjavaonkotlin.R
 import com.example.myprojectjavaonkotlin.domain.entity.VideoEntity
-import com.example.pressurediary.ui.diary.VideoListViewHolder
 
 class VideoListAdapter(
-    private var data: List<VideoEntity>,
-    private var listener: (VideoEntity) -> Unit
+    private var data: List<VideoEntity> = mutableListOf(),
+    private var listener: (VideoEntity) -> Unit = {}
 ) : RecyclerView.Adapter<VideoListViewHolder>(){
 
     @SuppressLint("NotifyDataSetChanged")

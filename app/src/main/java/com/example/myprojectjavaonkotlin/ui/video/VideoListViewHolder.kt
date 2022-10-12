@@ -1,4 +1,4 @@
-package com.example.pressurediary.ui.diary
+package com.example.myprojectjavaonkotlin.ui.video
 
 import android.view.View
 import android.widget.TextView

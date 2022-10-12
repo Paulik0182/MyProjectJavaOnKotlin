@@ -3,6 +3,7 @@ package com.example.myprojectjavaonkotlin
 import android.app.Application
 import com.example.myprojectjavaonkotlin.data.VideoRepoImpl
 import com.example.myprojectjavaonkotlin.domain.repo.VideoRepo
+import java.util.*
 
 /**
  * Здесь создаем репозиторий. Репо должна быть одна, а не создаватся каждый раз в каждом фрагменте.
@@ -16,4 +17,7 @@ class App: Application() {
     val videoRepo: VideoRepo by lazy {
         VideoRepoImpl()
     }
+
+    // Any - это базовый объект, это тип для всего. Map это ключ - значение
+    val rotationFreeStorage: MutableMap<String, Any> = WeakHashMap()
 }
