@@ -101,8 +101,9 @@
             android:id="@+id/description_details_text_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center"
+            android:gravity="center|top"
             android:textColor="@color/black"
+            android:layout_marginTop="8dp"
             android:textSize="16dp"
             android:text="Описание фильма" />
 

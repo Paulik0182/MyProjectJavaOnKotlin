@@ -9,10 +9,9 @@ import com.example.myprojectjavaonkotlin.App
 import com.example.myprojectjavaonkotlin.R
 import com.example.myprojectjavaonkotlin.domain.entity.VideoEntity
 import com.example.myprojectjavaonkotlin.domain.repo.VideoRepo
-import com.example.myprojectjavaonkotlin.ui.video.VideoListViewModel
 import java.util.*
 
-private const val VIDEO_ID_KEY = "VIDEO_ID"
+private const val DETAILS_VIDEO_KEY = "DETAILS_VIDEO_KEY"
 private const val FRAGMENT_UUID_KEY = "FRAGMENT_UUID_KEY"
 
 class DetailsVideoFragment : Fragment(R.layout.fragment_details_video) {
@@ -28,7 +27,7 @@ class DetailsVideoFragment : Fragment(R.layout.fragment_details_video) {
 
     private fun extractViewModel(): DetailsViewModel {
         //достаем id
-        val id = requireArguments().getLong(VIDEO_ID_KEY)
+        val id = requireArguments().getParcelable<VideoEntity>(DETAILS_VIDEO_KEY)!!.id
         val viewModel = app.rotationFreeStorage[fragmentUid] as DetailsViewModel?
             ?: DetailsViewModel(videoRepo, id)
         app.rotationFreeStorage[fragmentUid] = viewModel
@@ -38,6 +37,8 @@ class DetailsVideoFragment : Fragment(R.layout.fragment_details_video) {
     private val videoRepo: VideoRepo by lazy {
         app.videoRepo
     }
+
+    private lateinit var videoEntity: VideoEntity
 
     private lateinit var nameTv: TextView
     private lateinit var genreTv: TextView
@@ -99,7 +100,7 @@ class DetailsVideoFragment : Fragment(R.layout.fragment_details_video) {
         fun newInstance(videoEntity: VideoEntity) =
             DetailsVideoFragment().apply {
                 arguments = Bundle().apply {
-                    getLong(VIDEO_ID_KEY, videoEntity.id)
+                    putParcelable(DETAILS_VIDEO_KEY, videoEntity)
                 }
             }
     }
