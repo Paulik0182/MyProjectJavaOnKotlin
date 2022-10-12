@@ -12,7 +12,7 @@ import com.example.myprojectjavaonkotlin.domain.repo.VideoRepo
 import com.example.myprojectjavaonkotlin.ui.video.VideoListViewModel
 import java.util.*
 
-private const val DETAILS_VIDEO_KEY = "DETAILS_VIDEO_KEY"
+private const val VIDEO_ID_KEY = "VIDEO_ID"
 private const val FRAGMENT_UUID_KEY = "FRAGMENT_UUID_KEY"
 
 class DetailsVideoFragment : Fragment(R.layout.fragment_details_video) {
@@ -24,20 +24,20 @@ class DetailsVideoFragment : Fragment(R.layout.fragment_details_video) {
      * в связи с тем что ViewModel при каждом повороте пересоздается, если необходимо
      * сохранять экран, необходимо ViewModel сохранить вне данного класса
      */
-    private val viewModel: VideoListViewModel by lazy { extractViewModel() }
+    private val viewModel: DetailsViewModel by lazy { extractViewModel() }
 
-    private fun extractViewModel(): VideoListViewModel {
-        val presenter = app.rotationFreeStorage[fragmentUid] as VideoListViewModel?
-            ?: VideoListViewModel(videoRepo)
-        app.rotationFreeStorage[fragmentUid] = presenter
-        return presenter
+    private fun extractViewModel(): DetailsViewModel {
+        //достаем id
+        val id = requireArguments().getLong(VIDEO_ID_KEY)
+        val viewModel = app.rotationFreeStorage[fragmentUid] as DetailsViewModel?
+            ?: DetailsViewModel(videoRepo, id)
+        app.rotationFreeStorage[fragmentUid] = viewModel
+        return viewModel
     }
 
     private val videoRepo: VideoRepo by lazy {
         app.videoRepo
     }
-
-    private lateinit var videoEntity: VideoEntity
 
     private lateinit var nameTv: TextView
     private lateinit var genreTv: TextView
@@ -65,12 +65,9 @@ class DetailsVideoFragment : Fragment(R.layout.fragment_details_video) {
 
         initView(view)
 
-//        viewModel.videoListLiveData.observe(viewLifecycleOwner){
-//            setVideoEntity(it)
-//        }
-
-        videoEntity = requireArguments().getParcelable(DETAILS_VIDEO_KEY)!!
-        setVideoEntity(videoEntity)
+        viewModel.videoLiveData.observe(viewLifecycleOwner){
+            setVideoEntity(it)
+        }
     }
 
     private fun initView(view: View) {
@@ -102,7 +99,7 @@ class DetailsVideoFragment : Fragment(R.layout.fragment_details_video) {
         fun newInstance(videoEntity: VideoEntity) =
             DetailsVideoFragment().apply {
                 arguments = Bundle().apply {
-                    putParcelable(DETAILS_VIDEO_KEY, videoEntity)
+                    getLong(VIDEO_ID_KEY, videoEntity.id)
                 }
             }
     }

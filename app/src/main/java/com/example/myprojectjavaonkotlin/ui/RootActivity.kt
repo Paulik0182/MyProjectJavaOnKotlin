@@ -29,7 +29,7 @@ class RootActivity : AppCompatActivity(),
         val fragment: Fragment = DetailsVideoFragment.newInstance(videoEntity)
         supportFragmentManager
             .beginTransaction()
-            .replace(R.id.container_layout, fragment, TAG_DETAILS_VIDEO_KEY)
+            .add(R.id.container_layout, fragment, TAG_DETAILS_VIDEO_KEY)
             .addToBackStack(null)
             .commit()
     }

@@ -18,10 +18,6 @@ class VideoListAdapter(
         notifyDataSetChanged()
     }
 
-//    fun setOnItemClickListener(listener: (VideoEntity) -> Unit){
-//        this.listener = listener
-//    }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VideoListViewHolder {
         return VideoListViewHolder(
             LayoutInflater.from(parent.context)
