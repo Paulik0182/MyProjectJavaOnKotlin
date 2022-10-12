@@ -5,12 +5,37 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
 import android.widget.TextView
+import com.example.myprojectjavaonkotlin.App
 import com.example.myprojectjavaonkotlin.R
 import com.example.myprojectjavaonkotlin.domain.entity.VideoEntity
+import com.example.myprojectjavaonkotlin.domain.repo.VideoRepo
+import com.example.myprojectjavaonkotlin.ui.video.VideoListViewModel
+import java.util.*
 
 private const val DETAILS_VIDEO_KEY = "DETAILS_VIDEO_KEY"
+private const val FRAGMENT_UUID_KEY = "FRAGMENT_UUID_KEY"
 
 class DetailsVideoFragment : Fragment(R.layout.fragment_details_video) {
+
+    private val app: App by lazy { requireActivity().application as App }
+
+    /**
+     * поздняя инициализация ViewModel, положили в него repo
+     * в связи с тем что ViewModel при каждом повороте пересоздается, если необходимо
+     * сохранять экран, необходимо ViewModel сохранить вне данного класса
+     */
+    private val viewModel: VideoListViewModel by lazy { extractViewModel() }
+
+    private fun extractViewModel(): VideoListViewModel {
+        val presenter = app.rotationFreeStorage[fragmentUid] as VideoListViewModel?
+            ?: VideoListViewModel(videoRepo)
+        app.rotationFreeStorage[fragmentUid] = presenter
+        return presenter
+    }
+
+    private val videoRepo: VideoRepo by lazy {
+        app.videoRepo
+    }
 
     private lateinit var videoEntity: VideoEntity
 
@@ -19,10 +44,30 @@ class DetailsVideoFragment : Fragment(R.layout.fragment_details_video) {
     private lateinit var yearReleaseTv: TextView
     private lateinit var descriptionTv: TextView
 
+    //уникальный id (для того чтобы можно было сохранить состояние экрана за пределами класса
+    private lateinit var fragmentUid: String
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        //проверка, есть ли это значение, если нет то создаем его
+        fragmentUid =
+            savedInstanceState?.getString(FRAGMENT_UUID_KEY) ?: UUID.randomUUID().toString()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        //при сохроанении положить ID
+        outState.putString(FRAGMENT_UUID_KEY, fragmentUid)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         initView(view)
+
+//        viewModel.videoListLiveData.observe(viewLifecycleOwner){
+//            setVideoEntity(it)
+//        }
 
         videoEntity = requireArguments().getParcelable(DETAILS_VIDEO_KEY)!!
         setVideoEntity(videoEntity)

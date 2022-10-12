@@ -9,7 +9,7 @@ import com.example.myprojectjavaonkotlin.domain.entity.VideoEntity
 
 class VideoListAdapter(
     private var data: List<VideoEntity> = mutableListOf(),
-    private var listener: (VideoEntity) -> Unit = {}
+    private var onDetailVideoListener: (VideoEntity) -> Unit ={},
 ) : RecyclerView.Adapter<VideoListViewHolder>(){
 
     @SuppressLint("NotifyDataSetChanged")
@@ -18,14 +18,15 @@ class VideoListAdapter(
         notifyDataSetChanged()
     }
 
-    fun setOnItemClickListener(listener: (VideoEntity) -> Unit){
-        this.listener = listener
-    }
+//    fun setOnItemClickListener(listener: (VideoEntity) -> Unit){
+//        this.listener = listener
+//    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VideoListViewHolder {
         return VideoListViewHolder(
             LayoutInflater.from(parent.context)
-                .inflate(R.layout.item_video_list, parent, false), listener
+                .inflate(R.layout.item_video_list, parent, false),
+            onDetailVideoListener
         )
     }
 

@@ -33,14 +33,11 @@ class VideoListFragment : Fragment(R.layout.fragment_video_list) {
     }
 
     private lateinit var adapter: VideoListAdapter
-    private val listener = { _: VideoEntity ->
-        fillView()
-    }
+
     private val videoRepo: VideoRepo by lazy {
         app.videoRepo
     }
     private lateinit var recyclerView: RecyclerView
-    private lateinit var videoList: MutableList<VideoEntity>
 
     //уникальный id (для того чтобы можно было сохранить состояние экрана за пределами класса
     private lateinit var fragmentUid: String
@@ -67,19 +64,20 @@ class VideoListFragment : Fragment(R.layout.fragment_video_list) {
             adapter.setData(it)
         }
 
-        adapter.setOnItemClickListener{
+        viewModel.selectedVideoLiveData.observe(viewLifecycleOwner){
             getController().openDetailsVideo(it)
         }
-    }
-
-    private fun fillView(){
-        adapter.setData(videoList)
     }
 
     private fun initView(view: View) {
         recyclerView = view.findViewById(R.id.video_recycler_view)
         recyclerView.layoutManager = LinearLayoutManager(context)
-        adapter = VideoListAdapter(emptyList(), listener)
+        adapter = VideoListAdapter(
+            data = emptyList(),
+            onDetailVideoListener = {
+                viewModel.onVideoClick(it)
+            }
+        )
         recyclerView.adapter = adapter
     }
 
@@ -92,10 +90,5 @@ class VideoListFragment : Fragment(R.layout.fragment_video_list) {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         getController()
-    }
-
-    companion object {
-        @JvmStatic
-        fun newInstance() = VideoListFragment()
     }
 }

@@ -8,7 +8,7 @@ import com.example.myprojectjavaonkotlin.domain.entity.VideoEntity
 
 class VideoListViewHolder(
     itemView: View,
-    listener: (VideoEntity) -> Unit
+    onDetailVideoListener: (VideoEntity) -> Unit
 ) : RecyclerView.ViewHolder(itemView) {
 
     private val name = itemView.findViewById<TextView>(R.id.name_text_view)
@@ -19,7 +19,7 @@ class VideoListViewHolder(
     private lateinit var video: VideoEntity
 
     fun bind(videoEntity: VideoEntity) {
-        video = videoEntity
+        this.video = videoEntity
 
         name.text = videoEntity.name
         genre.text = videoEntity.genre
@@ -28,9 +28,7 @@ class VideoListViewHolder(
 
     init {
         itemView.setOnClickListener {
-            video.let {
-                listener.invoke(it)
-            }
+            onDetailVideoListener.invoke(video)
         }
     }
 }

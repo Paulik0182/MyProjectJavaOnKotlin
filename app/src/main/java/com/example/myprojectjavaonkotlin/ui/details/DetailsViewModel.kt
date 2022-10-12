@@ -1,4 +1,4 @@
-package com.example.myprojectjavaonkotlin.ui.video
+package com.example.myprojectjavaonkotlin.ui.details
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -13,22 +13,24 @@ import com.example.myprojectjavaonkotlin.domain.repo.VideoRepo
  * postValue работает с многопоточностью, из любого потока делаем postValue и приходит все на главный поток
  */
 
-class VideoListViewModel(
+class DetailsViewModel(
     //Аргумент конструктора, член класса
-    private val videoRepo: VideoRepo
+    private val videoRepo: VideoRepo,
+    private val videoId: Long
 ) {
 
-    val videoListLiveData: LiveData<List<VideoEntity>> = MutableLiveData()
-    val selectedVideoLiveData: LiveData<VideoEntity> = MutableLiveData()
+    val videoLiveData: LiveData<VideoEntity> = MutableLiveData()
 
     init {
-        videoRepo.getVideos{
-            videoListLiveData.mutable().postValue(it)
+        //проверяе на наличие данных в videoLiveData.
+        // Это необходимо для того чтобы при повороте данные не закачивались заново
+        if (videoLiveData.value == null) {
+            videoRepo.getVideo(videoId) {
+                it.let {
+                    videoLiveData.mutable().postValue(it)
+                }
+            }
         }
-    }
-
-    fun onVideoClick(videoEntity: VideoEntity){
-        selectedVideoLiveData.mutable().postValue(videoEntity)
     }
 
     //экстеншен (расширение обычной чужой функции). Можно указать mutable расширение и оно вернет версию MutableLiveData

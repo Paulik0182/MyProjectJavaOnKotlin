@@ -14,7 +14,7 @@ class VideoRepoImpl(
         return mutableListOf(videoEntity)
     }
 
-    override fun getVideo(onVideo: (MutableList<VideoEntity>) -> Unit) {
+    override fun getVideos(onVideo: (MutableList<VideoEntity>) -> Unit) {
         val video = VideoEntity(1,
             "Любовь и голуби",
             "Комедия",
@@ -31,6 +31,13 @@ class VideoRepoImpl(
             }
         } catch (exc: NullPointerException) {
             exc.printStackTrace()
+        }
+    }
+
+    override fun getVideo(id: Long, onVideo: (VideoEntity?) -> Unit) {
+        getVideos {
+            val result = it.find { it.id == id }
+            onVideo.invoke(result)
         }
     }
 
@@ -51,5 +58,4 @@ class VideoRepoImpl(
             )
         )
     }
-
 }
