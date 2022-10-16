@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import com.example.myprojectjavaonkotlin.domain.entity.CollectionVideoEntity
 import com.example.myprojectjavaonkotlin.domain.entity.VideoEntity
 import com.example.myprojectjavaonkotlin.domain.repo.CollectionVideoRepo
-import com.example.myprojectjavaonkotlin.domain.repo.VideoRepo
 
 /**
  * liveData - это такой тип данных который позволяет подписатся на него и все время получать изменения

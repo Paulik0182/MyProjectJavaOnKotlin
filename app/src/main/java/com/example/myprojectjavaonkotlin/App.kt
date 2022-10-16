@@ -2,9 +2,7 @@ package com.example.myprojectjavaonkotlin
 
 import android.app.Application
 import com.example.myprojectjavaonkotlin.data.CollectionVideoRepoImpl
-import com.example.myprojectjavaonkotlin.data.VideoRepoImpl
 import com.example.myprojectjavaonkotlin.domain.repo.CollectionVideoRepo
-import com.example.myprojectjavaonkotlin.domain.repo.VideoRepo
 import java.util.*
 
 /**
@@ -16,7 +14,6 @@ import java.util.*
 
 class App: Application() {
 
-    val videoRepo: VideoRepo by lazy { VideoRepoImpl() }
     val collectionVideoRepo: CollectionVideoRepo by lazy { CollectionVideoRepoImpl() }
 
     // Any - это базовый объект, это тип для всего. Map это ключ - значение

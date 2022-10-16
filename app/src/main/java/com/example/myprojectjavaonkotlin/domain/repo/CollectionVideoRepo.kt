@@ -7,6 +7,5 @@ interface CollectionVideoRepo {
     fun addCollectionVideo(collectionVideoEntity: CollectionVideoEntity)
     fun getCollectionVideos(onCollectionVideo: (List<CollectionVideoEntity>) -> Unit)
 
-    fun getVideo(id: Long, onVideo: (CollectionVideoEntity?) -> Unit)
-
+    fun getVideo(videoId: Long, onVideo: (VideoEntity?) -> Unit)
 }

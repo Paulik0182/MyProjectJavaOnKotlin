@@ -29,7 +29,7 @@ class VideoListViewHolder(
                 .load(videoEntity.imageUrl)
                 .placeholder(R.drawable.uploading_images)
                 .into(coverImageView)
-//        coverImageView.scaleType = ImageView.ScaleType.FIT_XY// растягиваем картинку на весь элемент
+        coverImageView.scaleType = ImageView.ScaleType.FIT_XY// растягиваем картинку на весь элемент
         }
     }
 

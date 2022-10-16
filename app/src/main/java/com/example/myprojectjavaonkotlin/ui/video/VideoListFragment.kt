@@ -8,10 +8,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myprojectjavaonkotlin.App
 import com.example.myprojectjavaonkotlin.R
-import com.example.myprojectjavaonkotlin.domain.entity.CollectionVideoEntity
 import com.example.myprojectjavaonkotlin.domain.entity.VideoEntity
 import com.example.myprojectjavaonkotlin.domain.repo.CollectionVideoRepo
-import com.example.myprojectjavaonkotlin.domain.repo.VideoRepo
 import java.util.*
 
 private const val FRAGMENT_UUID_KEY = "FRAGMENT_UUID_KEY"
@@ -40,9 +38,6 @@ class VideoListFragment : Fragment(R.layout.fragment_video_list) {
         app.collectionVideoRepo
     }
 
-    private val videoRepo: VideoRepo by lazy {
-        app.videoRepo
-    }
     private lateinit var recyclerView: RecyclerView
 
     //уникальный id (для того чтобы можно было сохранить состояние экрана за пределами класса

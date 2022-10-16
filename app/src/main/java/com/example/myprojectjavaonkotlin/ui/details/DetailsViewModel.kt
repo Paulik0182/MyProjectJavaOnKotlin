@@ -2,10 +2,8 @@ package com.example.myprojectjavaonkotlin.ui.details
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.myprojectjavaonkotlin.domain.entity.CollectionVideoEntity
 import com.example.myprojectjavaonkotlin.domain.entity.VideoEntity
 import com.example.myprojectjavaonkotlin.domain.repo.CollectionVideoRepo
-import com.example.myprojectjavaonkotlin.domain.repo.VideoRepo
 
 /**
  * liveData - это такой тип данных который позволяет подписатся на него и все время получать изменения
@@ -28,8 +26,8 @@ class DetailsViewModel(
         // Это необходимо для того чтобы при повороте данные не закачивались заново
         if (videoLiveData.value == null) {
             videoRepo.getVideo(videoId) {
-                it?.let {
-                    videoLiveData.mutable().postValue(it?.video)
+                it.let {
+                    videoLiveData.mutable().postValue(it)
                 }
             }
         }

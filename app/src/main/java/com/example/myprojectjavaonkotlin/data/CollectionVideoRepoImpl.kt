@@ -16,10 +16,16 @@ class CollectionVideoRepoImpl : CollectionVideoRepo {
         onCollectionVideo(ArrayList(data))
     }
 
-    override fun getVideo(id: Long, onVideo: (CollectionVideoEntity?) -> Unit) {
+    override fun getVideo(videoId: Long, onVideo: (VideoEntity?) -> Unit) {
         getCollectionVideos {
-            val result = it.find { it.id == id }
-            onVideo.invoke(result)
+            var result: VideoEntity? = null
+            it.forEach { collection ->
+               result = collection.video.find { video -> video.id == videoId }
+                if (result != null){
+                    onVideo.invoke(result)
+                    return@getCollectionVideos
+                }
+            }
         }
     }
 

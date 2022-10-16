@@ -10,7 +10,6 @@ import com.example.myprojectjavaonkotlin.App
 import com.example.myprojectjavaonkotlin.R
 import com.example.myprojectjavaonkotlin.domain.entity.VideoEntity
 import com.example.myprojectjavaonkotlin.domain.repo.CollectionVideoRepo
-import com.example.myprojectjavaonkotlin.domain.repo.VideoRepo
 import com.squareup.picasso.Picasso
 import java.util.*
 
@@ -94,7 +93,7 @@ class DetailsVideoFragment : Fragment(R.layout.fragment_details_video) {
                 .load(videoEntity.imageUrl)
                 .placeholder(R.drawable.uploading_images)
                 .into(coverIv)
-//        coverImageView.scaleType = ImageView.ScaleType.FIT_XY// растягиваем картинку на весь элемент
+        coverIv.scaleType = ImageView.ScaleType.FIT_CENTER// растягиваем картинку на весь элемент
         }
     }
 
