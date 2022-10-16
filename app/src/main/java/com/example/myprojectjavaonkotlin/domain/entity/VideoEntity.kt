@@ -9,5 +9,6 @@ data class VideoEntity(
     val name: String = "Название фильма",
     val genre: String = "Жанр",
     val yearRelease: String = "1900",
-    val description: String = "Описание фильма"
+    val description: String = "Описание фильма",
+    val imageUrl: String = ""
 ) : Parcelable

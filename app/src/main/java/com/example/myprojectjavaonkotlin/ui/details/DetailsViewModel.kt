@@ -2,7 +2,9 @@ package com.example.myprojectjavaonkotlin.ui.details
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.myprojectjavaonkotlin.domain.entity.CollectionVideoEntity
 import com.example.myprojectjavaonkotlin.domain.entity.VideoEntity
+import com.example.myprojectjavaonkotlin.domain.repo.CollectionVideoRepo
 import com.example.myprojectjavaonkotlin.domain.repo.VideoRepo
 
 /**
@@ -15,7 +17,7 @@ import com.example.myprojectjavaonkotlin.domain.repo.VideoRepo
 
 class DetailsViewModel(
     //Аргумент конструктора, член класса
-    private val videoRepo: VideoRepo,
+    private val videoRepo: CollectionVideoRepo,
     private val videoId: Long
 ) {
 
@@ -26,8 +28,8 @@ class DetailsViewModel(
         // Это необходимо для того чтобы при повороте данные не закачивались заново
         if (videoLiveData.value == null) {
             videoRepo.getVideo(videoId) {
-                it.let {
-                    videoLiveData.mutable().postValue(it)
+                it?.let {
+                    videoLiveData.mutable().postValue(it?.video)
                 }
             }
         }

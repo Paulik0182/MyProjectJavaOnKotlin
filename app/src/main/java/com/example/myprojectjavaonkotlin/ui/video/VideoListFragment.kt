@@ -8,7 +8,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myprojectjavaonkotlin.App
 import com.example.myprojectjavaonkotlin.R
+import com.example.myprojectjavaonkotlin.domain.entity.CollectionVideoEntity
 import com.example.myprojectjavaonkotlin.domain.entity.VideoEntity
+import com.example.myprojectjavaonkotlin.domain.repo.CollectionVideoRepo
 import com.example.myprojectjavaonkotlin.domain.repo.VideoRepo
 import java.util.*
 
@@ -27,12 +29,16 @@ class VideoListFragment : Fragment(R.layout.fragment_video_list) {
 
     private fun extractViewModel(): VideoListViewModel{
         val presenter = app.rotationFreeStorage[fragmentUid] as VideoListViewModel?
-            ?: VideoListViewModel(videoRepo)
+            ?: VideoListViewModel(collectionVideoRepo)
         app.rotationFreeStorage[fragmentUid] = presenter
         return presenter
     }
 
-    private lateinit var adapter: VideoListAdapter
+    private lateinit var adapter: CollectionVideoAdapter
+
+    private val collectionVideoRepo: CollectionVideoRepo by lazy {
+        app.collectionVideoRepo
+    }
 
     private val videoRepo: VideoRepo by lazy {
         app.videoRepo
@@ -70,11 +76,11 @@ class VideoListFragment : Fragment(R.layout.fragment_video_list) {
     }
 
     private fun initView(view: View) {
-        recyclerView = view.findViewById(R.id.video_recycler_view)
+        recyclerView = view.findViewById(R.id.collection_video_recycler_view)
         recyclerView.layoutManager = LinearLayoutManager(context)
-        adapter = VideoListAdapter(
+        adapter = CollectionVideoAdapter(
             data = emptyList(),
-            onDetailVideoListener = {
+            onVideoClickListener = {
                 viewModel.onVideoClick(it)
             }
         )

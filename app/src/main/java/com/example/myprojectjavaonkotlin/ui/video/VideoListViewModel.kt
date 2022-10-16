@@ -2,7 +2,9 @@ package com.example.myprojectjavaonkotlin.ui.video
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.myprojectjavaonkotlin.domain.entity.CollectionVideoEntity
 import com.example.myprojectjavaonkotlin.domain.entity.VideoEntity
+import com.example.myprojectjavaonkotlin.domain.repo.CollectionVideoRepo
 import com.example.myprojectjavaonkotlin.domain.repo.VideoRepo
 
 /**
@@ -15,14 +17,14 @@ import com.example.myprojectjavaonkotlin.domain.repo.VideoRepo
 
 class VideoListViewModel(
     //Аргумент конструктора, член класса
-    private val videoRepo: VideoRepo
+    private val collectionVideoRepo: CollectionVideoRepo
 ) {
 
-    val videoListLiveData: LiveData<List<VideoEntity>> = MutableLiveData()
+    val videoListLiveData: LiveData<List<CollectionVideoEntity>> = MutableLiveData()
     val selectedVideoLiveData: LiveData<VideoEntity> = MutableLiveData()
 
     init {
-        videoRepo.getVideos{
+        collectionVideoRepo.getCollectionVideos{
             videoListLiveData.mutable().postValue(it)
         }
     }

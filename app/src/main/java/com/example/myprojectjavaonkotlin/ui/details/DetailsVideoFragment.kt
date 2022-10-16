@@ -4,11 +4,14 @@ import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
 import com.example.myprojectjavaonkotlin.App
 import com.example.myprojectjavaonkotlin.R
 import com.example.myprojectjavaonkotlin.domain.entity.VideoEntity
+import com.example.myprojectjavaonkotlin.domain.repo.CollectionVideoRepo
 import com.example.myprojectjavaonkotlin.domain.repo.VideoRepo
+import com.squareup.picasso.Picasso
 import java.util.*
 
 private const val DETAILS_VIDEO_KEY = "DETAILS_VIDEO_KEY"
@@ -34,8 +37,8 @@ class DetailsVideoFragment : Fragment(R.layout.fragment_details_video) {
         return viewModel
     }
 
-    private val videoRepo: VideoRepo by lazy {
-        app.videoRepo
+    private val videoRepo: CollectionVideoRepo by lazy {
+        app.collectionVideoRepo
     }
 
     private lateinit var videoEntity: VideoEntity
@@ -44,6 +47,7 @@ class DetailsVideoFragment : Fragment(R.layout.fragment_details_video) {
     private lateinit var genreTv: TextView
     private lateinit var yearReleaseTv: TextView
     private lateinit var descriptionTv: TextView
+    private lateinit var coverIv: ImageView
 
     //уникальный id (для того чтобы можно было сохранить состояние экрана за пределами класса
     private lateinit var fragmentUid: String
@@ -76,6 +80,7 @@ class DetailsVideoFragment : Fragment(R.layout.fragment_details_video) {
         genreTv = view.findViewById(R.id.genre_details_text_view)
         yearReleaseTv = view.findViewById(R.id.year_release_details_text_view)
         descriptionTv = view.findViewById(R.id.description_details_text_view)
+        coverIv = view.findViewById(R.id.cover_image_view)
     }
 
     private fun setVideoEntity(videoEntity: VideoEntity) {
@@ -83,6 +88,14 @@ class DetailsVideoFragment : Fragment(R.layout.fragment_details_video) {
         genreTv.text = videoEntity.genre
         yearReleaseTv.text = videoEntity.yearRelease
         descriptionTv.text = videoEntity.description
+
+        if (videoEntity.imageUrl.isNotBlank()) {
+            Picasso.get()
+                .load(videoEntity.imageUrl)
+                .placeholder(R.drawable.uploading_images)
+                .into(coverIv)
+//        coverImageView.scaleType = ImageView.ScaleType.FIT_XY// растягиваем картинку на весь элемент
+        }
     }
 
     interface Controller {
