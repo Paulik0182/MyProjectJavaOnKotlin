@@ -25,8 +25,8 @@ class RootActivity : AppCompatActivity(),
                 .commit()
     }
 
-    private fun openDetailsVideoFragment(videoEntity: VideoEntity) {
-        val fragment: Fragment = DetailsVideoFragment.newInstance(videoEntity)
+    private fun openDetailsVideoFragment(videoId: Long) {
+        val fragment: Fragment = DetailsVideoFragment.newInstance(videoId)
         supportFragmentManager
             .beginTransaction()
             .add(R.id.container_layout, fragment, TAG_DETAILS_VIDEO_KEY)
@@ -35,6 +35,6 @@ class RootActivity : AppCompatActivity(),
     }
 
     override fun openDetailsVideo(videoEntity: VideoEntity) {
-        openDetailsVideoFragment(videoEntity)
+        openDetailsVideoFragment(videoEntity.id)
     }
 }

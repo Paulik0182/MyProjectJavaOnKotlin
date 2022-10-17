@@ -17,6 +17,7 @@ class CollectionVideoRepoImpl : CollectionVideoRepo {
     }
 
     override fun getVideo(videoId: Long, onVideo: (VideoEntity?) -> Unit) {
+        //проходим по всей коллекции, находим соответствующую запись
         getCollectionVideos {
             var result: VideoEntity? = null
             it.forEach { collection ->

@@ -29,7 +29,7 @@ class DetailsVideoFragment : Fragment(R.layout.fragment_details_video) {
 
     private fun extractViewModel(): DetailsViewModel {
         //достаем id
-        val id = requireArguments().getParcelable<VideoEntity>(DETAILS_VIDEO_KEY)!!.id
+        val id = requireArguments().getLong(DETAILS_VIDEO_KEY)
         val viewModel = app.rotationFreeStorage[fragmentUid] as DetailsViewModel?
             ?: DetailsViewModel(videoRepo, id)
         app.rotationFreeStorage[fragmentUid] = viewModel
@@ -39,8 +39,6 @@ class DetailsVideoFragment : Fragment(R.layout.fragment_details_video) {
     private val videoRepo: CollectionVideoRepo by lazy {
         app.collectionVideoRepo
     }
-
-    private lateinit var videoEntity: VideoEntity
 
     private lateinit var nameTv: TextView
     private lateinit var genreTv: TextView
@@ -109,10 +107,10 @@ class DetailsVideoFragment : Fragment(R.layout.fragment_details_video) {
     }
 
     companion object {
-        fun newInstance(videoEntity: VideoEntity) =
+        fun newInstance(videoId: Long) =
             DetailsVideoFragment().apply {
                 arguments = Bundle().apply {
-                    putParcelable(DETAILS_VIDEO_KEY, videoEntity)
+                    putLong(DETAILS_VIDEO_KEY, videoId)
                 }
             }
     }
