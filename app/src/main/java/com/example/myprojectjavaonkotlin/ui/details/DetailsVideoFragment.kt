@@ -10,7 +10,7 @@ import com.example.myprojectjavaonkotlin.App
 import com.example.myprojectjavaonkotlin.R
 import com.example.myprojectjavaonkotlin.domain.entity.VideoEntity
 import com.example.myprojectjavaonkotlin.domain.repo.CollectionVideoRepo
-import com.google.android.material.snackbar.Snackbar
+import com.example.myprojectjavaonkotlin.ui.utils.snack
 import com.squareup.picasso.Picasso
 import java.util.*
 
@@ -71,11 +71,8 @@ class DetailsVideoFragment : Fragment(R.layout.fragment_details_video) {
         viewModel.videoLiveData.observe(viewLifecycleOwner) {
             setVideoEntity(it)
 
-            Snackbar.make(
-                view,
-                getString(R.string.name_film) + it.name,
-                Snackbar.ANIMATION_MODE_SLIDE
-            ).show()
+            //Snackbar
+            view.snack(getString(R.string.name_film) + it.name)
         }
     }
 
