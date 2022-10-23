@@ -8,11 +8,13 @@ import java.io.*
 import java.net.HttpURLConnection
 import java.net.URL
 
-class VideoApiRepoImpl: VideoApiRepo {
+class VideoApiRepoImpl : VideoApiRepo {
+
+    val video: MutableList<VideoApiEntity> = mutableListOf()
 
     private val database = URL("https://imdb-api.com/ru/API/Title/k_r6gwl7te")
-    private val videoImdbUrl: String = "https://imdb-api.com/ru/API/Title/k_r6gwl7te"
-//    private val database = URL("https://imdb-api.com/ru/API/Title/k_r6gwl7te/tt1375666")
+//    private val videoImdbUrl: String = "https://imdb-api.com/ru/API/Title/k_r6gwl7te"
+    private val videoImdbUrl: String = "https://imdb-api.com/ru/API/Title/k_r6gwl7te/tt1375666"
 
     private val gson by lazy { Gson() }
 
@@ -25,21 +27,31 @@ class VideoApiRepoImpl: VideoApiRepo {
 
         val resultJsonString = bufferedReader.readLines().toString()
 
-         val dataArray = Gson().fromJson(resultJsonString, Array<Array<VideoApiEntity>>::class.java)
-        val video: MutableList<VideoApiEntity> = mutableListOf()
+        val dataArray = Gson().fromJson(resultJsonString, Array<Array<VideoApiEntity>>::class.java)
         dataArray.forEach { array ->
             array.forEach {
-                onVideoApi.invoke(video)
+                video.add(it)
             }
         }
+        onVideoApi.invoke(video)
         urlConnection.disconnect()
     }
 
-    override fun getGenre(GenreKey: String, onGenre: (GenreEntity?) -> Unit) {
-        TODO("Not yet implemented")
+    override fun getGenre(genreKey: String, onGenre: (GenreEntity?) -> Unit) {
+        getVideosApi {
+            var result: GenreEntity? = null
+            it.forEach { genreEntityList ->
+                result = genreEntityList.genreEntityList.find { genre -> genre.key == genreKey}
+                if (result != null){
+                    onGenre.invoke(result)
+                    return@getVideosApi
+                }
+            }
+        }
     }
 
     override fun getGenreKey(): List<GenreEntity> {
-        TODO("Not yet implemented")
+        //TODO("Not yet implemented")
+        return listOf()
     }
 }

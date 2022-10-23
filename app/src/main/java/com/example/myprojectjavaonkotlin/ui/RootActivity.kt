@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.example.myprojectjavaonkotlin.R
+import com.example.myprojectjavaonkotlin.data.VideoApiRepoImpl
 import com.example.myprojectjavaonkotlin.domain.entity.VideoEntity
 import com.example.myprojectjavaonkotlin.ui.details.DetailsVideoFragment
 import com.example.myprojectjavaonkotlin.ui.video.VideoListFragment

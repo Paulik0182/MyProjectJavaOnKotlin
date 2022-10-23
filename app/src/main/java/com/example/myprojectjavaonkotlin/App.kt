@@ -18,7 +18,7 @@ class App: Application() {
 
     val collectionVideoRepo: CollectionVideoRepo by lazy { CollectionVideoRepoImpl() }
 
-    val VideoApiRepo: VideoApiRepo by lazy { VideoApiRepoImpl() }
+    val videoApiRepo: VideoApiRepo by lazy { VideoApiRepoImpl() }
 
     // Any - это базовый объект, это тип для всего. Map это ключ - значение
     val rotationFreeStorage: MutableMap<String, Any> = WeakHashMap()

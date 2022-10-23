@@ -7,7 +7,7 @@ interface VideoApiRepo {
 
     fun getVideosApi(onVideoApi: (MutableList<VideoApiEntity>) -> Unit)
 
-    fun getGenre(GenreKey: String, onGenre: (GenreEntity?) -> Unit)
+    fun getGenre(genreKey: String, onGenre: (GenreEntity?) -> Unit)
 
     fun getGenreKey(): List<GenreEntity>
 }
