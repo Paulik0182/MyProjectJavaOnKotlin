@@ -2,7 +2,9 @@ package com.example.myprojectjavaonkotlin
 
 import android.app.Application
 import com.example.myprojectjavaonkotlin.data.CollectionVideoRepoImpl
+import com.example.myprojectjavaonkotlin.data.VideoApiRepoImpl
 import com.example.myprojectjavaonkotlin.domain.repo.CollectionVideoRepo
+import com.example.myprojectjavaonkotlin.domain.repo.VideoApiRepo
 import java.util.*
 
 /**
@@ -15,6 +17,8 @@ import java.util.*
 class App: Application() {
 
     val collectionVideoRepo: CollectionVideoRepo by lazy { CollectionVideoRepoImpl() }
+
+    val VideoApiRepo: VideoApiRepo by lazy { VideoApiRepoImpl() }
 
     // Any - это базовый объект, это тип для всего. Map это ключ - значение
     val rotationFreeStorage: MutableMap<String, Any> = WeakHashMap()
