@@ -3,12 +3,12 @@ package com.example.myprojectjavaonkotlin.domain.entity
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class GenreEntity(
+data class GenreDto(
     @SerializedName("key")
-    val key: String = "Ключь жанра",
+    val key: String,
     @SerializedName("value")
-    val genre: String = "Название жанра"
+    val genre: String
 ) : Parcelable

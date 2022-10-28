@@ -1,10 +1,13 @@
 package com.example.myprojectjavaonkotlin
 
 import android.app.Application
+import android.os.Handler
+import android.os.Looper
 import com.example.myprojectjavaonkotlin.data.CollectionVideoRepoImpl
-import com.example.myprojectjavaonkotlin.data.VideoApiRepoImpl
+import com.example.myprojectjavaonkotlin.data.ImdbApiManager
+import com.example.myprojectjavaonkotlin.data.MovieDtoRepoImpl
 import com.example.myprojectjavaonkotlin.domain.repo.CollectionVideoRepo
-import com.example.myprojectjavaonkotlin.domain.repo.VideoApiRepo
+import com.example.myprojectjavaonkotlin.domain.repo.MovieDtoRepo
 import java.util.*
 
 /**
@@ -14,11 +17,13 @@ import java.util.*
  * android:name=".App"
  */
 
-class App: Application() {
+class App : Application() {
 
     val collectionVideoRepo: CollectionVideoRepo by lazy { CollectionVideoRepoImpl() }
 
-    val videoApiRepo: VideoApiRepo by lazy { VideoApiRepoImpl() }
+    private val imdbApiManager: ImdbApiManager = ImdbApiManager()
+    private val mainHandler: Handler by lazy { Handler(Looper.getMainLooper()) }
+    val movieDtoRepo: MovieDtoRepo by lazy { MovieDtoRepoImpl(imdbApiManager, mainHandler) }
 
     // Any - это базовый объект, это тип для всего. Map это ключ - значение
     val rotationFreeStorage: MutableMap<String, Any> = WeakHashMap()
