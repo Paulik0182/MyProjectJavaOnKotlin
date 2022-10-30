@@ -26,6 +26,12 @@ class RootActivity : AppCompatActivity(),
 
         loadButton = findViewById(R.id.load_button)
         loadButton.setOnClickListener {
+            //по нажатию берем
+            (application as App).genreDtoRepo.getGenre()
+                .forEach {
+
+
+                }
             (application as App).movieDtoRepo.getMovies(
                 mutableListOf(
                     "action",

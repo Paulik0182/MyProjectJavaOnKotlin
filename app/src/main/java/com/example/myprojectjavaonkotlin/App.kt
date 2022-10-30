@@ -4,9 +4,11 @@ import android.app.Application
 import android.os.Handler
 import android.os.Looper
 import com.example.myprojectjavaonkotlin.data.CollectionVideoRepoImpl
+import com.example.myprojectjavaonkotlin.data.GenreDtoRepoImpl
 import com.example.myprojectjavaonkotlin.data.ImdbApiManager
 import com.example.myprojectjavaonkotlin.data.MovieDtoRepoImpl
 import com.example.myprojectjavaonkotlin.domain.repo.CollectionVideoRepo
+import com.example.myprojectjavaonkotlin.domain.repo.GenreDtoRepo
 import com.example.myprojectjavaonkotlin.domain.repo.MovieDtoRepo
 import java.util.*
 
@@ -24,6 +26,8 @@ class App : Application() {
     private val imdbApiManager: ImdbApiManager = ImdbApiManager()
     private val mainHandler: Handler by lazy { Handler(Looper.getMainLooper()) }
     val movieDtoRepo: MovieDtoRepo by lazy { MovieDtoRepoImpl(imdbApiManager, mainHandler) }
+
+    val genreDtoRepo: GenreDtoRepo by lazy { GenreDtoRepoImpl() }
 
     // Any - это базовый объект, это тип для всего. Map это ключ - значение
     val rotationFreeStorage: MutableMap<String, Any> = WeakHashMap()
