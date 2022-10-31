@@ -2,11 +2,11 @@ package com.example.myprojectjavaonkotlin.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.myprojectjavaonkotlin.App
 import com.example.myprojectjavaonkotlin.R
+import com.example.myprojectjavaonkotlin.databinding.ActivityRootBinding
 import com.example.myprojectjavaonkotlin.domain.entity.VideoEntity
 import com.example.myprojectjavaonkotlin.ui.details.DetailsVideoFragment
 import com.example.myprojectjavaonkotlin.ui.video.VideoListFragment
@@ -17,15 +17,14 @@ class RootActivity : AppCompatActivity(),
     VideoListFragment.Controller,
     DetailsVideoFragment.Controller {
 
-    private lateinit var loadButton: Button
-
+    private lateinit var binding: ActivityRootBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_root)
+        binding = ActivityRootBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        loadButton = findViewById(R.id.load_button)
-        loadButton.setOnClickListener {
+        binding.loadButton.setOnClickListener {
             //по нажатию берем
             (application as App).genreDtoRepo.getGenre()
                 .forEach {
@@ -62,5 +61,10 @@ class RootActivity : AppCompatActivity(),
 
     override fun openDetailsVideo(videoEntity: VideoEntity) {
         openDetailsVideoFragment(videoEntity.id)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+//        binding = null
     }
 }

@@ -1,6 +1,8 @@
 package com.example.myprojectjavaonkotlin.ui.utils
 
 import android.view.View
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.google.android.material.snackbar.Snackbar
 
 /**
@@ -13,4 +15,13 @@ fun View.snack(text: String) {
         text,
         Snackbar.ANIMATION_MODE_SLIDE
     ).show()
+}
+
+/**
+ * экстеншен (расширение обычной чужой функции). Можно указать mutable расширение и оно вернет
+ * версию MutableLiveData это сделано чтобы во фрагменте случайно не изменить список (в этом
+ * рельной безописности нет)
+ */
+fun <T> LiveData<T>.mutable(): MutableLiveData<T> {
+    return this as MutableLiveData
 }
