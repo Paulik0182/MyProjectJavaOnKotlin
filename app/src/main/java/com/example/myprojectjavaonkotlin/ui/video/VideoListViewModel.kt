@@ -32,10 +32,4 @@ class VideoListViewModel(
     fun onVideoClick(videoEntity: VideoEntity){
         selectedVideoLiveData.mutable().postValue(videoEntity)
     }
-
-    //экстеншен (расширение обычной чужой функции). Можно указать mutable расширение и оно вернет версию MutableLiveData
-    //это сделано чтобы во фрагменте случайно не изменить список (в этом рельной безописности нет)
-//    private fun <T> LiveData<T>.mutable(): MutableLiveData<T> {
-//        return this as MutableLiveData
-//    }
 }

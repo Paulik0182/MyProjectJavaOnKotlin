@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.myprojectjavaonkotlin.domain.entity.VideoEntity
 import com.example.myprojectjavaonkotlin.domain.repo.CollectionVideoRepo
+import com.example.myprojectjavaonkotlin.ui.utils.mutable
 
 /**
  * liveData - это такой тип данных который позволяет подписатся на него и все время получать изменения
@@ -31,11 +32,5 @@ class DetailsViewModel(
                 }
             }
         }
-    }
-
-    //экстеншен (расширение обычной чужой функции). Можно указать mutable расширение и оно вернет версию MutableLiveData
-    //это сделано чтобы во фрагменте случайно не изменить список (в этом рельной безописности нет)
-    private fun <T> LiveData<T>.mutable(): MutableLiveData<T> {
-        return this as MutableLiveData
     }
 }
