@@ -16,7 +16,7 @@ private const val FRAGMENT_UUID_KEY = "FRAGMENT_UUID_KEY"
 
 class VideoListFragment : Fragment(R.layout.fragment_video_list) {
 
-    private val app: App by lazy { requireActivity().application as App }
+    private val app: App get() = requireActivity().application as App
 
     /**
      * поздняя инициализация ViewModel, положили в него repo

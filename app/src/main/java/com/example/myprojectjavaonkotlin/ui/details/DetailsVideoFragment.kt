@@ -24,7 +24,7 @@ class DetailsVideoFragment : Fragment() {
     private var _binding: FragmentDetailsVideoBinding? = null
     private val binding get() = _binding!!
 
-    private val app: App by lazy { requireActivity().application as App }
+    private val app: App get() = requireActivity().application as App
 
     /**
      * поздняя инициализация ViewModel, положили в него repo
