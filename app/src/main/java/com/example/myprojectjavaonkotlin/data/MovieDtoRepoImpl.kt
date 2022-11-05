@@ -9,6 +9,8 @@ class MovieDtoRepoImpl(
     private val mainHandler: Handler
 ) : MovieDtoRepo {
 
+    private lateinit var movieDtoRepo: MovieDtoRepo
+
     override fun getMovies(genres: List<String>, callback: (List<MovieDto>) -> Unit) {
         Thread {
             val movies = imdbApiManager.loadMovies(genres)
@@ -20,6 +22,10 @@ class MovieDtoRepoImpl(
     }
 
     override fun getMovie(id: String, callback: (MovieDto) -> Unit) {
+//        val isFilm = movieDtoRepo.getMovies(id, callback)
+//        movieDtoRepo.getMovie(id, callback) {
+//            callback(it?.isFilm)
+//        }
         throw UninitializedPropertyAccessException("не сделано")
     }
 }
