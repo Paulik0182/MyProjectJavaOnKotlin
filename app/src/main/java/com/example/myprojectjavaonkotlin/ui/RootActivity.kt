@@ -1,8 +1,8 @@
 package com.example.myprojectjavaonkotlin.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.myprojectjavaonkotlin.App
 import com.example.myprojectjavaonkotlin.R
@@ -61,10 +61,5 @@ class RootActivity : AppCompatActivity(),
 
     override fun openDetailsVideo(videoEntity: VideoEntity) {
         openDetailsVideoFragment(videoEntity.id)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-//        binding = null
     }
 }

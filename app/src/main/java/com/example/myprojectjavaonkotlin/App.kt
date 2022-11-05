@@ -17,6 +17,7 @@ import java.util.*
  * этот класс для того чтобы воспользоватся application.
  * Необходимо прописать в манифесте данный класс
  * android:name=".App"
+ * Any - это базовый объект, это тип для всего. Map это ключ - значение
  */
 
 class App : Application() {
@@ -29,6 +30,5 @@ class App : Application() {
 
     val genreDtoRepo: GenreDtoRepo by lazy { GenreDtoRepoImpl() }
 
-    // Any - это базовый объект, это тип для всего. Map это ключ - значение
     val rotationFreeStorage: MutableMap<String, Any> = WeakHashMap()
 }
