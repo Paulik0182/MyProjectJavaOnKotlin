@@ -5,4 +5,5 @@ import com.example.myprojectjavaonkotlin.domain.entity.CollectionEntity
 interface CollectionInteractor {
 
     fun getCollections(callback: (List<CollectionEntity>) -> Unit)
+    fun getComingSoonCollection(callback: (List<CollectionEntity>) -> Unit)
 }

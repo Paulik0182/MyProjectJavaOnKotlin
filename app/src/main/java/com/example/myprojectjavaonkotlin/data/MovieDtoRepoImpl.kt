@@ -21,6 +21,16 @@ class MovieDtoRepoImpl(
         }.start()
     }
 
+    override fun getComingSoon(callback: (List<MovieDto>) -> Unit) {
+        Thread {
+            val movies = imdbApiManager.loadComingSoon()
+            mainHandler.post {
+                callback.invoke(movies)
+            }
+
+        }.start()
+    }
+
     override fun getMovie(id: String, callback: (MovieDto) -> Unit) {
 //        val isFilm = movieDtoRepo.getMovies(id, callback)
 //        movieDtoRepo.getMovie(id, callback) {

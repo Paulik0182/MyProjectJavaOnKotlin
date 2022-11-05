@@ -1,6 +1,7 @@
 package com.example.myprojectjavaonkotlin.data
 
 import com.example.myprojectjavaonkotlin.domain.entity.CollectionEntity
+import com.example.myprojectjavaonkotlin.domain.entity.MovieDto
 import com.example.myprojectjavaonkotlin.domain.interactor.CollectionInteractor
 import com.example.myprojectjavaonkotlin.domain.repo.GenreRepo
 import com.example.myprojectjavaonkotlin.domain.repo.MovieDtoRepo
@@ -24,22 +25,33 @@ class CollectionInteractorImpl(
         val hashMapMovies = HashMap<String, CollectionEntity>()
         //скачиваем список фильмов
         movieDtoRepo.getMovies(genres) { movies ->
-            //проходим по фильмам
-            movies.forEach { film ->
-                //проходим по всем жанрам
-                film.genreList.forEach { genre ->
-                    // Кладем жанры в collection
-                    val collection = hashMapMovies[genre.genre]
-                        //если collection не равен нул, кладем в жанр (раздел) фильм
-                        ?.apply {
-                            this.movies.add(film)
-                            //Если равен нул, создаем новый жанр (раздел)
-                        } ?: CollectionEntity(genre, mutableListOf(film))
-                    //получаем коллекцию и кладем ее обратно
-                    hashMapMovies[genre.genre] = collection
-                }
-            }
-            callback(hashMapMovies.values.toList())//превратили в hashMapMovies отдали в callback
+            callback(moviesToCollections(movies))//превратили в hashMapMovies отдали в callback
         }
+    }
+
+    override fun getComingSoonCollection(callback: (List<CollectionEntity>) -> Unit) {
+        movieDtoRepo.getComingSoon { movies ->
+            callback(moviesToCollections(movies))//превратили в hashMapMovies отдали в callback
+        }
+    }
+
+    private fun moviesToCollections(movies: List<MovieDto>): List<CollectionEntity> {
+        val hashMapMovies = HashMap<String, CollectionEntity>()
+
+        movies.forEach { film ->
+            //проходим по всем жанрам
+            film.genreList.forEach { genre ->
+                // Кладем жанры в collection
+                val collection = hashMapMovies[genre.genre]
+                    //если collection не равен нул, кладем в жанр (раздел) фильм
+                    ?.apply {
+                        this.movies.add(film)
+                        //Если равен нул, создаем новый жанр (раздел)
+                    } ?: CollectionEntity(genre, mutableListOf(film))
+                //получаем коллекцию и кладем ее обратно
+                hashMapMovies[genre.genre] = collection
+            }
+        }
+        return hashMapMovies.values.toList()
     }
 }

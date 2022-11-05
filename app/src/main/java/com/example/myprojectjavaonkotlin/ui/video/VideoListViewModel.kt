@@ -24,7 +24,7 @@ class VideoListViewModel(
     val selectedVideoLiveData: LiveData<MovieDto> = MutableLiveData()
 
     init {
-        collectionVideoRepo.getCollections {
+        collectionVideoRepo.getComingSoonCollection {
             videoListLiveData.mutable().postValue(it)
         }
     }
