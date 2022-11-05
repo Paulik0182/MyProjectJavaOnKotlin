@@ -2,9 +2,9 @@ package com.example.myprojectjavaonkotlin.ui.video
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.myprojectjavaonkotlin.domain.entity.CollectionVideoEntity
-import com.example.myprojectjavaonkotlin.domain.entity.VideoEntity
-import com.example.myprojectjavaonkotlin.domain.repo.CollectionVideoRepo
+import com.example.myprojectjavaonkotlin.domain.entity.CollectionEntity
+import com.example.myprojectjavaonkotlin.domain.entity.MovieDto
+import com.example.myprojectjavaonkotlin.domain.interactor.CollectionInteractor
 import com.example.myprojectjavaonkotlin.ui.utils.mutable
 
 /**
@@ -17,19 +17,19 @@ import com.example.myprojectjavaonkotlin.ui.utils.mutable
 
 class VideoListViewModel(
     //Аргумент конструктора, член класса
-    private val collectionVideoRepo: CollectionVideoRepo
+    private val collectionVideoRepo: CollectionInteractor
 ) {
 
-    val videoListLiveData: LiveData<List<CollectionVideoEntity>> = MutableLiveData()
-    val selectedVideoLiveData: LiveData<VideoEntity> = MutableLiveData()
+    val videoListLiveData: LiveData<List<CollectionEntity>> = MutableLiveData()
+    val selectedVideoLiveData: LiveData<MovieDto> = MutableLiveData()
 
     init {
-        collectionVideoRepo.getCollectionVideos{
+        collectionVideoRepo.getCollections {
             videoListLiveData.mutable().postValue(it)
         }
     }
 
-    fun onVideoClick(videoEntity: VideoEntity){
-        selectedVideoLiveData.mutable().postValue(videoEntity)
+    fun onVideoClick(movieDto: MovieDto) {
+        selectedVideoLiveData.mutable().postValue(movieDto)
     }
 }

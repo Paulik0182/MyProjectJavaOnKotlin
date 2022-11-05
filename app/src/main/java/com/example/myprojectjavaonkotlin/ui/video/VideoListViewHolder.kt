@@ -6,12 +6,12 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myprojectjavaonkotlin.R
 import com.example.myprojectjavaonkotlin.databinding.ItemVideoListBinding
-import com.example.myprojectjavaonkotlin.domain.entity.VideoEntity
+import com.example.myprojectjavaonkotlin.domain.entity.MovieDto
 import com.squareup.picasso.Picasso
 
 class VideoListViewHolder(
     parent: ViewGroup,
-    onDetailVideoListener: (VideoEntity) -> Unit
+    onDetailVideoListener: (MovieDto) -> Unit
 ) : RecyclerView.ViewHolder(
     LayoutInflater.from(parent.context)
         .inflate(R.layout.item_video_list, parent, false)
@@ -19,16 +19,16 @@ class VideoListViewHolder(
 
     private val binding: ItemVideoListBinding = ItemVideoListBinding.bind(itemView)
 
-    private lateinit var video: VideoEntity
+    private lateinit var video: MovieDto
 
-    fun bind(videoEntity: VideoEntity) {
-        this.video = videoEntity
+    fun bind(movieDto: MovieDto) {
+        this.video = movieDto
 
-        binding.nameTextView.text = videoEntity.name
-        binding.yearReleaseTextView.text = videoEntity.yearRelease
-        if (videoEntity.imageUrl.isNotBlank()) {
+        binding.nameTextView.text = movieDto.title
+        binding.yearReleaseTextView.text = movieDto.yearRelease
+        if (movieDto.image.isNotBlank()) {
             Picasso.get()
-                .load(videoEntity.imageUrl)
+                .load(movieDto.image)
                 .placeholder(R.drawable.uploading_images)
                 .into(binding.coverImageView)
             binding.coverImageView.scaleType =

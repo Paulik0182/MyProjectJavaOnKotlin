@@ -7,12 +7,6 @@
     android:orientation="vertical"
     tools:context=".ui.RootActivity">
 
-    <Button
-        android:id="@+id/load_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Load" />
-
     <FrameLayout
         android:id="@+id/container_layout"
         android:layout_width="match_parent"

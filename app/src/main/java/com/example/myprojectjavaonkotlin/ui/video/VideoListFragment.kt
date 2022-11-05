@@ -2,14 +2,14 @@ package com.example.myprojectjavaonkotlin.ui.video
 
 import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.View
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myprojectjavaonkotlin.App
 import com.example.myprojectjavaonkotlin.R
-import com.example.myprojectjavaonkotlin.domain.entity.VideoEntity
-import com.example.myprojectjavaonkotlin.domain.repo.CollectionVideoRepo
+import com.example.myprojectjavaonkotlin.domain.entity.MovieDto
+import com.example.myprojectjavaonkotlin.domain.interactor.CollectionInteractor
 import java.util.*
 
 private const val FRAGMENT_UUID_KEY = "FRAGMENT_UUID_KEY"
@@ -25,7 +25,7 @@ class VideoListFragment : Fragment(R.layout.fragment_video_list) {
      */
     private val viewModel: VideoListViewModel by lazy { extractViewModel() }
 
-    private fun extractViewModel(): VideoListViewModel{
+    private fun extractViewModel(): VideoListViewModel {
         val presenter = app.rotationFreeStorage[fragmentUid] as VideoListViewModel?
             ?: VideoListViewModel(collectionVideoRepo)
         app.rotationFreeStorage[fragmentUid] = presenter
@@ -34,8 +34,8 @@ class VideoListFragment : Fragment(R.layout.fragment_video_list) {
 
     private lateinit var adapter: CollectionVideoAdapter
 
-    private val collectionVideoRepo: CollectionVideoRepo by lazy {
-        app.collectionVideoRepo
+    private val collectionVideoRepo: CollectionInteractor by lazy {
+        app.collectionInteractor
     }
 
     private lateinit var recyclerView: RecyclerView
@@ -83,7 +83,7 @@ class VideoListFragment : Fragment(R.layout.fragment_video_list) {
     }
 
     interface Controller {
-        fun openDetailsVideo(videoEntity: VideoEntity)
+        fun openDetailsVideo(movieDto: MovieDto)
     }
 
     private fun getController(): Controller = activity as Controller

@@ -3,15 +3,15 @@ package com.example.myprojectjavaonkotlin.ui.video
 import android.annotation.SuppressLint
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.myprojectjavaonkotlin.domain.entity.VideoEntity
+import com.example.myprojectjavaonkotlin.domain.entity.MovieDto
 
 class VideoListAdapter(
-    private var data: List<VideoEntity> = mutableListOf(),
-    private var onDetailVideoListener: (VideoEntity) -> Unit = {},
+    private var data: List<MovieDto> = mutableListOf(),
+    private var onDetailVideoListener: (MovieDto) -> Unit = {},
 ) : RecyclerView.Adapter<VideoListViewHolder>() {
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setData(video: List<VideoEntity>) {
+    fun setData(video: List<MovieDto>) {
         data = video
         notifyDataSetChanged()
     }
@@ -27,7 +27,7 @@ class VideoListAdapter(
         holder.bind(getItem(position))
     }
 
-    private fun getItem(position: Int): VideoEntity = data[position]
+    private fun getItem(position: Int): MovieDto = data[position]
 
     override fun getItemCount(): Int = data.size
 }

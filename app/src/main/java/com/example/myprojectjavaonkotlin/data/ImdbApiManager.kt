@@ -8,9 +8,6 @@ import java.io.InputStreamReader
 import java.net.HttpURLConnection
 import java.net.URL
 
-
-//    https://imdb-api.com/API/AdvancedSearch/k_r6gwl7te?genres=action,comedy,family,history
-
 class ImdbApiManager {
     companion object {
         private const val API_KEY = "k_r6gwl7te"
@@ -23,7 +20,7 @@ class ImdbApiManager {
             "$BASE_URL/$LANG/$API/$ADVANCED_SEARCH/$API_KEY?"
     }
 
-    fun loadMovies(genres: MutableList<String>): MutableList<MovieDto> {
+    fun loadMovies(genres: List<String>): List<MovieDto> {
         val genresSb = StringBuilder()
         genresSb.append("genres=") //собираем строку для адреса
         genres.forEach {

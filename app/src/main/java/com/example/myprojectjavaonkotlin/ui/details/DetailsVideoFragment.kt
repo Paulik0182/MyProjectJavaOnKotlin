@@ -10,8 +10,8 @@ import androidx.fragment.app.Fragment
 import com.example.myprojectjavaonkotlin.App
 import com.example.myprojectjavaonkotlin.R
 import com.example.myprojectjavaonkotlin.databinding.FragmentDetailsVideoBinding
-import com.example.myprojectjavaonkotlin.domain.entity.VideoEntity
-import com.example.myprojectjavaonkotlin.domain.repo.CollectionVideoRepo
+import com.example.myprojectjavaonkotlin.domain.entity.MovieDto
+import com.example.myprojectjavaonkotlin.domain.repo.MovieDtoRepo
 import com.example.myprojectjavaonkotlin.ui.utils.snack
 import com.squareup.picasso.Picasso
 import java.util.*
@@ -35,15 +35,15 @@ class DetailsVideoFragment : Fragment() {
 
     private fun extractViewModel(): DetailsViewModel {
         //достаем id
-        val id = requireArguments().getLong(DETAILS_VIDEO_KEY)
+        val id = requireArguments().getString(DETAILS_VIDEO_KEY)!!
         val viewModel = app.rotationFreeStorage[fragmentUid] as DetailsViewModel?
             ?: DetailsViewModel(videoRepo, id)
         app.rotationFreeStorage[fragmentUid] = viewModel
         return viewModel
     }
 
-    private val videoRepo: CollectionVideoRepo by lazy {
-        app.collectionVideoRepo
+    private val videoRepo: MovieDtoRepo by lazy {
+        app.movieDtoRepo
     }
 
     //уникальный id (для того чтобы можно было сохранить состояние экрана за пределами класса
@@ -78,19 +78,19 @@ class DetailsVideoFragment : Fragment() {
             setVideoEntity(it)
 
             //Snackbar
-            view.snack(getString(R.string.name_film) + it.name)
+            view.snack(getString(R.string.name_film) + it.title)
         }
     }
 
-    private fun setVideoEntity(videoEntity: VideoEntity) {
-        binding.nameDetailsTextView.text = videoEntity.name
-        binding.genreDetailsTextView.text = videoEntity.genre
-        binding.yearReleaseDetailsTextView.text = videoEntity.yearRelease
-        binding.descriptionDetailsTextView.text = videoEntity.description
+    private fun setVideoEntity(movieDto: MovieDto) {
+        binding.nameDetailsTextView.text = movieDto.title
+        binding.genreDetailsTextView.text = movieDto.genres
+        binding.yearReleaseDetailsTextView.text = movieDto.yearRelease
+        binding.descriptionDetailsTextView.text = movieDto.description
 
-        if (videoEntity.imageUrl.isNotBlank()) {
+        if (movieDto.image.isNotBlank()) {
             Picasso.get()
-                .load(videoEntity.imageUrl)
+                .load(movieDto.image)
                 .placeholder(R.drawable.uploading_images)
                 .into(binding.coverImageView)
             binding.coverImageView.scaleType =
@@ -110,10 +110,10 @@ class DetailsVideoFragment : Fragment() {
     }
 
     companion object {
-        fun newInstance(videoId: Long) =
+        fun newInstance(videoId: String) =
             DetailsVideoFragment().apply {
                 arguments = Bundle().apply {
-                    putLong(DETAILS_VIDEO_KEY, videoId)
+                    putString(DETAILS_VIDEO_KEY, videoId)
                 }
             }
     }

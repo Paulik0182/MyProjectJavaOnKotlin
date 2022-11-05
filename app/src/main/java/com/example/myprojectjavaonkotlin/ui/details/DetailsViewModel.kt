@@ -2,8 +2,8 @@ package com.example.myprojectjavaonkotlin.ui.details
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.myprojectjavaonkotlin.domain.entity.VideoEntity
-import com.example.myprojectjavaonkotlin.domain.repo.CollectionVideoRepo
+import com.example.myprojectjavaonkotlin.domain.entity.MovieDto
+import com.example.myprojectjavaonkotlin.domain.repo.MovieDtoRepo
 import com.example.myprojectjavaonkotlin.ui.utils.mutable
 
 /**
@@ -16,17 +16,17 @@ import com.example.myprojectjavaonkotlin.ui.utils.mutable
 
 class DetailsViewModel(
     //Аргумент конструктора, член класса
-    private val videoRepo: CollectionVideoRepo,
-    private val videoId: Long
+    private val movieDtoRepo: MovieDtoRepo,
+    private val videoId: String
 ) {
 
-    val videoLiveData: LiveData<VideoEntity> = MutableLiveData()
+    val videoLiveData: LiveData<MovieDto> = MutableLiveData()
 
     init {
         //проверяе на наличие данных в videoLiveData.
         // Это необходимо для того чтобы при повороте данные не закачивались заново
         if (videoLiveData.value == null) {
-            videoRepo.getVideo(videoId) {
+            movieDtoRepo.getMovie(videoId) {
                 it.let {
                     videoLiveData.mutable().postValue(it)
                 }

@@ -1,13 +1,11 @@
 package com.example.myprojectjavaonkotlin.ui
 
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import com.example.myprojectjavaonkotlin.App
 import com.example.myprojectjavaonkotlin.R
 import com.example.myprojectjavaonkotlin.databinding.ActivityRootBinding
-import com.example.myprojectjavaonkotlin.domain.entity.VideoEntity
+import com.example.myprojectjavaonkotlin.domain.entity.MovieDto
 import com.example.myprojectjavaonkotlin.ui.details.DetailsVideoFragment
 import com.example.myprojectjavaonkotlin.ui.video.VideoListFragment
 
@@ -24,25 +22,6 @@ class RootActivity : AppCompatActivity(),
         binding = ActivityRootBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.loadButton.setOnClickListener {
-            //по нажатию берем
-            (application as App).genreDtoRepo.getGenre()
-                .forEach {
-
-
-                }
-            (application as App).movieDtoRepo.getMovies(
-                mutableListOf(
-                    "action",
-                    "comedy",
-                    "family",
-                    "history"
-                )
-            ) {
-                Toast.makeText(this, "Load ${it.size} films", Toast.LENGTH_SHORT).show()
-            }
-        }
-
         if (savedInstanceState == null)//проверяем какой запуск первый или нет (например, после поворота экрана)
             supportFragmentManager
                 .beginTransaction()
@@ -50,7 +29,7 @@ class RootActivity : AppCompatActivity(),
                 .commit()
     }
 
-    private fun openDetailsVideoFragment(videoId: Long) {
+    private fun openDetailsVideoFragment(videoId: String) {
         val fragment: Fragment = DetailsVideoFragment.newInstance(videoId)
         supportFragmentManager
             .beginTransaction()
@@ -59,7 +38,7 @@ class RootActivity : AppCompatActivity(),
             .commit()
     }
 
-    override fun openDetailsVideo(videoEntity: VideoEntity) {
-        openDetailsVideoFragment(videoEntity.id)
+    override fun openDetailsVideo(movieDto: MovieDto) {
+        openDetailsVideoFragment(movieDto.id)
     }
 }

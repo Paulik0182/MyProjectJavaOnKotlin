@@ -8,12 +8,12 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SnapHelper
 import com.example.myprojectjavaonkotlin.R
 import com.example.myprojectjavaonkotlin.databinding.ItemCollectionVideoBinding
-import com.example.myprojectjavaonkotlin.domain.entity.CollectionVideoEntity
-import com.example.myprojectjavaonkotlin.domain.entity.VideoEntity
+import com.example.myprojectjavaonkotlin.domain.entity.CollectionEntity
+import com.example.myprojectjavaonkotlin.domain.entity.MovieDto
 
 class CollectionVideoViewHolder(
     parent: ViewGroup,
-    onVideoClick: (VideoEntity) -> Unit
+    onVideoClick: (MovieDto) -> Unit
 ) : RecyclerView.ViewHolder(
     LayoutInflater.from(parent.context)
         .inflate(R.layout.item_collection_video, parent, false)
@@ -21,7 +21,7 @@ class CollectionVideoViewHolder(
 
     private val binding: ItemCollectionVideoBinding = ItemCollectionVideoBinding.bind(itemView)
 
-    private lateinit var collectionVideoEntity: CollectionVideoEntity
+    private lateinit var collectionEntity: CollectionEntity
 
     private val videoListAdapter: VideoListAdapter = VideoListAdapter {
         onVideoClick.invoke(it)
@@ -40,11 +40,11 @@ class CollectionVideoViewHolder(
         helper.attachToRecyclerView(this)
     }
 
-    fun bind(collectionVideoEntity: CollectionVideoEntity) {
-        this.collectionVideoEntity = collectionVideoEntity
-        binding.nameTextView.text = collectionVideoEntity.name
+    fun bind(collectionEntity: CollectionEntity) {
+        this.collectionEntity = collectionEntity
+        binding.nameTextView.text = collectionEntity.genre.genre
 
         //привязываем адаптер к данным
-        videoListAdapter.setData(collectionVideoEntity.video)
+        videoListAdapter.setData(collectionEntity.movies)
     }
 }
