@@ -2,6 +2,8 @@ package com.example.myprojectjavaonkotlin.ui.details
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import com.example.myprojectjavaonkotlin.domain.entity.MovieDto
 import com.example.myprojectjavaonkotlin.domain.repo.MovieDtoRepo
 import com.example.myprojectjavaonkotlin.ui.utils.mutable
@@ -18,7 +20,15 @@ class DetailsViewModel(
     //Аргумент конструктора, член класса
     private val movieDtoRepo: MovieDtoRepo,
     private val videoId: String
-) {
+) : ViewModel() {
+
+    //Сделали класс Factory (Фабрика)
+    class Factory(private val movieDtoRepo: MovieDtoRepo, private val videoId: String) :
+        ViewModelProvider.Factory {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+            return DetailsViewModel(movieDtoRepo, videoId) as T
+        }
+    }
 
     val videoLiveData: LiveData<MovieDto> = MutableLiveData()
 

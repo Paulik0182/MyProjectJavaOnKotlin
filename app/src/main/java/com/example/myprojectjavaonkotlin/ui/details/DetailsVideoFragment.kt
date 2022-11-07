@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.example.myprojectjavaonkotlin.App
 import com.example.myprojectjavaonkotlin.R
 import com.example.myprojectjavaonkotlin.databinding.FragmentDetailsVideoBinding
@@ -26,25 +27,37 @@ class DetailsVideoFragment : Fragment() {
 
     private val app: App get() = requireActivity().application as App
 
+    private val videoRepo: MovieDtoRepo by lazy {
+        app.movieDtoRepo
+    }
+
     /**
      * поздняя инициализация ViewModel, положили в него repo
      * в связи с тем что ViewModel при каждом повороте пересоздается, если необходимо
      * сохранять экран, необходимо ViewModel сохранить вне данного класса
      */
-    private val viewModel: DetailsViewModel by lazy { extractViewModel() }
+//    private val viewModel: DetailsViewModel by lazy { extractViewModel() }
+//    private val viewModel: DetailsViewModel = ViewModelProvider(
+//        this,
+//        DetailsViewModel.Factory(
+//            videoRepo,
+//            requireArguments().getString(DETAILS_VIDEO_KEY)!!
+//        )
+//    )[DetailsViewModel::class.java]
 
-    private fun extractViewModel(): DetailsViewModel {
-        //достаем id
-        val id = requireArguments().getString(DETAILS_VIDEO_KEY)!!
-        val viewModel = app.rotationFreeStorage[fragmentUid] as DetailsViewModel?
-            ?: DetailsViewModel(videoRepo, id)
-        app.rotationFreeStorage[fragmentUid] = viewModel
-        return viewModel
+    private val viewModel: DetailsViewModel by viewModels {
+        DetailsViewModel.Factory(videoRepo, requireArguments().getString(DETAILS_VIDEO_KEY)!!)
     }
 
-    private val videoRepo: MovieDtoRepo by lazy {
-        app.movieDtoRepo
-    }
+//    private fun extractViewModel(): DetailsViewModel {
+//        //достаем id
+//        val id = requireArguments().getString(DETAILS_VIDEO_KEY)!!
+//        val viewModel = app.rotationFreeStorage[fragmentUid] as DetailsViewModel?
+//            ?: DetailsViewModel(videoRepo, id)
+//        app.rotationFreeStorage[fragmentUid] = viewModel
+//        return viewModel
+//    }
+
 
     //уникальный id (для того чтобы можно было сохранить состояние экрана за пределами класса
     private lateinit var fragmentUid: String

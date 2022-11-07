@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myprojectjavaonkotlin.App
@@ -18,25 +19,35 @@ class VideoListFragment : Fragment(R.layout.fragment_video_list) {
 
     private val app: App get() = requireActivity().application as App
 
+    private val collectionVideoRepo: CollectionInteractor by lazy {
+        app.collectionInteractor
+    }
+
     /**
      * поздняя инициализация ViewModel, положили в него repo
      * в связи с тем что ViewModel при каждом повороте пересоздается, если необходимо
      * сохранять экран, необходимо ViewModel сохранить вне данного класса
      */
-    private val viewModel: VideoListViewModel by lazy { extractViewModel() }
+//    private val viewModel: VideoListViewModel by lazy { extractViewModel() }
+//    private val viewModel: VideoListViewModel = ViewModelProvider(
+//        this,
+//        VideoListViewModel.Factory(
+//            collectionVideoRepo
+//        )
+//    )[VideoListViewModel::class.java]
 
-    private fun extractViewModel(): VideoListViewModel {
-        val presenter = app.rotationFreeStorage[fragmentUid] as VideoListViewModel?
-            ?: VideoListViewModel(collectionVideoRepo)
-        app.rotationFreeStorage[fragmentUid] = presenter
-        return presenter
+    private val viewModel: VideoListViewModel by viewModels {
+        VideoListViewModel.Factory(collectionVideoRepo)
     }
+
+//    private fun extractViewModel(): VideoListViewModel {
+//        val presenter = app.rotationFreeStorage[fragmentUid] as VideoListViewModel?
+//            ?: VideoListViewModel(collectionVideoRepo)
+//        app.rotationFreeStorage[fragmentUid] = presenter
+//        return presenter
+//    }
 
     private lateinit var adapter: CollectionVideoAdapter
-
-    private val collectionVideoRepo: CollectionInteractor by lazy {
-        app.collectionInteractor
-    }
 
     private lateinit var recyclerView: RecyclerView
 
@@ -61,11 +72,11 @@ class VideoListFragment : Fragment(R.layout.fragment_video_list) {
 
         initView(view)
 
-        viewModel.videoListLiveData.observe(viewLifecycleOwner){
+        viewModel.videoListLiveData.observe(viewLifecycleOwner) {
             adapter.setData(it)
         }
 
-        viewModel.selectedVideoLiveData.observe(viewLifecycleOwner){
+        viewModel.selectedVideoLiveData.observe(viewLifecycleOwner) {
             getController().openDetailsVideo(it)
         }
     }

@@ -2,6 +2,8 @@ package com.example.myprojectjavaonkotlin.ui.video
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import com.example.myprojectjavaonkotlin.domain.entity.CollectionEntity
 import com.example.myprojectjavaonkotlin.domain.entity.MovieDto
 import com.example.myprojectjavaonkotlin.domain.interactor.CollectionInteractor
@@ -18,7 +20,15 @@ import com.example.myprojectjavaonkotlin.ui.utils.mutable
 class VideoListViewModel(
     //Аргумент конструктора, член класса
     private val collectionVideoRepo: CollectionInteractor
-) {
+) : ViewModel() {
+
+    //Сделали класс Factory (Фабрика)
+    class Factory(private val collectionVideoRepo: CollectionInteractor) :
+        ViewModelProvider.Factory {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+            return VideoListViewModel(collectionVideoRepo) as T
+        }
+    }
 
     val videoListLiveData: LiveData<List<CollectionEntity>> = MutableLiveData()
     val selectedVideoLiveData: LiveData<MovieDto> = MutableLiveData()
