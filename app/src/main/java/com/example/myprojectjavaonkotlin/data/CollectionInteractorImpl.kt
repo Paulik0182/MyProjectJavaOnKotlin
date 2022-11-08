@@ -1,5 +1,6 @@
 package com.example.myprojectjavaonkotlin.data
 
+import android.os.Looper
 import com.example.myprojectjavaonkotlin.domain.entity.CollectionEntity
 import com.example.myprojectjavaonkotlin.domain.interactor.CollectionInteractor
 import com.example.myprojectjavaonkotlin.domain.repo.GenreRepo
@@ -22,24 +23,28 @@ class CollectionInteractorImpl(
         val genres = genreRepo.getGenres()
         // что-то вроде таблицы для облегчения поиска (String - жанр, CollectionEntity - пришедшие значения)
         val hashMapMovies = HashMap<String, CollectionEntity>()
-        //скачиваем список фильмов
-        movieDtoRepo.getMovies(genres) { movies ->
-            //проходим по фильмам
-            movies.forEach { film ->
-                //проходим по всем жанрам
-                film.genreList.forEach { genre ->
-                    // Кладем жанры в collection
-                    val collection = hashMapMovies[genre.genre]
-                        //если collection не равен нул, кладем в жанр (раздел) фильм
-                        ?.apply {
-                            this.movies.add(film)
-                            //Если равен нул, создаем новый жанр (раздел)
-                        } ?: CollectionEntity(genre, mutableListOf(film))
-                    //получаем коллекцию и кладем ее обратно
-                    hashMapMovies[genre.genre] = collection
+
+        android.os.Handler(Looper.getMainLooper()).postDelayed({
+
+            //скачиваем список фильмов
+            movieDtoRepo.getMovies(genres) { movies ->
+                //проходим по фильмам
+                movies.forEach { film ->
+                    //проходим по всем жанрам
+                    film.genreList.forEach { genre ->
+                        // Кладем жанры в collection
+                        val collection = hashMapMovies[genre.genre]
+                            //если collection не равен нул, кладем в жанр (раздел) фильм
+                            ?.apply {
+                                this.movies.add(film)
+                                //Если равен нул, создаем новый жанр (раздел)
+                            } ?: CollectionEntity(genre, mutableListOf(film))
+                        //получаем коллекцию и кладем ее обратно
+                        hashMapMovies[genre.genre] = collection
+                    }
                 }
+                callback(hashMapMovies.values.toList())//превратили в hashMapMovies отдали в callback
             }
-            callback(hashMapMovies.values.toList())//превратили в hashMapMovies отдали в callback
-        }
+        }, 3_000)
     }
 }

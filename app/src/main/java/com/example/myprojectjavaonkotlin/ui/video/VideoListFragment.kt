@@ -2,26 +2,31 @@ package com.example.myprojectjavaonkotlin.ui.video
 
 import android.content.Context
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.myprojectjavaonkotlin.App
-import com.example.myprojectjavaonkotlin.R
+import com.example.myprojectjavaonkotlin.databinding.FragmentVideoListBinding
 import com.example.myprojectjavaonkotlin.domain.entity.MovieDto
 import com.example.myprojectjavaonkotlin.domain.interactor.CollectionInteractor
 import java.util.*
 
 private const val FRAGMENT_UUID_KEY = "FRAGMENT_UUID_KEY"
 
-class VideoListFragment : Fragment(R.layout.fragment_video_list) {
+class VideoListFragment : Fragment() {
 
     private val app: App get() = requireActivity().application as App
 
     private val collectionVideoRepo: CollectionInteractor by lazy {
         app.collectionInteractor
     }
+
+    private var _binding: FragmentVideoListBinding? = null
+    private val binding get() = _binding!!
 
     /**
      * поздняя инициализация ViewModel, положили в него repo
@@ -49,8 +54,6 @@ class VideoListFragment : Fragment(R.layout.fragment_video_list) {
 
     private lateinit var adapter: CollectionVideoAdapter
 
-    private lateinit var recyclerView: RecyclerView
-
     //уникальный id (для того чтобы можно было сохранить состояние экрана за пределами класса
     private lateinit var fragmentUid: String
 
@@ -67,10 +70,25 @@ class VideoListFragment : Fragment(R.layout.fragment_video_list) {
         outState.putString(FRAGMENT_UUID_KEY, fragmentUid)
     }
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentVideoListBinding.inflate(inflater, container, false)
+        val view = binding.root
+        return view
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initView(view)
+        initView()
+
+        viewModel.inProgressLiveData.observe(viewLifecycleOwner) { inProgress ->
+            binding.collectionVideoRecyclerView.isVisible = !inProgress
+            binding.progressTaskBar.isVisible = inProgress
+        }
 
         viewModel.videoListLiveData.observe(viewLifecycleOwner) {
             adapter.setData(it)
@@ -81,16 +99,15 @@ class VideoListFragment : Fragment(R.layout.fragment_video_list) {
         }
     }
 
-    private fun initView(view: View) {
-        recyclerView = view.findViewById(R.id.collection_video_recycler_view)
-        recyclerView.layoutManager = LinearLayoutManager(context)
+    private fun initView() {
+        binding.collectionVideoRecyclerView.layoutManager = LinearLayoutManager(context)
         adapter = CollectionVideoAdapter(
             data = emptyList(),
             onVideoClickListener = {
                 viewModel.onVideoClick(it)
             }
         )
-        recyclerView.adapter = adapter
+        binding.collectionVideoRecyclerView.adapter = adapter
     }
 
     interface Controller {

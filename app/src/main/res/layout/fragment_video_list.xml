@@ -6,6 +6,12 @@
     android:background="@color/white"
     tools:context=".ui.video.VideoListFragment">
 
+    <ProgressBar
+        android:id="@+id/progress_task_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/collection_video_recycler_view"
         android:layout_width="match_parent"

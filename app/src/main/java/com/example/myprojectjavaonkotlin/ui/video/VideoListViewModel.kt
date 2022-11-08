@@ -30,11 +30,14 @@ class VideoListViewModel(
         }
     }
 
+    val inProgressLiveData: LiveData<Boolean> = MutableLiveData(false)
     val videoListLiveData: LiveData<List<CollectionEntity>> = MutableLiveData()
     val selectedVideoLiveData: LiveData<MovieDto> = MutableLiveData()
 
     init {
+        inProgressLiveData.mutable().postValue(true)
         collectionVideoRepo.getCollections {
+            inProgressLiveData.mutable().postValue(false)
             videoListLiveData.mutable().postValue(it)
         }
     }
