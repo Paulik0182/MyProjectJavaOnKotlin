@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myprojectjavaonkotlin.App
 import com.example.myprojectjavaonkotlin.MyReceiver
@@ -37,23 +37,14 @@ class VideoListFragment : Fragment() {
      * сохранять экран, необходимо ViewModel сохранить вне данного класса
      */
 //    private val viewModel: VideoListViewModel by lazy { extractViewModel() }
-//    private val viewModel: VideoListViewModel = ViewModelProvider(
-//        this,
-//        VideoListViewModel.Factory(
-//            collectionVideoRepo
-//        )
-//    )[VideoListViewModel::class.java]
-
-    private val viewModel: VideoListViewModel by viewModels {
-        VideoListViewModel.Factory(collectionVideoRepo)
+    private val viewModel: VideoListViewModel by lazy {
+        ViewModelProvider(
+            this,
+            VideoListViewModel.Factory(
+                collectionVideoRepo
+            )
+        )[VideoListViewModel::class.java]
     }
-
-//    private fun extractViewModel(): VideoListViewModel {
-//        val presenter = app.rotationFreeStorage[fragmentUid] as VideoListViewModel?
-//            ?: VideoListViewModel(collectionVideoRepo)
-//        app.rotationFreeStorage[fragmentUid] = presenter
-//        return presenter
-//    }
 
     private lateinit var adapter: CollectionVideoAdapter
 

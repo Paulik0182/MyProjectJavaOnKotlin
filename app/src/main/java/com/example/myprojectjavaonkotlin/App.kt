@@ -24,9 +24,15 @@ class App : Application() {
 
     private val imdbApiManager: ImdbApiManager = ImdbApiManager()
     private val mainHandler: Handler by lazy { Handler(Looper.getMainLooper()) }
-
-    val movieDtoRepo: MovieDtoRepo by lazy { MovieDtoRepoImpl(imdbApiManager, mainHandler) }
     private val genreRepo: GenreRepo by lazy { GenreRepoImpl() }
+
+    val movieDtoRepo: MovieDtoRepo by lazy {
+        MovieDtoRepoImpl(
+            imdbApiManager,
+            mainHandler,
+            genreRepo
+        )
+    }
     val collectionInteractor: CollectionInteractor by lazy {
         CollectionInteractorImpl(
             genreRepo,
