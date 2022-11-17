@@ -1,5 +1,6 @@
 package com.example.myprojectjavaonkotlin.data
 
+import android.os.Handler
 import android.os.Looper
 import com.example.myprojectjavaonkotlin.domain.entity.CollectionEntity
 import com.example.myprojectjavaonkotlin.domain.interactor.CollectionInteractor
@@ -24,7 +25,7 @@ class CollectionInteractorImpl(
         // что-то вроде таблицы для облегчения поиска (String - жанр, CollectionEntity - пришедшие значения)
         val hashMapMovies = HashMap<String, CollectionEntity>()
 
-        android.os.Handler(Looper.getMainLooper()).postDelayed({
+        Handler(Looper.getMainLooper()).postDelayed({
 
             //скачиваем список фильмов
             movieDtoRepo.getMovies(genres) { movies ->
@@ -45,6 +46,6 @@ class CollectionInteractorImpl(
                 }
                 callback(hashMapMovies.values.toList())//превратили в hashMapMovies отдали в callback
             }
-        }, 3_000)
+        }, 1_000)
     }
 }

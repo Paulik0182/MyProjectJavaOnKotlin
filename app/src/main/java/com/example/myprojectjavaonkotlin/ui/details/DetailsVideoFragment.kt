@@ -36,28 +36,10 @@ class DetailsVideoFragment : Fragment() {
      * в связи с тем что ViewModel при каждом повороте пересоздается, если необходимо
      * сохранять экран, необходимо ViewModel сохранить вне данного класса
      */
-//    private val viewModel: DetailsViewModel by lazy { extractViewModel() }
-//    private val viewModel: DetailsViewModel = ViewModelProvider(
-//        this,
-//        DetailsViewModel.Factory(
-//            videoRepo,
-//            requireArguments().getString(DETAILS_VIDEO_KEY)!!
-//        )
-//    )[DetailsViewModel::class.java]
 
     private val viewModel: DetailsViewModel by viewModels {
         DetailsViewModel.Factory(videoRepo, requireArguments().getString(DETAILS_VIDEO_KEY)!!)
     }
-
-//    private fun extractViewModel(): DetailsViewModel {
-//        //достаем id
-//        val id = requireArguments().getString(DETAILS_VIDEO_KEY)!!
-//        val viewModel = app.rotationFreeStorage[fragmentUid] as DetailsViewModel?
-//            ?: DetailsViewModel(videoRepo, id)
-//        app.rotationFreeStorage[fragmentUid] = viewModel
-//        return viewModel
-//    }
-
 
     //уникальный id (для того чтобы можно было сохранить состояние экрана за пределами класса
     private lateinit var fragmentUid: String
@@ -81,8 +63,7 @@ class DetailsVideoFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentDetailsVideoBinding.inflate(inflater, container, false)
-        val view = binding.root
-        return view
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -90,7 +71,6 @@ class DetailsVideoFragment : Fragment() {
         viewModel.videoLiveData.observe(viewLifecycleOwner) {
             setVideoEntity(it)
 
-            //Snackbar
             view.snack(getString(R.string.name_film) + it.title)
         }
     }

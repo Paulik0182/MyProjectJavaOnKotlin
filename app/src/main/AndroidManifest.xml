@@ -25,9 +25,7 @@
         <receiver
             android:name=".MyReceiver"
             android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.LOCALE_CHANGED" />
-            </intent-filter>
+
         </receiver>
 
         <activity

@@ -3,9 +3,9 @@ package com.example.myprojectjavaonkotlin.ui.video
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
+import android.os.Handler
+import android.os.Looper
 import android.view.View
-import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myprojectjavaonkotlin.App
 import com.example.myprojectjavaonkotlin.MyReceiver
 import com.example.myprojectjavaonkotlin.MyService
+import com.example.myprojectjavaonkotlin.R
 import com.example.myprojectjavaonkotlin.databinding.FragmentVideoListBinding
 import com.example.myprojectjavaonkotlin.domain.entity.MovieDto
 import com.example.myprojectjavaonkotlin.domain.interactor.CollectionInteractor
@@ -20,7 +21,7 @@ import java.util.*
 
 private const val FRAGMENT_UUID_KEY = "FRAGMENT_UUID_KEY"
 
-class VideoListFragment : Fragment() {
+class VideoListFragment : Fragment(R.layout.fragment_video_list) {
 
     private val app: App get() = requireActivity().application as App
 
@@ -36,7 +37,6 @@ class VideoListFragment : Fragment() {
      * в связи с тем что ViewModel при каждом повороте пересоздается, если необходимо
      * сохранять экран, необходимо ViewModel сохранить вне данного класса
      */
-//    private val viewModel: VideoListViewModel by lazy { extractViewModel() }
     private val viewModel: VideoListViewModel by lazy {
         ViewModelProvider(
             this,
@@ -64,18 +64,10 @@ class VideoListFragment : Fragment() {
         outState.putString(FRAGMENT_UUID_KEY, fragmentUid)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentVideoListBinding.inflate(inflater, container, false)
-        val view = binding.root
-        return view
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        _binding = FragmentVideoListBinding.bind(view)
 
         initView()
 
@@ -99,12 +91,14 @@ class VideoListFragment : Fragment() {
 
     private fun onService() {
         context?.let {
-            it.startService(Intent(it, MyService::class.java).apply {
-                putExtra(
-                    "",
-                    ""
-                )
-            })
+            Handler(Looper.getMainLooper()).postDelayed({
+                it.startService(Intent(it, MyService::class.java).apply {
+                    putExtra(
+                        "Service",
+                        "Запущен фрагмент Видео (Service)"
+                    )
+                })
+            }, 5_000)
         }
     }
 
@@ -112,8 +106,8 @@ class VideoListFragment : Fragment() {
         context?.let {
             it.sendBroadcast(Intent(it, MyReceiver::class.java).apply {
                 putExtra(
-                    "RootFragment",
-                    "Запущен фрагмент Видео"
+                    "Action",
+                    "Запущен фрагмент Видео (Receiver)"
                 )
             })
         }

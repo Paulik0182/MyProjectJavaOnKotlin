@@ -4,6 +4,7 @@ import android.app.Service
 import android.content.Intent
 import android.os.IBinder
 import android.util.Log
+import android.widget.Toast
 
 /**
  * Все методы сервиса работают в главном потоке.
@@ -37,9 +38,25 @@ class MyService : Service() {
         )
         Thread {
             Thread.sleep(1_000)
-            stopSelf()//остановить себя (сервис)
+            stopSelf()
         }.start()
         return super.onStartCommand(intent, flags, startId)
+    }
+
+    override fun onStart(intent: Intent?, startId: Int) {
+        super.onStart(intent, startId)
+        StringBuilder().apply {
+            append("СООБЩЕНИЕ ОТ СИСТЕМЫ\n")
+            if (intent?.action == null) {
+                append("Service: ${intent?.getStringExtra("Service")}")
+            } else {
+                append("Service: ${intent.action}")
+            }
+            toString().also {
+                Toast.makeText(this@MyService, it, Toast.LENGTH_LONG).show()
+            }
+        }
+
     }
 
     override fun onBind(intent: Intent): IBinder? {

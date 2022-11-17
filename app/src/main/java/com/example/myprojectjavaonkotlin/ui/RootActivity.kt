@@ -40,18 +40,20 @@ class RootActivity : AppCompatActivity(),
         val intentService = Intent(this, MyService::class.java)
         // на сервис можно передать данные передав put.... (этот intent будет доступен в onStartCommand
         intentService.putExtra(
-            "RootActivity",
-            "Запущена активити"
+            "Service",
+            "Запущена активити (Service)"
         )
+//        intentService.action = "Я Service"
         startService(intentService)
     }
 
     private fun onReceiver() {
         val intentReceiver = Intent(this, MyReceiver::class.java)
         intentReceiver.putExtra(
-            "RootActivity",
-            "Запущена активити"
+            "Action",
+            "Запущена активити (Receiver)"
         )
+//        intentReceiver.action = "Я Receiver"
         sendBroadcast(intentReceiver)
     }
 

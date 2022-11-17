@@ -1,6 +1,8 @@
 package com.example.myprojectjavaonkotlin
 
 import android.app.Application
+import android.content.Intent
+import android.content.IntentFilter
 import android.os.Handler
 import android.os.Looper
 import com.example.myprojectjavaonkotlin.data.CollectionInteractorImpl
@@ -10,7 +12,6 @@ import com.example.myprojectjavaonkotlin.data.MovieDtoRepoImpl
 import com.example.myprojectjavaonkotlin.domain.interactor.CollectionInteractor
 import com.example.myprojectjavaonkotlin.domain.repo.GenreRepo
 import com.example.myprojectjavaonkotlin.domain.repo.MovieDtoRepo
-import java.util.*
 
 /**
  * Здесь создаем репозиторий. Репо должна быть одна, а не создаватся каждый раз в каждом фрагменте.
@@ -21,6 +22,10 @@ import java.util.*
  */
 
 class App : Application() {
+
+    private val myReceiver: MyReceiver by lazy {
+        MyReceiver()
+    }
 
     private val imdbApiManager: ImdbApiManager = ImdbApiManager()
     private val mainHandler: Handler by lazy { Handler(Looper.getMainLooper()) }
@@ -40,5 +45,16 @@ class App : Application() {
         )
     }
 
-    val rotationFreeStorage: MutableMap<String, Any> = WeakHashMap()
+    override fun onCreate() {
+        super.onCreate()
+        IntentFilter(Intent.ACTION_AIRPLANE_MODE_CHANGED).also {
+            registerReceiver(myReceiver, it)
+        }
+
+        registerReceiver(
+            myReceiver, IntentFilter(
+                Intent.ACTION_BATTERY_LOW
+            )
+        )
+    }
 }

@@ -1,6 +1,5 @@
 package com.example.myprojectjavaonkotlin.data
 
-import android.os.Looper
 import com.example.myprojectjavaonkotlin.domain.entity.MovieDto
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -22,7 +21,6 @@ class ImdbApiManager {
     }
 
     fun loadMovies(genres: List<String>): List<MovieDto> {
-        android.os.Handler(Looper.getMainLooper()).postDelayed({ }, 3_000)
         val genresSb = StringBuilder()
         genresSb.append("genres=") //собираем строку для адреса
         genres.forEach {
