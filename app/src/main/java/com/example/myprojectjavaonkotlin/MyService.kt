@@ -43,6 +43,7 @@ class MyService : Service() {
         return super.onStartCommand(intent, flags, startId)
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onStart(intent: Intent?, startId: Int) {
         super.onStart(intent, startId)
         StringBuilder().apply {
