@@ -7,8 +7,8 @@ import android.os.Handler
 import android.os.Looper
 import com.example.myprojectjavaonkotlin.data.CollectionInteractorImpl
 import com.example.myprojectjavaonkotlin.data.GenreRepoImpl
-import com.example.myprojectjavaonkotlin.data.ImdbApiManager
 import com.example.myprojectjavaonkotlin.data.MovieDtoRepoImpl
+import com.example.myprojectjavaonkotlin.data.retrofit.ApiRetrofitImpl
 import com.example.myprojectjavaonkotlin.domain.interactor.CollectionInteractor
 import com.example.myprojectjavaonkotlin.domain.repo.GenreRepo
 import com.example.myprojectjavaonkotlin.domain.repo.MovieDtoRepo
@@ -22,12 +22,13 @@ import com.example.myprojectjavaonkotlin.domain.repo.MovieDtoRepo
  */
 
 class App : Application() {
-
     private val myReceiver: MyReceiver by lazy {
         MyReceiver()
     }
 
-    private val imdbApiManager: ImdbApiManager = ImdbApiManager()
+    private val imdbApiManager: ApiRetrofitImpl = ApiRetrofitImpl()
+
+    //    private val imdbApiManager: ImdbApiManager = ImdbApiManager()
     private val mainHandler: Handler by lazy { Handler(Looper.getMainLooper()) }
     private val genreRepo: GenreRepo by lazy { GenreRepoImpl() }
 

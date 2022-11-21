@@ -1,12 +1,14 @@
 package com.example.myprojectjavaonkotlin.data
 
 import android.os.Handler
+import com.example.myprojectjavaonkotlin.data.retrofit.ApiRetrofitImpl
 import com.example.myprojectjavaonkotlin.domain.entity.MovieDto
 import com.example.myprojectjavaonkotlin.domain.repo.GenreRepo
 import com.example.myprojectjavaonkotlin.domain.repo.MovieDtoRepo
 
 class MovieDtoRepoImpl(
-    private val imdbApiManager: ImdbApiManager,
+    private val imdbApiManager: ApiRetrofitImpl,
+//    private val imdbApiManager: ImdbApiManager,
     private val mainHandler: Handler,
     private val genreRepo: GenreRepo
 
@@ -15,12 +17,12 @@ class MovieDtoRepoImpl(
     private lateinit var movieDtoRepo: MovieDtoRepo
 
     override fun getMovies(genres: List<String>, callback: (List<MovieDto>) -> Unit) {
-        Thread {
+//        Thread {
             val movies = imdbApiManager.loadMovies(genres)
             mainHandler.post {
                 callback.invoke(movies)
             }
-        }.start()
+//        }.start()
     }
 
     override fun getMovie(id: String, callback: (MovieDto?) -> Unit) {

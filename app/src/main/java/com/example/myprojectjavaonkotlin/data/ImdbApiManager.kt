@@ -27,11 +27,11 @@ class ImdbApiManager {
             genresSb.append("$it, ") // то-есть в адрес будет свтавлятся action,comedy,family,history. Итог - полноценная строка
         }
 
-        val url = URL(ADVANCED_SEARCH_REQUEST + genresSb.toString()) //собрали поноценный адрес
+        val url = URL(ADVANCED_SEARCH_REQUEST + genresSb.toString()) //собрали полноценный адрес
 
         val urlConnection = url.openConnection() as HttpURLConnection
         urlConnection.requestMethod = "GET"
-        urlConnection.connectTimeout = 1_000//время после которого загрузка рекратится
+        urlConnection.connectTimeout = 1_000//время после которого загрузка прекратится
         urlConnection.connect()
         val bufferedReader = BufferedReader(InputStreamReader(urlConnection.inputStream))
 
