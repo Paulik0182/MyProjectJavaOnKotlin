@@ -27,6 +27,7 @@ class VideoListViewHolder(
         binding.nameTextView.text = movieDto.title
         binding.yearReleaseTextView.text = movieDto.yearRelease
         if (movieDto.image.isNotBlank()) {
+            //Picasso
             Picasso.get()
                 .load(movieDto.image)
                 .placeholder(R.drawable.uploading_images)

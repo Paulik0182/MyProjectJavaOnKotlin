@@ -82,6 +82,7 @@ class DetailsVideoFragment : Fragment() {
         binding.descriptionDetailsTextView.text = movieDto.description
 
         if (movieDto.image.isNotBlank()) {
+            //Picasso
             Picasso.get()
                 .load(movieDto.image)
                 .placeholder(R.drawable.uploading_images)
