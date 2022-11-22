@@ -3,8 +3,6 @@ package com.example.myprojectjavaonkotlin.ui.video
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -12,7 +10,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myprojectjavaonkotlin.App
 import com.example.myprojectjavaonkotlin.MyReceiver
-import com.example.myprojectjavaonkotlin.MyService
 import com.example.myprojectjavaonkotlin.R
 import com.example.myprojectjavaonkotlin.databinding.FragmentVideoListBinding
 import com.example.myprojectjavaonkotlin.domain.entity.MovieDto
@@ -84,22 +81,7 @@ class VideoListFragment : Fragment(R.layout.fragment_video_list) {
             getController().openDetailsVideo(it)
         }
 
-        onService()
-
         onReceiver()
-    }
-
-    private fun onService() {
-        context?.let {
-            Handler(Looper.getMainLooper()).postDelayed({
-                it.startService(Intent(it, MyService::class.java).apply {
-                    putExtra(
-                        "Service",
-                        "Запущен фрагмент Видео (Service)"
-                    )
-                })
-            }, 5_000)
-        }
     }
 
     private fun onReceiver() {
