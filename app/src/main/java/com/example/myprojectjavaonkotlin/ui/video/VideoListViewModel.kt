@@ -18,7 +18,6 @@ import com.example.myprojectjavaonkotlin.ui.utils.mutable
  */
 
 class VideoListViewModel(
-    //Аргумент конструктора, член класса
     private val collectionVideoRepo: CollectionInteractor
 ) : ViewModel() {
 

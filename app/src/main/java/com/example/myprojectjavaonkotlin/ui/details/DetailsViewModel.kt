@@ -17,7 +17,6 @@ import com.example.myprojectjavaonkotlin.ui.utils.mutable
  */
 
 class DetailsViewModel(
-    //Аргумент конструктора, член класса
     private val movieDtoRepo: MovieDtoRepo,
     private val videoId: String
 ) : ViewModel() {
