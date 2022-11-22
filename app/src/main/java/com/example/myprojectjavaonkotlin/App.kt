@@ -3,15 +3,11 @@ package com.example.myprojectjavaonkotlin
 import android.app.Application
 import android.content.Intent
 import android.content.IntentFilter
-import android.os.Handler
-import android.os.Looper
 import com.example.myprojectjavaonkotlin.data.CollectionInteractorImpl
-import com.example.myprojectjavaonkotlin.data.GenreRepoImpl
-import com.example.myprojectjavaonkotlin.data.MovieDtoRepoImpl
-import com.example.myprojectjavaonkotlin.data.retrofit.ApiRetrofitImpl
+import com.example.myprojectjavaonkotlin.data.retrofit.RetrofitMovieDtoRepoImpl
 import com.example.myprojectjavaonkotlin.domain.interactor.CollectionInteractor
-import com.example.myprojectjavaonkotlin.domain.repo.GenreRepo
 import com.example.myprojectjavaonkotlin.domain.repo.MovieDtoRepo
+import com.example.myprojectjavaonkotlin.ui.utils.MyDiy
 
 /**
  * Здесь создаем репозиторий. Репо должна быть одна, а не создаватся каждый раз в каждом фрагменте.
@@ -21,27 +17,19 @@ import com.example.myprojectjavaonkotlin.domain.repo.MovieDtoRepo
  * Any - это базовый объект, это тип для всего. Map это ключ - значение
  */
 
+private const val API_KEY = "k_r6gwl7te" //todo должен быть в gradle secret properties
+
 class App : Application() {
-    private val myReceiver: MyReceiver by lazy {
-        MyReceiver()
-    }
 
-    private val imdbApiManager: ApiRetrofitImpl = ApiRetrofitImpl()
-
-    //    private val imdbApiManager: ImdbApiManager = ImdbApiManager()
-    private val mainHandler: Handler by lazy { Handler(Looper.getMainLooper()) }
-    private val genreRepo: GenreRepo by lazy { GenreRepoImpl() }
+    private val myDiy: MyDiy = MyDiy()
 
     val movieDtoRepo: MovieDtoRepo by lazy {
-        MovieDtoRepoImpl(
-            imdbApiManager,
-            mainHandler,
-            genreRepo
-        )
+        RetrofitMovieDtoRepoImpl(myDiy.imdbApi, API_KEY, this)
     }
+
     val collectionInteractor: CollectionInteractor by lazy {
         CollectionInteractorImpl(
-            genreRepo,
+            myDiy.genreRepo,
             movieDtoRepo
         )
     }
@@ -49,11 +37,11 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
         IntentFilter(Intent.ACTION_AIRPLANE_MODE_CHANGED).also {
-            registerReceiver(myReceiver, it)
+            registerReceiver(myDiy.myReceiver, it)
         }
 
         registerReceiver(
-            myReceiver, IntentFilter(
+            myDiy.myReceiver, IntentFilter(
                 Intent.ACTION_BATTERY_LOW
             )
         )
