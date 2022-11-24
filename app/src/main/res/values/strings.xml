@@ -2,4 +2,10 @@
     <string name="app_name">Видео поиск</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="name_film">Фильм: \ </string>
+
+    <!-- bottom nav menu -->
+    <string name="films">Фильмы</string>
+    <string name="favorite">Избранное</string>
+    <string name="settings">Настройки</string>
+
 </resources>

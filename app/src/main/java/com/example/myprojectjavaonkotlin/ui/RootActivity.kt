@@ -1,19 +1,25 @@
 package com.example.myprojectjavaonkotlin.ui
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.myprojectjavaonkotlin.R
 import com.example.myprojectjavaonkotlin.databinding.ActivityRootBinding
 import com.example.myprojectjavaonkotlin.domain.entity.MovieDto
 import com.example.myprojectjavaonkotlin.ui.details.DetailsVideoFragment
+import com.example.myprojectjavaonkotlin.ui.favourites.FavouritesFragment
+import com.example.myprojectjavaonkotlin.ui.settings.SettingsFragment
 import com.example.myprojectjavaonkotlin.ui.video.VideoListFragment
 
 private const val TAG_DETAILS_VIDEO_KEY = "TAG_DETAILS_VIDEO_KEY"
+private const val TAG_MAIN_CONTAINER_LAYOUT_KEY = "TAG_MAIN_CONTAINER_LAYOUT_KEY"
 
 class RootActivity : AppCompatActivity(),
     VideoListFragment.Controller,
-    DetailsVideoFragment.Controller {
+    DetailsVideoFragment.Controller,
+    FavouritesFragment.Controller,
+    SettingsFragment.Controller {
 
     private lateinit var binding: ActivityRootBinding
 
@@ -22,24 +28,58 @@ class RootActivity : AppCompatActivity(),
         binding = ActivityRootBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        if (savedInstanceState == null)//проверяем какой запуск первый или нет (например, после поворота экрана)
-            supportFragmentManager
-                .beginTransaction()
-                .add(R.id.container_layout, VideoListFragment())
-                .commit()
+        onBottomNavBar()
 
+        if (savedInstanceState == null) {//проверяем какой запуск первый или нет (например, после поворота экрана)
+            binding.bottomNavBar.selectedItemId = R.id.video_list_item
+        } else {
+            //todo иначе достать из --
+        }
+        if (binding.fragmentContainerFrameLayout.id == R.id.video_list_item) {
+            binding.bottomNavBar.visibility = View.VISIBLE
+        }
+    }
+
+    private fun onBottomNavBar() {
+        binding.bottomNavBar.setOnItemSelectedListener {
+            title = it.title
+            val fragment = when (it.itemId) {
+                R.id.video_list_item -> VideoListFragment()
+                R.id.favorite_item -> FavouritesFragment()
+                R.id.settings_item -> SettingsFragment()
+                else -> throw IllegalStateException("Такого фрагмента нет")
+            }
+            swapFragment(fragment)
+            return@setOnItemSelectedListener true
+        }
+    }
+
+    private fun swapFragment(fragment: Fragment) {
+        supportFragmentManager
+            .beginTransaction()
+            .replace(
+                binding.fragmentContainerFrameLayout.id,
+                fragment,
+                TAG_MAIN_CONTAINER_LAYOUT_KEY
+            ).commit()
     }
 
     private fun openDetailsVideoFragment(videoId: String) {
         val fragment: Fragment = DetailsVideoFragment.newInstance(videoId)
         supportFragmentManager
             .beginTransaction()
-            .add(R.id.container_layout, fragment, TAG_DETAILS_VIDEO_KEY)
+            .add(binding.fragmentContainerFrameLayout.id, fragment, TAG_DETAILS_VIDEO_KEY)
             .addToBackStack(null)
             .commit()
+        binding.bottomNavBar.visibility = View.GONE
     }
 
     override fun openDetailsVideo(movieDto: MovieDto) {
         openDetailsVideoFragment(movieDto.id)
+    }
+
+    override fun onBackPressed() {
+        binding.bottomNavBar.visibility = View.VISIBLE
+        super.onBackPressed()
     }
 }

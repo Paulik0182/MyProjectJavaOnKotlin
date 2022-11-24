@@ -9,4 +9,9 @@
     <color name="white">#FFFFFFFF</color>
     <color name="green_grass">#9DF1AF</color>
 
+    <!-- bottom nav menu -->
+    <color name="item_icon_tint">#670A20</color>
+    <color name="item_text">#670A20</color>
+    <color name="bnv_default">#059EE4</color>
+
 </resources>
