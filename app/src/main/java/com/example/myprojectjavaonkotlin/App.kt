@@ -4,8 +4,10 @@ import android.app.Application
 import android.content.Intent
 import android.content.IntentFilter
 import com.example.myprojectjavaonkotlin.data.CollectionInteractorImpl
+import com.example.myprojectjavaonkotlin.data.GenreWithFavoriteMovieInteractorIml
 import com.example.myprojectjavaonkotlin.data.retrofit.RetrofitMovieDtoRepoImpl
 import com.example.myprojectjavaonkotlin.domain.interactor.CollectionInteractor
+import com.example.myprojectjavaonkotlin.domain.interactor.GenreWithFavoriteMovieInteractor
 import com.example.myprojectjavaonkotlin.domain.repo.MovieDtoRepo
 import com.example.myprojectjavaonkotlin.ui.utils.MyDiy
 
@@ -29,6 +31,13 @@ class App : Application() {
 
     val collectionInteractor: CollectionInteractor by lazy {
         CollectionInteractorImpl(
+            myDiy.genreRepo,
+            movieDtoRepo
+        )
+    }
+
+    val genreWithFavoriteMovieInteractor: GenreWithFavoriteMovieInteractor by lazy {
+        GenreWithFavoriteMovieInteractorIml(
             myDiy.genreRepo,
             movieDtoRepo
         )

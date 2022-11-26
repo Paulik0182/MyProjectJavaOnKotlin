@@ -1,0 +1,33 @@
+package com.example.myprojectjavaonkotlin.data
+
+import com.example.myprojectjavaonkotlin.domain.entity.CollectionEntity
+import com.example.myprojectjavaonkotlin.domain.entity.FavoriteCollectionEntity
+import com.example.myprojectjavaonkotlin.domain.entity.FavoriteMovieDto
+import com.example.myprojectjavaonkotlin.domain.entity.MovieDto
+
+fun MovieDto.mapToFavoriteMovie(
+    comment: String = "",
+    isFavorite: Boolean = false
+): FavoriteMovieDto {
+    return FavoriteMovieDto(
+        id = this.id,
+        image = this.image,
+        title = this.title,
+        description = this.description,
+        runtimeStr = this.runtimeStr,
+        genres = this.genres,
+        genreList = ArrayList(genreList),
+        yearRelease = this.yearRelease,
+        comment = comment,
+        isFavorite = isFavorite
+    )
+}
+
+fun CollectionEntity.mapToFavoriteGenre(): FavoriteCollectionEntity {
+    return FavoriteCollectionEntity(
+        genre = this.genre,
+        movies = movies.map {
+            it.mapToFavoriteMovie()
+        }.toMutableList()
+    )
+}

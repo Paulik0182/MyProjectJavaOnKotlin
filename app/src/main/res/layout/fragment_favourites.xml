@@ -13,7 +13,7 @@
         android:layout_gravity="center" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/collection_video_recycler_view"
+        android:id="@+id/favorite_collection_video_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbarStyle="outsideOverlay"
