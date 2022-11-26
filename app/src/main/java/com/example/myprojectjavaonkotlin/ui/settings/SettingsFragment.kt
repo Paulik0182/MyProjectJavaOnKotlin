@@ -3,6 +3,7 @@ package com.example.myprojectjavaonkotlin.ui.settings
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.myprojectjavaonkotlin.R
 import com.example.myprojectjavaonkotlin.databinding.FragmentSettingsBinding
@@ -17,6 +18,15 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
 
         _binding = FragmentSettingsBinding.bind(view)
 
+        binding.switchContent.isChecked = false
+
+        binding.switchContent.setOnCheckedChangeListener { buttonContent, isChecked ->
+            if (isChecked) {
+                Toast.makeText(requireContext(), "Выключено", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(requireContext(), "Взрослый контент", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     interface Controller {
@@ -28,15 +38,6 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         getController()
-    }
-
-    companion object {
-
-        @JvmStatic
-        fun newInstance() =
-            SettingsFragment().apply {
-//                    putString(KEY, "key")
-            }
     }
 
     override fun onDestroyView() {
