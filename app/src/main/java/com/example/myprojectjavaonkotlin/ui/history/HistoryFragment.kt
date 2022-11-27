@@ -1,41 +1,37 @@
-package com.example.myprojectjavaonkotlin.ui.favourites
+package com.example.myprojectjavaonkotlin.ui.history
 
 import android.content.Context
 import android.os.Bundle
 import android.view.View
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myprojectjavaonkotlin.App
 import com.example.myprojectjavaonkotlin.R
-import com.example.myprojectjavaonkotlin.databinding.FragmentFavouritesBinding
+import com.example.myprojectjavaonkotlin.databinding.FragmentHistoryBinding
 import com.example.myprojectjavaonkotlin.domain.entity.MovieDto
 import com.example.myprojectjavaonkotlin.domain.interactor.CollectionInteractor
 import java.util.*
 
 private const val FRAGMENT_UUID_KEY = "FRAGMENT_UUID_KEY"
 
-class FavouritesFragment : Fragment(R.layout.fragment_favourites) {
+class HistoryFragment : Fragment(R.layout.fragment_history) {
 
     private val app: App get() = requireActivity().application as App
 
-    private val collectionFavoriteRepo: CollectionInteractor by lazy {
+    private val collectionVideoRepo: CollectionInteractor by lazy {
         app.collectionInteractor
     }
 
-    private lateinit var adapter: CollectionFavoriteAdapter
-
-    private var _binding: FragmentFavouritesBinding? = null
+    private var _binding: FragmentHistoryBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: FavoriteListViewModel by lazy {
+    private val viewModel: HistoryViewModel by lazy {
         ViewModelProvider(
             this,
-            FavoriteListViewModel.Factory(
-                collectionFavoriteRepo
-            )
-        )[FavoriteListViewModel::class.java]
+//            HistoryViewModel.Factory(
+//                collectionVideoRepo
+//            )
+        )[HistoryViewModel::class.java]
     }
 
     //уникальный id (для того чтобы можно было сохранить состояние экрана за пределами класса
@@ -57,33 +53,8 @@ class FavouritesFragment : Fragment(R.layout.fragment_favourites) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        _binding = FragmentFavouritesBinding.bind(view)
+        _binding = FragmentHistoryBinding.bind(view)
 
-        initView()
-
-        viewModel.inProgressLiveData.observe(viewLifecycleOwner) { inProgress ->
-            binding.favoriteCollectionVideoRecyclerView.isVisible = !inProgress
-            binding.progressTaskBar.progressTaskBar.isVisible = inProgress
-        }
-
-        viewModel.favoriteListLiveData.observe(viewLifecycleOwner) {
-            adapter.setData(it)
-        }
-
-        viewModel.selectedVideoLiveData.observe(viewLifecycleOwner) {
-            getController().openDetailsVideo(it)
-        }
-    }
-
-    private fun initView() {
-        binding.favoriteCollectionVideoRecyclerView.layoutManager = LinearLayoutManager(context)
-        adapter = CollectionFavoriteAdapter(
-            data = emptyList(),
-            onFavoriteClickListener = {
-                viewModel.onVideoClick(it)
-            }
-        )
-        binding.favoriteCollectionVideoRecyclerView.adapter = adapter
     }
 
     interface Controller {

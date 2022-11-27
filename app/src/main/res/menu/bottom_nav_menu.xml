@@ -11,6 +11,11 @@
         android:title="@string/favorite" />
 
     <item
+        android:id="@+id/history_item"
+        android:icon="@drawable/ic_history_24"
+        android:title="@string/history" />
+
+    <item
         android:id="@+id/settings_item"
         android:icon="@drawable/ic_settings_24"
         android:title="@string/settings" />

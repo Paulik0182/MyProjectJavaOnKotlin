@@ -6,16 +6,10 @@
     android:background="@color/white"
     tools:context=".ui.favourites.FavouritesFragment">
 
-    <include
+    <ProgressBar
         android:id="@+id/progress_task_bar"
-        layout="@layout/progress_bar" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/favorite_collection_video_recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbarStyle="outsideOverlay"
-        android:scrollbars="vertical"
-        tools:listitem="@layout/item_video_list" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center" />
 
 </FrameLayout>

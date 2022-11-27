@@ -9,6 +9,7 @@ import com.example.myprojectjavaonkotlin.databinding.ActivityRootBinding
 import com.example.myprojectjavaonkotlin.domain.entity.MovieDto
 import com.example.myprojectjavaonkotlin.ui.details.DetailsVideoFragment
 import com.example.myprojectjavaonkotlin.ui.favourites.FavouritesFragment
+import com.example.myprojectjavaonkotlin.ui.history.HistoryFragment
 import com.example.myprojectjavaonkotlin.ui.settings.SettingsFragment
 import com.example.myprojectjavaonkotlin.ui.video.VideoListFragment
 
@@ -19,7 +20,8 @@ class RootActivity : AppCompatActivity(),
     VideoListFragment.Controller,
     DetailsVideoFragment.Controller,
     FavouritesFragment.Controller,
-    SettingsFragment.Controller {
+    SettingsFragment.Controller,
+    HistoryFragment.Controller {
 
     private lateinit var binding: ActivityRootBinding
 
@@ -46,6 +48,7 @@ class RootActivity : AppCompatActivity(),
             val fragment = when (it.itemId) {
                 R.id.video_list_item -> VideoListFragment()
                 R.id.favorite_item -> FavouritesFragment()
+                R.id.history_item -> HistoryFragment()
                 R.id.settings_item -> SettingsFragment()
                 else -> throw IllegalStateException("Такого фрагмента нет")
             }

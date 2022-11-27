@@ -6,6 +6,7 @@
     <!-- bottom nav menu -->
     <string name="films">Фильмы</string>
     <string name="favorite">Избранное</string>
+    <string name="history">История</string>
     <string name="settings">Настройки</string>
 
 </resources>

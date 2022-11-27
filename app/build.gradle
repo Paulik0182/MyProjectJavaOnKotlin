@@ -1,10 +1,9 @@
 plugins {
     id 'com.android.application'
+    id 'kotlin-parcelize'
+    id 'kotlin-kapt'
 }
 apply plugin: 'kotlin-android'
-
-android
-apply plugin: 'kotlin-parcelize'
 
 android {
     compileSdk 33
@@ -77,5 +76,11 @@ dependencies {
     //Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+
+    //ROOM
+    def room_version = "2.4.3"
+    implementation "androidx.room:room-runtime:$room_version"
+    //annotationProcessor (обработчик анатации)
+    annotationProcessor "androidx.room:room-compiler:$room_version"
 
 }
