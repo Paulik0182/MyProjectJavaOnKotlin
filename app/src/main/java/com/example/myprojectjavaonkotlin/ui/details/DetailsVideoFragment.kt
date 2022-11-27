@@ -9,7 +9,8 @@ import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.myprojectjavaonkotlin.App
-import com.example.myprojectjavaonkotlin.R
+import com.example.myprojectjavaonkotlin.R.drawable
+import com.example.myprojectjavaonkotlin.R.string
 import com.example.myprojectjavaonkotlin.databinding.FragmentDetailsVideoBinding
 import com.example.myprojectjavaonkotlin.domain.entity.MovieDto
 import com.example.myprojectjavaonkotlin.domain.repo.MovieDtoRepo
@@ -70,8 +71,8 @@ class DetailsVideoFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         viewModel.videoLiveData.observe(viewLifecycleOwner) {
             setVideoEntity(it)
-
-            view.snack(getString(R.string.name_film) + it.title)
+            markChosen()
+            view.snack(getString(string.name_film) + it.title)
         }
     }
 
@@ -85,10 +86,20 @@ class DetailsVideoFragment : Fragment() {
             //Picasso
             Picasso.get()
                 .load(movieDto.image)
-                .placeholder(R.drawable.uploading_images)
+                .placeholder(drawable.uploading_images)
                 .into(binding.coverImageView)
             binding.coverImageView.scaleType =
                 ImageView.ScaleType.FIT_CENTER// растягиваем картинку на весь элемент
+        }
+    }
+
+    private fun markChosen() {
+        binding.favoriteChoiceImageView.setOnClickListener {
+            if (false) {
+                binding.favoriteChoiceImageView.setImageResource(drawable.favourites_icon)
+            } else {
+                binding.favoriteChoiceImageView.setImageResource(drawable.favourites_icon_filled)
+            }
         }
     }
 
@@ -116,4 +127,6 @@ class DetailsVideoFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+
+
 }

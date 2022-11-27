@@ -18,7 +18,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
 
         _binding = FragmentSettingsBinding.bind(view)
 
-        binding.switchContent.isChecked = false
+//        binding.switchContent.isChecked = false
 
         binding.switchContent.setOnCheckedChangeListener { buttonContent, isChecked ->
             if (isChecked) {

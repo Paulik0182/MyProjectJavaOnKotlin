@@ -39,7 +39,8 @@ class App : Application() {
     val genreWithFavoriteMovieInteractor: GenreWithFavoriteMovieInteractor by lazy {
         GenreWithFavoriteMovieInteractorIml(
             myDiy.genreRepo,
-            movieDtoRepo
+            movieDtoRepo,
+            collectionInteractor
         )
     }
 

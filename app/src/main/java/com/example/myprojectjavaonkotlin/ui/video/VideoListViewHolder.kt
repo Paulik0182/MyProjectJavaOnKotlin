@@ -6,6 +6,7 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myprojectjavaonkotlin.R
 import com.example.myprojectjavaonkotlin.databinding.ItemVideoListBinding
+import com.example.myprojectjavaonkotlin.domain.entity.FavoriteMovieDto
 import com.example.myprojectjavaonkotlin.domain.entity.MovieDto
 import com.squareup.picasso.Picasso
 
@@ -20,6 +21,7 @@ class VideoListViewHolder(
     private val binding: ItemVideoListBinding = ItemVideoListBinding.bind(itemView)
 
     private lateinit var video: MovieDto
+    private lateinit var favoriteVideo: FavoriteMovieDto
 
     fun bind(movieDto: MovieDto) {
         this.video = movieDto
@@ -35,6 +37,7 @@ class VideoListViewHolder(
             binding.coverImageView.scaleType =
                 ImageView.ScaleType.FIT_XY// растягиваем картинку на весь элемент
         }
+//        binding.favoriteImageView.isVisible = favoriteVideo.isFavorite
     }
 
     init {

@@ -10,16 +10,16 @@ import com.example.myprojectjavaonkotlin.domain.interactor.CollectionInteractor
 import com.example.myprojectjavaonkotlin.ui.utils.mutable
 
 class FavoriteListViewModel(
-    private val collectionVideoRepo: CollectionInteractor,
+    private val collectionFavorite: CollectionInteractor,
 ) : ViewModel() {
 
     //Сделали класс Factory (Фабрика)
     class Factory(
-        private val collectionVideoRepo: CollectionInteractor,
+        private val collectionFavorite: CollectionInteractor,
     ) :
         ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return FavoriteListViewModel(collectionVideoRepo) as T
+            return FavoriteListViewModel(collectionFavorite) as T
         }
     }
 
@@ -29,7 +29,7 @@ class FavoriteListViewModel(
 
     init {
         inProgressLiveData.mutable().postValue(true)
-        collectionVideoRepo.getCollections {
+        collectionFavorite.getCollections {
             inProgressLiveData.mutable().postValue(false)
             favoriteListLiveData.mutable().postValue(it)
         }
