@@ -25,7 +25,7 @@ class CollectionInteractorImpl(
 
 //        Handler(Looper.getMainLooper()).postDelayed({
 
-            //скачиваем список фильмов
+        //скачиваем список фильмов
         movieWithFavoriteRepo.getMovies(genres) { movies ->
             //проходим по фильмам
             movies.forEach { film ->
@@ -37,13 +37,13 @@ class CollectionInteractorImpl(
                         ?.apply {
                             this.movies.add(film)
                             //Если равен нул, создаем новый жанр (раздел)
-                            } ?: CollectionEntity(genre, mutableListOf(film))
-                        //получаем коллекцию и кладем ее обратно
-                        hashMapMovies[genre.genre] = collection
-                    }
+                        } ?: CollectionEntity(genre, mutableListOf(film))
+                    //получаем коллекцию и кладем ее обратно
+                    hashMapMovies[genre.genre] = collection
                 }
-                callback(hashMapMovies.values.toList())//превратили в hashMapMovies отдали в callback
             }
+            callback(hashMapMovies.values.toList())//превратили в hashMapMovies отдали в callback
+        }
 //        }, 1_000)
     }
 }
