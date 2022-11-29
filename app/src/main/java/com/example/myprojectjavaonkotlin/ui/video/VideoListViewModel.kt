@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.myprojectjavaonkotlin.domain.entity.CollectionEntity
-import com.example.myprojectjavaonkotlin.domain.entity.MovieDto
+import com.example.myprojectjavaonkotlin.domain.entity.FavoriteMovieDto
 import com.example.myprojectjavaonkotlin.domain.interactor.CollectionInteractor
 import com.example.myprojectjavaonkotlin.ui.utils.mutable
 
@@ -31,7 +31,7 @@ class VideoListViewModel(
 
     val inProgressLiveData: LiveData<Boolean> = MutableLiveData(false)
     val videoListLiveData: LiveData<List<CollectionEntity>> = MutableLiveData()
-    val selectedVideoLiveData: LiveData<MovieDto> = MutableLiveData()
+    val selectedVideoLiveData: LiveData<FavoriteMovieDto> = MutableLiveData()
 
     init {
         if (videoListLiveData.value == null) {
@@ -43,7 +43,7 @@ class VideoListViewModel(
         }
     }
 
-    fun onVideoClick(movieDto: MovieDto) {
-        selectedVideoLiveData.mutable().postValue(movieDto)
+    fun onVideoClick(favoriteMovieDto: FavoriteMovieDto) {
+        selectedVideoLiveData.mutable().postValue(favoriteMovieDto)
     }
 }

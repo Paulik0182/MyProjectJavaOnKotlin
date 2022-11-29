@@ -8,7 +8,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.myprojectjavaonkotlin.App
 import com.example.myprojectjavaonkotlin.R
 import com.example.myprojectjavaonkotlin.databinding.FragmentHistoryBinding
-import com.example.myprojectjavaonkotlin.domain.entity.MovieDto
+import com.example.myprojectjavaonkotlin.domain.entity.FavoriteMovieDto
 import com.example.myprojectjavaonkotlin.domain.interactor.CollectionInteractor
 import java.util.*
 
@@ -19,7 +19,7 @@ class HistoryFragment : Fragment(R.layout.fragment_history) {
     private val app: App get() = requireActivity().application as App
 
     private val collectionVideoRepo: CollectionInteractor by lazy {
-        app.collectionInteractor
+        app.di.collectionInteractor
     }
 
     private var _binding: FragmentHistoryBinding? = null
@@ -58,7 +58,7 @@ class HistoryFragment : Fragment(R.layout.fragment_history) {
     }
 
     interface Controller {
-        fun openDetailsVideo(movieDto: MovieDto)
+        fun openDetailsVideo(favoriteMovieDto: FavoriteMovieDto)
     }
 
     private fun getController(): Controller = activity as Controller

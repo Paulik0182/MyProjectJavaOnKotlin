@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myprojectjavaonkotlin.App
 import com.example.myprojectjavaonkotlin.R
 import com.example.myprojectjavaonkotlin.databinding.FragmentFavouritesBinding
-import com.example.myprojectjavaonkotlin.domain.entity.MovieDto
+import com.example.myprojectjavaonkotlin.domain.entity.FavoriteMovieDto
 import com.example.myprojectjavaonkotlin.domain.interactor.CollectionInteractor
 import java.util.*
 
@@ -21,7 +21,7 @@ class FavouritesFragment : Fragment(R.layout.fragment_favourites) {
     private val app: App get() = requireActivity().application as App
 
     private val collectionFavoriteRepo: CollectionInteractor by lazy {
-        app.collectionInteractor
+        app.di.collectionInteractor
     }
 
     private lateinit var adapter: CollectionFavoriteAdapter
@@ -87,7 +87,7 @@ class FavouritesFragment : Fragment(R.layout.fragment_favourites) {
     }
 
     interface Controller {
-        fun openDetailsVideo(movieDto: MovieDto)
+        fun openDetailsVideo(favoriteMovieDto: FavoriteMovieDto)
     }
 
     private fun getController(): Controller = activity as Controller

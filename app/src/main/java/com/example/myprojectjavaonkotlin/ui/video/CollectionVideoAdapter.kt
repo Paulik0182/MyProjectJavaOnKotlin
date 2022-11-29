@@ -4,11 +4,11 @@ import android.annotation.SuppressLint
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myprojectjavaonkotlin.domain.entity.CollectionEntity
-import com.example.myprojectjavaonkotlin.domain.entity.MovieDto
+import com.example.myprojectjavaonkotlin.domain.entity.FavoriteMovieDto
 
 class CollectionVideoAdapter(
     private var data: List<CollectionEntity> = mutableListOf(),
-    private var onVideoClickListener: (MovieDto) -> Unit = {},
+    private var onVideoClickListener: (FavoriteMovieDto) -> Unit = {},
 ) : RecyclerView.Adapter<CollectionVideoViewHolder>() {
 
     @SuppressLint("NotifyDataSetChanged")

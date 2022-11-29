@@ -3,15 +3,15 @@ package com.example.myprojectjavaonkotlin.ui.favourites
 import android.annotation.SuppressLint
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.myprojectjavaonkotlin.domain.entity.MovieDto
+import com.example.myprojectjavaonkotlin.domain.entity.FavoriteMovieDto
 
 class FavoriteListAdapter(
-    private var data: List<MovieDto> = mutableListOf(),
-    private var onDetailVideoListener: (MovieDto) -> Unit = {},
+    private var data: List<FavoriteMovieDto> = mutableListOf(),
+    private var onDetailVideoListener: (FavoriteMovieDto) -> Unit = {},
 ) : RecyclerView.Adapter<FavoriteListViewHolder>() {
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setData(video: List<MovieDto>) {
+    fun setData(video: List<FavoriteMovieDto>) {
         data = video
         notifyDataSetChanged()
     }
@@ -27,7 +27,7 @@ class FavoriteListAdapter(
         holder.bind(getItem(position))
     }
 
-    private fun getItem(position: Int): MovieDto = data[position]
+    private fun getItem(position: Int): FavoriteMovieDto = data[position]
 
     override fun getItemCount(): Int = data.size
 }

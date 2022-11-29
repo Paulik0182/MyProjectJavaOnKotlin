@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.myprojectjavaonkotlin.R
 import com.example.myprojectjavaonkotlin.databinding.ActivityRootBinding
-import com.example.myprojectjavaonkotlin.domain.entity.MovieDto
+import com.example.myprojectjavaonkotlin.domain.entity.FavoriteMovieDto
 import com.example.myprojectjavaonkotlin.ui.details.DetailsVideoFragment
 import com.example.myprojectjavaonkotlin.ui.favourites.FavouritesFragment
 import com.example.myprojectjavaonkotlin.ui.history.HistoryFragment
@@ -77,8 +77,8 @@ class RootActivity : AppCompatActivity(),
         binding.bottomNavBar.visibility = View.GONE
     }
 
-    override fun openDetailsVideo(movieDto: MovieDto) {
-        openDetailsVideoFragment(movieDto.id)
+    override fun openDetailsVideo(favoriteMovieDto: FavoriteMovieDto) {
+        openDetailsVideoFragment(favoriteMovieDto.id)
     }
 
     override fun onBackPressed() {

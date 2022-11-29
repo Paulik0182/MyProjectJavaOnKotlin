@@ -9,11 +9,12 @@ import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.myprojectjavaonkotlin.App
-import com.example.myprojectjavaonkotlin.R.drawable
+import com.example.myprojectjavaonkotlin.R
 import com.example.myprojectjavaonkotlin.R.string
 import com.example.myprojectjavaonkotlin.databinding.FragmentDetailsVideoBinding
-import com.example.myprojectjavaonkotlin.domain.entity.MovieDto
-import com.example.myprojectjavaonkotlin.domain.repo.MovieDtoRepo
+import com.example.myprojectjavaonkotlin.domain.entity.FavoriteMovieDto
+import com.example.myprojectjavaonkotlin.domain.repo.FavoriteMovieRepo
+import com.example.myprojectjavaonkotlin.domain.repo.MovieWithFavoriteRepo
 import com.example.myprojectjavaonkotlin.ui.utils.snack
 import com.squareup.picasso.Picasso
 import java.util.*
@@ -28,8 +29,12 @@ class DetailsVideoFragment : Fragment() {
 
     private val app: App get() = requireActivity().application as App
 
-    private val videoRepo: MovieDtoRepo by lazy {
-        app.movieDtoRepo
+    private val movieWithFavoriteRepo: MovieWithFavoriteRepo by lazy {
+        app.di.movieWithFavoriteRepo
+    }
+
+    private val favoriteMovieRepo: FavoriteMovieRepo by lazy {
+        app.di.favoriteMovieRepo
     }
 
     /**
@@ -39,7 +44,11 @@ class DetailsVideoFragment : Fragment() {
      */
 
     private val viewModel: DetailsViewModel by viewModels {
-        DetailsViewModel.Factory(videoRepo, requireArguments().getString(DETAILS_VIDEO_KEY)!!)
+        DetailsViewModel.Factory(
+            movieWithFavoriteRepo,
+            favoriteMovieRepo,
+            requireArguments().getString(DETAILS_VIDEO_KEY)!!
+        )
     }
 
     //уникальный id (для того чтобы можно было сохранить состояние экрана за пределами класса
@@ -71,36 +80,42 @@ class DetailsVideoFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         viewModel.videoLiveData.observe(viewLifecycleOwner) {
             setVideoEntity(it)
-            markChosen()
+            markChosen(it.isFavorite)
             view.snack(getString(string.name_film) + it.title)
         }
     }
 
-    private fun setVideoEntity(movieDto: MovieDto) {
-        binding.nameDetailsTextView.text = movieDto.title
-        binding.genreDetailsTextView.text = movieDto.genres
-        binding.yearReleaseDetailsTextView.text = movieDto.yearRelease
-        binding.descriptionDetailsTextView.text = movieDto.description
+    private fun setVideoEntity(favoriteMovieDto: FavoriteMovieDto) {
+        binding.nameDetailsTextView.text = favoriteMovieDto.title
+        binding.genreDetailsTextView.text = favoriteMovieDto.genres
+        binding.yearReleaseDetailsTextView.text = favoriteMovieDto.yearRelease
+        binding.descriptionDetailsTextView.text = favoriteMovieDto.description
 
-        if (movieDto.image.isNotBlank()) {
+        markChosen(favoriteMovieDto.isFavorite)
+
+        if (favoriteMovieDto.image.isNotBlank()) {
             //Picasso
             Picasso.get()
-                .load(movieDto.image)
-                .placeholder(drawable.uploading_images)
+                .load(favoriteMovieDto.image)
+                .placeholder(R.drawable.uploading_images)
                 .into(binding.coverImageView)
             binding.coverImageView.scaleType =
                 ImageView.ScaleType.FIT_CENTER// растягиваем картинку на весь элемент
         }
+
+        binding.favoriteChoiceImageView.setOnClickListener {
+            viewModel.onFavoriteChange(favoriteMovieDto)
+            markChosen(!favoriteMovieDto.isFavorite)
+        }
     }
 
-    private fun markChosen() {
-        binding.favoriteChoiceImageView.setOnClickListener {
-            if (false) {
-                binding.favoriteChoiceImageView.setImageResource(drawable.favourites_icon)
-            } else {
-                binding.favoriteChoiceImageView.setImageResource(drawable.favourites_icon_filled)
-            }
-        }
+    private fun markChosen(isFavorite: Boolean) {
+        binding.favoriteChoiceImageView.setImageResource(
+            if (isFavorite)
+                R.drawable.favourites_icon_filled
+            else
+                R.drawable.favourites_icon
+        )
     }
 
     interface Controller {

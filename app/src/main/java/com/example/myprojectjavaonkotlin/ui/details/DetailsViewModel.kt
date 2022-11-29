@@ -4,8 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.myprojectjavaonkotlin.domain.entity.MovieDto
-import com.example.myprojectjavaonkotlin.domain.repo.MovieDtoRepo
+import com.example.myprojectjavaonkotlin.domain.entity.FavoriteMovieDto
+import com.example.myprojectjavaonkotlin.domain.repo.FavoriteMovieRepo
+import com.example.myprojectjavaonkotlin.domain.repo.MovieWithFavoriteRepo
 import com.example.myprojectjavaonkotlin.ui.utils.mutable
 
 /**
@@ -17,25 +18,33 @@ import com.example.myprojectjavaonkotlin.ui.utils.mutable
  */
 
 class DetailsViewModel(
-    private val movieDtoRepo: MovieDtoRepo,
+    private val movieWithFavoriteRepo: MovieWithFavoriteRepo,
+    private val favoriteMovieRepo: FavoriteMovieRepo,
     private val videoId: String
 ) : ViewModel() {
+    fun onFavoriteChange(favoriteMovieDto: FavoriteMovieDto) {
+        favoriteMovieRepo.setFavorite(favoriteMovieDto.id, !favoriteMovieDto.isFavorite)
+    }
 
     //Сделали класс Factory (Фабрика)
-    class Factory(private val movieDtoRepo: MovieDtoRepo, private val videoId: String) :
+    class Factory(
+        private val movieWithFavoriteRepo: MovieWithFavoriteRepo,
+        private val favoriteMovieRepo: FavoriteMovieRepo,
+        private val videoId: String
+    ) :
         ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return DetailsViewModel(movieDtoRepo, videoId) as T
+            return DetailsViewModel(movieWithFavoriteRepo, favoriteMovieRepo, videoId) as T
         }
     }
 
-    val videoLiveData: LiveData<MovieDto> = MutableLiveData()
+    val videoLiveData: LiveData<FavoriteMovieDto> = MutableLiveData()
 
     init {
         //проверяе на наличие данных в videoLiveData.
         // Это необходимо для того чтобы при повороте данные не закачивались заново
         if (videoLiveData.value == null) {
-            movieDtoRepo.getMovie(videoId) {
+            movieWithFavoriteRepo.getMovie(videoId) {
                 it.let {
                     videoLiveData.mutable().postValue(it)
                 }

@@ -3,16 +3,16 @@ package com.example.myprojectjavaonkotlin.ui.favourites
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myprojectjavaonkotlin.R
 import com.example.myprojectjavaonkotlin.databinding.ItemVideoListBinding
 import com.example.myprojectjavaonkotlin.domain.entity.FavoriteMovieDto
-import com.example.myprojectjavaonkotlin.domain.entity.MovieDto
 import com.squareup.picasso.Picasso
 
 class FavoriteListViewHolder(
     parent: ViewGroup,
-    onDetailVideoListener: (MovieDto) -> Unit
+    onDetailVideoListener: (FavoriteMovieDto) -> Unit
 ) : RecyclerView.ViewHolder(
     LayoutInflater.from(parent.context)
         .inflate(R.layout.item_video_list, parent, false)
@@ -20,24 +20,28 @@ class FavoriteListViewHolder(
 
     private val binding: ItemVideoListBinding = ItemVideoListBinding.bind(itemView)
 
-    private lateinit var video: MovieDto
-    private lateinit var favoriteVideo: FavoriteMovieDto
+    private lateinit var video: FavoriteMovieDto
 
-    fun bind(movieDto: MovieDto) {
-        this.video = movieDto
+    fun bind(favoriteMovieDto: FavoriteMovieDto) {
+        this.video = favoriteMovieDto
 
-        binding.nameTextView.text = movieDto.title
-        binding.yearReleaseTextView.text = movieDto.yearRelease
-        if (movieDto.image.isNotBlank()) {
+        binding.nameTextView.text = favoriteMovieDto.title
+        binding.yearReleaseTextView.text = favoriteMovieDto.yearRelease
+        if (favoriteMovieDto.image.isNotBlank()) {
             //Picasso
             Picasso.get()
-                .load(movieDto.image)
+                .load(favoriteMovieDto.image)
                 .placeholder(R.drawable.uploading_images)
                 .into(binding.coverImageView)
             binding.coverImageView.scaleType =
                 ImageView.ScaleType.FIT_XY// растягиваем картинку на весь элемент
         }
-//        binding.favoriteImageView.isVisible = favoriteVideo.isFavorite
+
+        if (favoriteMovieDto.isFavorite) {
+            binding.favoriteImageView.isVisible = favoriteMovieDto.isFavorite
+        } else {
+            R.drawable.favourites_icon_filled
+        }
     }
 
     init {

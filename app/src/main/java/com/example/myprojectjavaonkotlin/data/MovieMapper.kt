@@ -1,7 +1,5 @@
 package com.example.myprojectjavaonkotlin.data
 
-import com.example.myprojectjavaonkotlin.domain.entity.CollectionEntity
-import com.example.myprojectjavaonkotlin.domain.entity.FavoriteCollectionEntity
 import com.example.myprojectjavaonkotlin.domain.entity.FavoriteMovieDto
 import com.example.myprojectjavaonkotlin.domain.entity.MovieDto
 
@@ -20,14 +18,5 @@ fun MovieDto.mapToFavoriteMovie(
         yearRelease = this.yearRelease,
         comment = comment,
         isFavorite = isFavorite
-    )
-}
-
-fun CollectionEntity.mapToFavoriteGenre(): FavoriteCollectionEntity {
-    return FavoriteCollectionEntity(
-        genre = this.genre,
-        movies = movies.map {
-            it.mapToFavoriteMovie()
-        }.toMutableList()
     )
 }

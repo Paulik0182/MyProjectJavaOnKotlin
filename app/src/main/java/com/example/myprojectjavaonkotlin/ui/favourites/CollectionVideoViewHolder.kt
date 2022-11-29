@@ -9,11 +9,11 @@ import androidx.recyclerview.widget.SnapHelper
 import com.example.myprojectjavaonkotlin.R
 import com.example.myprojectjavaonkotlin.databinding.ItemCollectionVideoBinding
 import com.example.myprojectjavaonkotlin.domain.entity.CollectionEntity
-import com.example.myprojectjavaonkotlin.domain.entity.MovieDto
+import com.example.myprojectjavaonkotlin.domain.entity.FavoriteMovieDto
 
 class CollectionFavoriteViewHolder(
     parent: ViewGroup,
-    onVideoClick: (MovieDto) -> Unit
+    onVideoClick: (FavoriteMovieDto) -> Unit
 ) : RecyclerView.ViewHolder(
     LayoutInflater.from(parent.context)
         .inflate(R.layout.item_collection_video, parent, false)

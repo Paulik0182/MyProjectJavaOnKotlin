@@ -19,13 +19,13 @@ data class MovieDto(
     @SerializedName("title")
     val title: String,
     @SerializedName("description")
-    val description: String,
+    val description: String?,
     @SerializedName("runtimeStr")
-    val runtimeStr: String,
+    val runtimeStr: String?,
     @SerializedName("genres")
     val genres: String,
     @SerializedName("genreList")
     val genreList: MutableList<GenreDto>,
     @SerializedName("year")
-    val yearRelease: String = "1900"
+    val yearRelease: String? = "1900"
 ) : Parcelable

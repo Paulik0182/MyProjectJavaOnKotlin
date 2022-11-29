@@ -6,5 +6,5 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class CollectionEntity(
     val genre: GenreDto,
-    val movies: MutableList<MovieDto> = mutableListOf()
+    val movies: MutableList<FavoriteMovieDto> = mutableListOf()
 ) : Parcelable
