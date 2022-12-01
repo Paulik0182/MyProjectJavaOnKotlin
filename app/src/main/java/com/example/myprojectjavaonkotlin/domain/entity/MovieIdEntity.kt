@@ -6,5 +6,5 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class MovieIdEntity(
     val genreId: String,
-    val movieDtoId: String
+    val movieId: String
 ) : Parcelable

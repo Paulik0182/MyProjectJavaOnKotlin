@@ -13,6 +13,7 @@ import com.example.myprojectjavaonkotlin.R
 import com.example.myprojectjavaonkotlin.R.string
 import com.example.myprojectjavaonkotlin.databinding.FragmentDetailsVideoBinding
 import com.example.myprojectjavaonkotlin.domain.entity.FavoriteMovieDto
+import com.example.myprojectjavaonkotlin.domain.interactor.LikeInteractor
 import com.example.myprojectjavaonkotlin.domain.repo.FavoriteMovieRepo
 import com.example.myprojectjavaonkotlin.domain.repo.MovieWithFavoriteRepo
 import com.example.myprojectjavaonkotlin.ui.utils.snack
@@ -31,6 +32,10 @@ class DetailsVideoFragment : Fragment() {
 
     private val movieWithFavoriteRepo: MovieWithFavoriteRepo by lazy {
         app.di.movieWithFavoriteRepo
+    }
+
+    private val likeInteractor: LikeInteractor by lazy {
+        app.di.likeInteractor
     }
 
     private val favoriteMovieRepo: FavoriteMovieRepo by lazy {
@@ -104,6 +109,21 @@ class DetailsVideoFragment : Fragment() {
         }
 
         binding.favoriteChoiceImageView.setOnClickListener {
+
+            likeInteractor.changeLike(
+                FavoriteMovieDto(
+                    id = favoriteMovieDto.id,
+                    image = favoriteMovieDto.image,
+                    title = favoriteMovieDto.title,
+                    description = favoriteMovieDto.description,
+                    runtimeStr = favoriteMovieDto.runtimeStr,
+                    genres = favoriteMovieDto.genres,
+                    genreList = ArrayList(favoriteMovieDto.genreList),
+                    yearRelease = favoriteMovieDto.yearRelease,
+                    comment = favoriteMovieDto.comment,
+                    isFavorite = favoriteMovieDto.isFavorite
+                )
+            )
             viewModel.onFavoriteChange(favoriteMovieDto)
             markChosen(!favoriteMovieDto.isFavorite)
         }

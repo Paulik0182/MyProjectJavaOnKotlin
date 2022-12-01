@@ -2,13 +2,11 @@ package com.example.myprojectjavaonkotlin.ui.utils
 
 import android.content.Context
 import com.example.myprojectjavaonkotlin.MyReceiver
-import com.example.myprojectjavaonkotlin.data.CollectionInteractorImpl
-import com.example.myprojectjavaonkotlin.data.FavoriteMovieRepoImpl
-import com.example.myprojectjavaonkotlin.data.GenreRepoImpl
-import com.example.myprojectjavaonkotlin.data.MovieWithFavoriteWithRepoImpl
+import com.example.myprojectjavaonkotlin.data.*
 import com.example.myprojectjavaonkotlin.data.retrofit.ImdbApi
 import com.example.myprojectjavaonkotlin.data.retrofit.RetrofitMovieDtoRepoImpl
 import com.example.myprojectjavaonkotlin.domain.interactor.CollectionInteractor
+import com.example.myprojectjavaonkotlin.domain.interactor.LikeInteractor
 import com.example.myprojectjavaonkotlin.domain.repo.FavoriteMovieRepo
 import com.example.myprojectjavaonkotlin.domain.repo.GenreRepo
 import com.example.myprojectjavaonkotlin.domain.repo.MovieDtoRepo
@@ -26,15 +24,19 @@ class Di(
     val myReceiver: MyReceiver by lazy { MyReceiver() }
 
     // todo переделать
-    val genreRepo: GenreRepo by lazy {
+    private val genreRepo: GenreRepo by lazy {
         GenreRepoImpl()
+    }
+
+    val likeInteractor: LikeInteractor by lazy {
+        LikeInteractorImpl(favoriteMovieRepo)
     }
 
     val collectionInteractor: CollectionInteractor by lazy {
         CollectionInteractorImpl(genreRepo, movieWithFavoriteRepo)
     }
 
-    val movieDtoRepo: MovieDtoRepo by lazy {
+    private val movieDtoRepo: MovieDtoRepo by lazy {
         RetrofitMovieDtoRepoImpl(imdbApi, API_KEY, context)
     }
 
@@ -50,5 +52,5 @@ class Di(
             .build()
     }
 
-    val imdbApi: ImdbApi by lazy { retrofit.create(ImdbApi::class.java) }
+    private val imdbApi: ImdbApi by lazy { retrofit.create(ImdbApi::class.java) }
 }

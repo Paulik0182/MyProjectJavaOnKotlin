@@ -22,6 +22,7 @@ class DetailsViewModel(
     private val favoriteMovieRepo: FavoriteMovieRepo,
     private val videoId: String
 ) : ViewModel() {
+
     fun onFavoriteChange(favoriteMovieDto: FavoriteMovieDto) {
         favoriteMovieRepo.setFavorite(favoriteMovieDto.id, !favoriteMovieDto.isFavorite)
     }
@@ -37,6 +38,9 @@ class DetailsViewModel(
             return DetailsViewModel(movieWithFavoriteRepo, favoriteMovieRepo, videoId) as T
         }
     }
+
+    //изменение лайка
+    val isFavoriteLiveData: LiveData<Boolean> = MutableLiveData()
 
     val videoLiveData: LiveData<FavoriteMovieDto> = MutableLiveData()
 
