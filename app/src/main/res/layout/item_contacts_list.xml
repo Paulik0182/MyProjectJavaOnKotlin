@@ -11,6 +11,6 @@
         android:padding="8dp"
         android:text="Контакт"
         android:textColor="@color/black"
-        android:textSize="18dp" />
+        android:textSize="18sp" />
 
 </com.google.android.material.card.MaterialCardView>

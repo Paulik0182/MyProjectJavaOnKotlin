@@ -17,7 +17,7 @@
         android:gravity="center"
         android:text="Название фильма"
         android:textColor="@color/black"
-        android:textSize="22dp"
+        android:textSize="22sp"
         android:textStyle="bold" />
 
     <FrameLayout
@@ -58,7 +58,7 @@
             android:gravity="center"
             android:text="Жанр: "
             android:textColor="@color/black"
-            android:textSize="18dp" />
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/genre_details_text_view"
@@ -68,7 +68,7 @@
             android:gravity="center"
             android:text="Жанр"
             android:textColor="@color/black"
-            android:textSize="18dp"
+            android:textSize="18sp"
             android:textStyle="italic" />
     </LinearLayout>
 
@@ -84,7 +84,7 @@
             android:gravity="center"
             android:text="Год выхода картины: "
             android:textColor="@color/black"
-            android:textSize="18dp" />
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/year_release_details_text_view"
@@ -94,7 +94,7 @@
             android:gravity="center"
             android:text="Год выхода картины"
             android:textColor="@color/black"
-            android:textSize="18dp"
+            android:textSize="18sp"
             android:textStyle="italic" />
     </LinearLayout>
 
@@ -144,8 +144,19 @@
                 android:gravity="center|top"
                 android:text="Описание фильма"
                 android:textColor="@color/black"
-                android:textSize="16dp" />
+                android:textSize="16sp" />
         </LinearLayout>
     </ScrollView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/mainFragmentFABLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="25dp"
+        android:backgroundTint="@color/teal_700"
+        android:src="@android:drawable/ic_dialog_map"
+        app:maxImageSize="@dimen/fab_location_icon_size"
+        app:tint="@null" />
 
 </LinearLayout>
