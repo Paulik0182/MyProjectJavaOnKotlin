@@ -11,12 +11,14 @@ import com.example.myprojectjavaonkotlin.ui.contacts.ContactsFragment
 import com.example.myprojectjavaonkotlin.ui.details.DetailsVideoFragment
 import com.example.myprojectjavaonkotlin.ui.favourites.FavouritesFragment
 import com.example.myprojectjavaonkotlin.ui.history.HistoryFragment
+import com.example.myprojectjavaonkotlin.ui.map.MapsFragment
 import com.example.myprojectjavaonkotlin.ui.settings.SettingsFragment
 import com.example.myprojectjavaonkotlin.ui.video.VideoListFragment
 
 private const val TAG_DETAILS_VIDEO_KEY = "TAG_DETAILS_VIDEO_KEY"
 private const val TAG_MAIN_CONTAINER_LAYOUT_KEY = "TAG_MAIN_CONTAINER_LAYOUT_KEY"
 private const val TAG_CONTACTS_KEY = "TAG_CONTACTS_KEY"
+private const val TAG_MAPS_KEY = "TAG_MAPS_KEY"
 
 class RootActivity : AppCompatActivity(),
     VideoListFragment.Controller,
@@ -24,7 +26,8 @@ class RootActivity : AppCompatActivity(),
     FavouritesFragment.Controller,
     SettingsFragment.Controller,
     HistoryFragment.Controller,
-    ContactsFragment.Controller {
+    ContactsFragment.Controller,
+    MapsFragment.Controller {
 
     private lateinit var binding: ActivityRootBinding
 
@@ -90,6 +93,16 @@ class RootActivity : AppCompatActivity(),
         binding.bottomNavBar.visibility = View.GONE
     }
 
+    private fun openMapsGoogleFragment() {
+        val fragment: Fragment = MapsFragment.newInstance()
+        supportFragmentManager
+            .beginTransaction()
+            .replace(binding.fragmentContainerFrameLayout.id, fragment, TAG_MAPS_KEY)
+            .addToBackStack(null)
+            .commit()
+        binding.bottomNavBar.visibility = View.GONE
+    }
+
     override fun openDetailsVideo(favoriteMovieDto: FavoriteMovieDto) {
         openDetailsVideoFragment(favoriteMovieDto.id)
     }
@@ -101,5 +114,9 @@ class RootActivity : AppCompatActivity(),
 
     override fun openContacts() {
         openContactsFragment()
+    }
+
+    override fun openMapsGoogle() {
+        openMapsGoogleFragment()
     }
 }

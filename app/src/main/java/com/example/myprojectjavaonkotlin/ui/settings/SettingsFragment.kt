@@ -51,6 +51,10 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         binding.setGeolocationButton.setOnClickListener {
             requestVerification()
         }
+
+        binding.mapsGoogleButton.setOnClickListener {
+            getController().openMapsGoogle()
+        }
     }
 
     private fun setAdultContent() {
@@ -327,6 +331,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
 
     interface Controller {
         fun openContacts()
+        fun openMapsGoogle()
     }
 
     private fun getController(): Controller = activity as Controller
