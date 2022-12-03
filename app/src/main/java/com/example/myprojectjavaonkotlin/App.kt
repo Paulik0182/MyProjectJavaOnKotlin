@@ -1,6 +1,8 @@
 package com.example.myprojectjavaonkotlin
 
+import android.annotation.SuppressLint
 import android.app.Application
+import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import androidx.room.Room
@@ -22,6 +24,9 @@ class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        //
+        context = applicationContext
+
         appInstance = this
         IntentFilter(Intent.ACTION_AIRPLANE_MODE_CHANGED).also {
             registerReceiver(di.myReceiver, it)
@@ -35,6 +40,10 @@ class App : Application() {
     }
 
     companion object {
+        @SuppressLint("StaticFieldLeak")
+        lateinit var context: Context
+
+        @SuppressLint("StaticFieldLeak")
         private var appInstance: App? = null
         private var db: HistoryDataBase? = null
         private const val DB_NAME = "History.db"
@@ -58,4 +67,15 @@ class App : Application() {
             return db!!.historyDao()
         }
     }
+}
+
+interface IContextProvider {
+    val context: Context
+}
+
+object ContextProvider : IContextProvider {
+
+    override val context: Context
+        get() = App.context
+
 }

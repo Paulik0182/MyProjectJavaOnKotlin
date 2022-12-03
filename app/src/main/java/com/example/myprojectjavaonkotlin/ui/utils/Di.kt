@@ -3,6 +3,7 @@ package com.example.myprojectjavaonkotlin.ui.utils
 import android.content.Context
 import com.example.myprojectjavaonkotlin.MyReceiver
 import com.example.myprojectjavaonkotlin.data.*
+import com.example.myprojectjavaonkotlin.data.contacts.ContactsRepoImpl
 import com.example.myprojectjavaonkotlin.data.retrofit.ImdbApi
 import com.example.myprojectjavaonkotlin.data.retrofit.RetrofitMovieDtoRepoImpl
 import com.example.myprojectjavaonkotlin.domain.interactor.CollectionInteractor
@@ -11,6 +12,7 @@ import com.example.myprojectjavaonkotlin.domain.repo.FavoriteMovieRepo
 import com.example.myprojectjavaonkotlin.domain.repo.GenreRepo
 import com.example.myprojectjavaonkotlin.domain.repo.MovieDtoRepo
 import com.example.myprojectjavaonkotlin.domain.repo.MovieWithFavoriteRepo
+import com.example.myprojectjavaonkotlin.domain.repo.contacts.ContactsRepo
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -20,6 +22,8 @@ private const val API_KEY = "k_r6gwl7te" //todo должен быть в gradle 
 class Di(
     private val context: Context
 ) {
+
+    val contactsRepo: ContactsRepo by lazy { ContactsRepoImpl() }
 
     val myReceiver: MyReceiver by lazy { MyReceiver() }
 

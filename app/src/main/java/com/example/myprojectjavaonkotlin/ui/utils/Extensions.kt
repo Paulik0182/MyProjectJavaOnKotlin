@@ -17,6 +17,20 @@ fun View.snack(text: String) {
     ).show()
 }
 
+fun View.show(): View {
+    if (visibility != View.VISIBLE) {
+        visibility = View.VISIBLE
+    }
+    return this
+}
+
+fun View.hide(): View {
+    if (visibility != View.GONE) {
+        visibility = View.GONE
+    }
+    return this
+}
+
 /**
  * экстеншен (расширение обычной чужой функции). Можно указать mutable расширение и оно вернет
  * версию MutableLiveData это сделано чтобы во фрагменте случайно не изменить список (в этом

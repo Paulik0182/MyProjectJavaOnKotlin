@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import com.example.myprojectjavaonkotlin.R
 import com.example.myprojectjavaonkotlin.databinding.ActivityRootBinding
 import com.example.myprojectjavaonkotlin.domain.entity.FavoriteMovieDto
+import com.example.myprojectjavaonkotlin.ui.contacts.ContactsFragment
 import com.example.myprojectjavaonkotlin.ui.details.DetailsVideoFragment
 import com.example.myprojectjavaonkotlin.ui.favourites.FavouritesFragment
 import com.example.myprojectjavaonkotlin.ui.history.HistoryFragment
@@ -15,13 +16,15 @@ import com.example.myprojectjavaonkotlin.ui.video.VideoListFragment
 
 private const val TAG_DETAILS_VIDEO_KEY = "TAG_DETAILS_VIDEO_KEY"
 private const val TAG_MAIN_CONTAINER_LAYOUT_KEY = "TAG_MAIN_CONTAINER_LAYOUT_KEY"
+private const val TAG_CONTACTS_KEY = "TAG_CONTACTS_KEY"
 
 class RootActivity : AppCompatActivity(),
     VideoListFragment.Controller,
     DetailsVideoFragment.Controller,
     FavouritesFragment.Controller,
     SettingsFragment.Controller,
-    HistoryFragment.Controller {
+    HistoryFragment.Controller,
+    ContactsFragment.Controller {
 
     private lateinit var binding: ActivityRootBinding
 
@@ -77,6 +80,16 @@ class RootActivity : AppCompatActivity(),
         binding.bottomNavBar.visibility = View.GONE
     }
 
+    private fun openContactsFragment() {
+        val fragment: Fragment = ContactsFragment.newInstance()
+        supportFragmentManager
+            .beginTransaction()
+            .replace(binding.fragmentContainerFrameLayout.id, fragment, TAG_CONTACTS_KEY)
+            .addToBackStack(null)
+            .commit()
+        binding.bottomNavBar.visibility = View.GONE
+    }
+
     override fun openDetailsVideo(favoriteMovieDto: FavoriteMovieDto) {
         openDetailsVideoFragment(favoriteMovieDto.id)
     }
@@ -84,5 +97,9 @@ class RootActivity : AppCompatActivity(),
     override fun onBackPressed() {
         binding.bottomNavBar.visibility = View.VISIBLE
         super.onBackPressed()
+    }
+
+    override fun openContacts() {
+        openContactsFragment()
     }
 }

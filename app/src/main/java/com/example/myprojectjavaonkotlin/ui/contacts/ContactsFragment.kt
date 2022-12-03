@@ -1,4 +1,4 @@
-package com.example.myprojectjavaonkotlin.ui.settings
+package com.example.myprojectjavaonkotlin.ui.contacts
 
 import android.Manifest
 import android.app.AlertDialog
@@ -6,60 +6,51 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.example.myprojectjavaonkotlin.R
-import com.example.myprojectjavaonkotlin.databinding.FragmentSettingsBinding
-import com.example.myprojectjavaonkotlin.ui.utils.snack
+import com.example.myprojectjavaonkotlin.databinding.FragmentContactsBinding
+import com.example.myprojectjavaonkotlin.ui.utils.hide
+import com.example.myprojectjavaonkotlin.ui.utils.show
 
-private const val IS_ADULT_KEY = "IS_ADULT_KEY"
-private const val SAVE_SETTINGS_KEY = "SAVE_SETTINGS_KEY"
+class ContactsFragment : Fragment(R.layout.fragment_contacts) {
 
-class SettingsFragment : Fragment(R.layout.fragment_settings) {
-
-    private var _binding: FragmentSettingsBinding? = null
+    private var _binding: FragmentContactsBinding? = null
     private val binding get() = _binding!!
 
-    private var isDataSetAdult: Boolean = false
+    private val adapter: ContactsAdapter by lazy { ContactsAdapter() }
+
+    private val viewModel: ContactsViewModel by lazy {
+        ViewModelProvider(this).get(ContactsViewModel::class.java)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        _binding = FragmentSettingsBinding.bind(view)
+        _binding = FragmentContactsBinding.bind(view)
+        binding.contactsListRecyclerView.adapter = adapter
 
-        setAdultContent()
-
-        showListOfMovies()
-
-        setContacts()
-    }
-
-    private fun setAdultContent() {
-        binding.switchContent.setOnCheckedChangeListener { buttonContent, isChecked ->
-            isDataSetAdult = !isDataSetAdult
-            if (isChecked) {
-                Toast.makeText(requireContext(), "Взрослый контент", Toast.LENGTH_SHORT).show()
-                saveListOfMovies()
-            } else {
-                Toast.makeText(requireContext(), "Выключено", Toast.LENGTH_SHORT).show()
-            }
+        checkPermission()
+        viewModel.contacts.observe(viewLifecycleOwner) {
+            renderData(it)
         }
     }
 
-    private fun showListOfMovies() {
-        isDataSetAdult =
-            requireActivity().getSharedPreferences(SAVE_SETTINGS_KEY, Context.MODE_PRIVATE)
-                .getBoolean(IS_ADULT_KEY, true)
-        binding.switchContent.isChecked = isDataSetAdult
-    }
-
-    private fun saveListOfMovies() {
-        requireActivity().getSharedPreferences(SAVE_SETTINGS_KEY, Context.MODE_PRIVATE).edit()
-            .putBoolean(IS_ADULT_KEY, isDataSetAdult)
-            .apply()
+    private fun renderData(data: AppState) {
+        when (data) {
+            is AppState.Success -> {
+                binding.contactsListRecyclerView.show()
+                binding.progressTaskBar.progressTaskBar.hide()
+                adapter.contacts = data.data
+            }
+            is AppState.Loading -> {
+                binding.contactsListRecyclerView.show()
+                binding.progressTaskBar.progressTaskBar.hide()
+            }
+        }
     }
 
     // проверяем разрешения чтения контактов
@@ -68,12 +59,10 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             when {
                 // Внимательно импортировать Manifest (в библиотеках android)
                 ContextCompat.checkSelfPermission(it, Manifest.permission.READ_CONTACTS) ==
-                        PackageManager.PERMISSION_DENIED -> {
+                        PackageManager.PERMISSION_GRANTED -> {
                     // Доступ к контактам
-                    view?.snack("Список контактов получен")
-                    getController().openContacts()
+                    getContacts()
                 }
-
                 // пояснение перед запросом разрешения (не обязательно. показывается в окне запроса)
                 shouldShowRequestPermissionRationale(Manifest.permission.READ_CONTACTS) -> {
                     AlertDialog.Builder(it)
@@ -92,7 +81,6 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
                 else -> {
                     // если ничего не произошло, то запрашиваем разрешения
                     requestPermissionLauncher.launch(Manifest.permission.READ_CONTACTS)
-
                 }
             }
         }
@@ -102,13 +90,13 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
             if (isGranted) {
                 // пермиссия выдана
-                view?.snack("Список контактов получен")
+                getContacts()
             } else {
                 // не выдана
                 context?.let {
                     AlertDialog.Builder(it)
-                        .setTitle("Доступ к контактам")
                         .setMessage("Уведомление")
+                        .setTitle("Доступ к контактам не разрешен!")
                         .setNegativeButton("Закрыть") { dialog, _ ->
                             dialog.dismiss()
                         }.show()
@@ -116,15 +104,13 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             }
         }
 
-    private fun setContacts() {
-        binding.setContactsButton.setOnClickListener {
-//            checkPermission()
-            getController().openContacts()
-        }
+    private fun getContacts() {
+        viewModel.getContacts()
+//        Toast.makeText(requireContext(), "Список контактов получен", Toast.LENGTH_SHORT).show()
     }
 
     interface Controller {
-        fun openContacts()
+        // TODO
     }
 
     private fun getController(): Controller = activity as Controller
@@ -132,6 +118,11 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         getController()
+    }
+
+    companion object {
+        @JvmStatic
+        fun newInstance() = ContactsFragment()
     }
 
     override fun onDestroyView() {
