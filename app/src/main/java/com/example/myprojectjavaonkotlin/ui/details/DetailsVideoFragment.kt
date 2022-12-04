@@ -11,6 +11,7 @@ import androidx.fragment.app.viewModels
 import com.example.myprojectjavaonkotlin.App
 import com.example.myprojectjavaonkotlin.R
 import com.example.myprojectjavaonkotlin.R.string
+import com.example.myprojectjavaonkotlin.data.room.HistoryLocalRepo
 import com.example.myprojectjavaonkotlin.databinding.FragmentDetailsVideoBinding
 import com.example.myprojectjavaonkotlin.domain.entity.FavoriteMovieDto
 import com.example.myprojectjavaonkotlin.domain.interactor.LikeInteractor
@@ -42,6 +43,10 @@ class DetailsVideoFragment : Fragment() {
         app.di.favoriteMovieRepo
     }
 
+    private val historyLocalRepo: HistoryLocalRepo by lazy {
+        app.di.historyLocalRepo
+    }
+
     /**
      * поздняя инициализация ViewModel, положили в него repo
      * в связи с тем что ViewModel при каждом повороте пересоздается, если необходимо
@@ -52,7 +57,8 @@ class DetailsVideoFragment : Fragment() {
         DetailsViewModel.Factory(
             movieWithFavoriteRepo,
             favoriteMovieRepo,
-            requireArguments().getString(DETAILS_VIDEO_KEY)!!
+            requireArguments().getString(DETAILS_VIDEO_KEY)!!,
+            historyLocalRepo
         )
     }
 
@@ -108,6 +114,8 @@ class DetailsVideoFragment : Fragment() {
                 ImageView.ScaleType.FIT_CENTER// растягиваем картинку на весь элемент
         }
 
+        saveMovie(favoriteMovieDto)
+
         binding.favoriteChoiceImageView.setOnClickListener {
 
             likeInteractor.changeLike(
@@ -127,6 +135,23 @@ class DetailsVideoFragment : Fragment() {
             viewModel.onFavoriteChange(favoriteMovieDto)
             markChosen(!favoriteMovieDto.isFavorite)
         }
+    }
+
+    private fun saveMovie(favoriteMovieDto: FavoriteMovieDto) {
+        viewModel.saveMovieToDb(
+            FavoriteMovieDto(
+                id = favoriteMovieDto.id,
+                image = favoriteMovieDto.image,
+                title = favoriteMovieDto.title,
+                description = favoriteMovieDto.description,
+                runtimeStr = favoriteMovieDto.runtimeStr,
+                genres = favoriteMovieDto.genres,
+                genreList = ArrayList(favoriteMovieDto.genreList),
+                yearRelease = favoriteMovieDto.yearRelease,
+                comment = favoriteMovieDto.comment,
+                isFavorite = favoriteMovieDto.isFavorite
+            )
+        )
     }
 
     private fun markChosen(isFavorite: Boolean) {

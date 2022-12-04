@@ -17,6 +17,15 @@ fun View.snack(text: String) {
     ).show()
 }
 
+fun View.showSnackBar(
+    text: String,
+    actionText: String,
+    length: Int = Snackbar.LENGTH_INDEFINITE,
+    action: (View) -> Unit
+) {
+    Snackbar.make(this, text, length).setAction(actionText, action).show()
+}
+
 fun View.show(): View {
     if (visibility != View.VISIBLE) {
         visibility = View.VISIBLE

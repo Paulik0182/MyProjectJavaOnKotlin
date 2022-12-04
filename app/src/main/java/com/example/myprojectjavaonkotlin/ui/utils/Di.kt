@@ -1,11 +1,14 @@
 package com.example.myprojectjavaonkotlin.ui.utils
 
 import android.content.Context
+import com.example.myprojectjavaonkotlin.App.Companion.getHistoryMovieViewingDao
 import com.example.myprojectjavaonkotlin.MyReceiver
 import com.example.myprojectjavaonkotlin.data.*
 import com.example.myprojectjavaonkotlin.data.contacts.ContactsRepoImpl
 import com.example.myprojectjavaonkotlin.data.retrofit.ImdbApi
 import com.example.myprojectjavaonkotlin.data.retrofit.RetrofitMovieDtoRepoImpl
+import com.example.myprojectjavaonkotlin.data.room.HistoryLocalRepo
+import com.example.myprojectjavaonkotlin.data.room.HistoryLocalRepoImpl
 import com.example.myprojectjavaonkotlin.domain.interactor.CollectionInteractor
 import com.example.myprojectjavaonkotlin.domain.interactor.LikeInteractor
 import com.example.myprojectjavaonkotlin.domain.repo.FavoriteMovieRepo
@@ -30,6 +33,10 @@ class Di(
     // todo переделать
     private val genreRepo: GenreRepo by lazy {
         GenreRepoImpl()
+    }
+
+    val historyLocalRepo: HistoryLocalRepo by lazy {
+        HistoryLocalRepoImpl(getHistoryMovieViewingDao()) //реализация в App
     }
 
     val likeInteractor: LikeInteractor by lazy {

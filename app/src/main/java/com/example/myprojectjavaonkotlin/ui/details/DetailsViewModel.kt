@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.example.myprojectjavaonkotlin.data.room.HistoryLocalRepo
 import com.example.myprojectjavaonkotlin.domain.entity.FavoriteMovieDto
 import com.example.myprojectjavaonkotlin.domain.repo.FavoriteMovieRepo
 import com.example.myprojectjavaonkotlin.domain.repo.MovieWithFavoriteRepo
@@ -20,7 +21,8 @@ import com.example.myprojectjavaonkotlin.ui.utils.mutable
 class DetailsViewModel(
     private val movieWithFavoriteRepo: MovieWithFavoriteRepo,
     private val favoriteMovieRepo: FavoriteMovieRepo,
-    private val videoId: String
+    private val videoId: String,
+    private val historyLocalRepo: HistoryLocalRepo
 ) : ViewModel() {
 
     fun onFavoriteChange(favoriteMovieDto: FavoriteMovieDto) {
@@ -31,12 +33,23 @@ class DetailsViewModel(
     class Factory(
         private val movieWithFavoriteRepo: MovieWithFavoriteRepo,
         private val favoriteMovieRepo: FavoriteMovieRepo,
-        private val videoId: String
+        private val videoId: String,
+        private val historyLocalRepo: HistoryLocalRepo
     ) :
         ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return DetailsViewModel(movieWithFavoriteRepo, favoriteMovieRepo, videoId) as T
+            return DetailsViewModel(
+                movieWithFavoriteRepo,
+                favoriteMovieRepo,
+                videoId,
+                historyLocalRepo
+            ) as T
         }
+    }
+
+    // сохранение в БД
+    fun saveMovieToDb(favoriteMovieDto: FavoriteMovieDto) {
+        historyLocalRepo.saveEntity(favoriteMovieDto)
     }
 
     //изменение лайка

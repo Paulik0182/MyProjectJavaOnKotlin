@@ -6,8 +6,8 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import androidx.room.Room
-import com.example.myprojectjavaonkotlin.data.room.HistoryDao
 import com.example.myprojectjavaonkotlin.data.room.HistoryDataBase
+import com.example.myprojectjavaonkotlin.data.room.HistoryMovieViewingDao
 import com.example.myprojectjavaonkotlin.ui.utils.Di
 
 /**
@@ -25,9 +25,10 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
         //
-        context = applicationContext
+//        context = applicationContext
 
         appInstance = this
+
         IntentFilter(Intent.ACTION_AIRPLANE_MODE_CHANGED).also {
             registerReceiver(di.myReceiver, it)
         }
@@ -48,7 +49,14 @@ class App : Application() {
         private var db: HistoryDataBase? = null
         private const val DB_NAME = "History.db"
 
-        fun getHistoryDao(): HistoryDao {
+        /**
+         * двойное сравнение if (db == null) - это патерн дабл чек. Он применяется когда вкл. synchronized
+         * synchronized - накладывает большие ограничения. В нем синхранизируются потоки если туда много
+         * потоков будут обращатся.
+         * Двойное сравнение необходимо для того чтобы когда зашли (после первой проверки) в synchronized то
+         * при выходе из synchronized db уже может быть не null
+         */
+        fun getHistoryMovieViewingDao(): HistoryMovieViewingDao {
             if (db == null) {
                 synchronized(HistoryDataBase::class.java) {
                     if (db == null) {
@@ -64,7 +72,7 @@ class App : Application() {
                     }
                 }
             }
-            return db!!.historyDao()
+            return db!!.historyMovieViewingDao()
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.example.myprojectjavaonkotlin.data
 
+import com.example.myprojectjavaonkotlin.domain.entity.FavoriteMovieDto
 import com.example.myprojectjavaonkotlin.domain.repo.FavoriteMovieRepo
 
 /**
@@ -32,5 +33,9 @@ class FavoriteMovieRepoImpl : FavoriteMovieRepo {
 
     override fun isFavorite(movieId: String): Boolean {
         return data.contains(movieId)
+    }
+
+    override fun getFavorite(callback: (List<FavoriteMovieDto>) -> Unit) {
+        TODO("Not yet implemented")
     }
 }

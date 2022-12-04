@@ -11,7 +11,7 @@ import com.example.myprojectjavaonkotlin.App
 import com.example.myprojectjavaonkotlin.R
 import com.example.myprojectjavaonkotlin.databinding.FragmentFavouritesBinding
 import com.example.myprojectjavaonkotlin.domain.entity.FavoriteMovieDto
-import com.example.myprojectjavaonkotlin.domain.interactor.CollectionInteractor
+import com.example.myprojectjavaonkotlin.domain.repo.FavoriteMovieRepo
 import java.util.*
 
 private const val FRAGMENT_UUID_KEY = "FRAGMENT_UUID_KEY"
@@ -20,11 +20,11 @@ class FavouritesFragment : Fragment(R.layout.fragment_favourites) {
 
     private val app: App get() = requireActivity().application as App
 
-    private val collectionFavoriteRepo: CollectionInteractor by lazy {
-        app.di.collectionInteractor
+    private val favoriteMovieRepo: FavoriteMovieRepo by lazy {
+        app.di.favoriteMovieRepo
     }
 
-    private lateinit var adapter: CollectionFavoriteAdapter
+    private lateinit var adapter: FavoriteAdapter
 
     private var _binding: FragmentFavouritesBinding? = null
     private val binding get() = _binding!!
@@ -33,7 +33,7 @@ class FavouritesFragment : Fragment(R.layout.fragment_favourites) {
         ViewModelProvider(
             this,
             FavoriteListViewModel.Factory(
-                collectionFavoriteRepo
+                favoriteMovieRepo
             )
         )[FavoriteListViewModel::class.java]
     }
@@ -77,9 +77,9 @@ class FavouritesFragment : Fragment(R.layout.fragment_favourites) {
 
     private fun initView() {
         binding.favoriteCollectionVideoRecyclerView.layoutManager = LinearLayoutManager(context)
-        adapter = CollectionFavoriteAdapter(
+        adapter = FavoriteAdapter(
             data = emptyList(),
-            onFavoriteClickListener = {
+            onDetailVideoListener = {
                 viewModel.onVideoClick(it)
             }
         )
