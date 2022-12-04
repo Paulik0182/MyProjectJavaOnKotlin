@@ -11,6 +11,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myprojectjavaonkotlin.R
 import com.example.myprojectjavaonkotlin.databinding.FragmentContactsBinding
 import com.example.myprojectjavaonkotlin.ui.utils.hide
@@ -32,6 +33,8 @@ class ContactsFragment : Fragment(R.layout.fragment_contacts) {
 
         _binding = FragmentContactsBinding.bind(view)
         binding.contactsListRecyclerView.adapter = adapter
+        binding.contactsListRecyclerView.layoutManager = LinearLayoutManager(context)
+        binding.contactsListRecyclerView.adapter = adapter
 
         checkPermission()
         viewModel.contacts.observe(viewLifecycleOwner) {
@@ -43,12 +46,13 @@ class ContactsFragment : Fragment(R.layout.fragment_contacts) {
         when (data) {
             is AppState.Success -> {
                 binding.contactsListRecyclerView.show()
-                binding.progressTaskBar.progressTaskBar.hide()
+                binding.progressTaskBar.hide()
                 adapter.contacts = data.data
+                adapter.notifyDataSetChanged()
             }
             is AppState.Loading -> {
                 binding.contactsListRecyclerView.show()
-                binding.progressTaskBar.progressTaskBar.hide()
+                binding.progressTaskBar.hide()
             }
         }
     }
