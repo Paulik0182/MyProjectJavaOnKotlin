@@ -63,7 +63,7 @@ class FavouritesFragment : Fragment(R.layout.fragment_favourites) {
 
         viewModel.inProgressLiveData.observe(viewLifecycleOwner) { inProgress ->
             binding.favoriteCollectionVideoRecyclerView.isVisible = !inProgress
-            binding.progressTaskBar.progressTaskBar.isVisible = inProgress
+            binding.progressTaskBar.isVisible = inProgress
         }
 
         viewModel.favoriteListLiveData.observe(viewLifecycleOwner) {

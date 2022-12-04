@@ -11,15 +11,20 @@ import com.example.myprojectjavaonkotlin.domain.entity.FavoriteMovieDto
 import com.squareup.picasso.Picasso
 
 class HistoryViewHolder(
-    parent: ViewGroup
+    parent: ViewGroup,
+    onDetailVideoListener: (FavoriteMovieDto) -> Unit
 ) : RecyclerView.ViewHolder(
     LayoutInflater.from(parent.context)
         .inflate(R.layout.item_video_list_mutual, parent, false)
 ) {
 
     private val binding: ItemVideoListMutualBinding = ItemVideoListMutualBinding.bind(itemView)
+    private lateinit var video: FavoriteMovieDto
+
 
     fun bind(data: FavoriteMovieDto) {
+        this.video = data
+
         binding.apply {
             nameTextView.text = data.title
             yearReleaseTextView.text = data.yearRelease
@@ -38,6 +43,12 @@ class HistoryViewHolder(
             binding.favoriteImageView.isVisible = data.isFavorite
         } else {
             R.drawable.favourites_icon_filled
+        }
+    }
+
+    init {
+        itemView.setOnClickListener {
+            onDetailVideoListener.invoke(video)
         }
     }
 }

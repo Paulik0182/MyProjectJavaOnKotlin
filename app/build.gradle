@@ -3,8 +3,8 @@ plugins {
     id 'kotlin-parcelize'
     id 'kotlin-kapt'
     id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
+    id 'kotlin-android'
 }
-apply plugin: 'kotlin-android'
 
 android {
     compileSdk 33
@@ -82,7 +82,7 @@ dependencies {
     //ROOM
     def room_version = "2.4.3"
     implementation "androidx.room:room-runtime:$room_version"
-    //annotationProcessor (обработчик анатации)
-    annotationProcessor "androidx.room:room-compiler:$room_version"
+    //annotationProcessor (обработчик аннотации)
+    kapt "androidx.room:room-compiler:$room_version"
 
 }

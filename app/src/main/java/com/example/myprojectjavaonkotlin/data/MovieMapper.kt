@@ -14,7 +14,7 @@ fun MovieDto.mapToFavoriteMovie(
         description = this.description,
         runtimeStr = this.runtimeStr,
         genres = this.genres,
-        genreList = ArrayList(genreList),
+        genreList = this.genreList,
         yearRelease = this.yearRelease,
         comment = comment,
         isFavorite = isFavorite

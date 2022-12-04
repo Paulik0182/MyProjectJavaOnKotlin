@@ -7,8 +7,8 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "historyMovieViewing")
 class HistoryMovieViewingEntity(
 
-    @PrimaryKey(autoGenerate = true)
-    val id: Long,
+    @PrimaryKey(autoGenerate = false)
+    val id: String,
 
     @ColumnInfo(name = "image")
     val image: String,

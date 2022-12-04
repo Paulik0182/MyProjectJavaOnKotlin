@@ -35,7 +35,7 @@ class HistoryLocalRepoImpl(
 
     private fun mapHistoryEntityToEntity(favoriteMovieDto: FavoriteMovieDto): HistoryMovieViewingEntity {
         return HistoryMovieViewingEntity(
-            id = 0,
+            favoriteMovieDto.id,
             favoriteMovieDto.image,
             favoriteMovieDto.title,
             favoriteMovieDto.yearRelease,

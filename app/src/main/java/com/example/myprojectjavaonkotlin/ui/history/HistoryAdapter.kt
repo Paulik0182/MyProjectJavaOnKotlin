@@ -5,7 +5,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myprojectjavaonkotlin.domain.entity.FavoriteMovieDto
 
-class HistoryAdapter : RecyclerView.Adapter<HistoryViewHolder>() {
+class HistoryAdapter(
+    private var onVideoClickListener: (FavoriteMovieDto) -> Unit = {},
+) : RecyclerView.Adapter<HistoryViewHolder>() {
 
     private var data: List<FavoriteMovieDto> = arrayListOf()
 
@@ -16,7 +18,10 @@ class HistoryAdapter : RecyclerView.Adapter<HistoryViewHolder>() {
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HistoryViewHolder {
-        return HistoryViewHolder(parent)
+        return HistoryViewHolder(
+            parent,
+            onVideoClickListener
+        )
     }
 
     override fun onBindViewHolder(holder: HistoryViewHolder, position: Int) {

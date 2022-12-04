@@ -5,12 +5,11 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.example.myprojectjavaonkotlin.App
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myprojectjavaonkotlin.AppStateMovie
 import com.example.myprojectjavaonkotlin.R
 import com.example.myprojectjavaonkotlin.databinding.FragmentHistoryBinding
 import com.example.myprojectjavaonkotlin.domain.entity.FavoriteMovieDto
-import com.example.myprojectjavaonkotlin.domain.interactor.CollectionInteractor
 import com.example.myprojectjavaonkotlin.ui.utils.hide
 import com.example.myprojectjavaonkotlin.ui.utils.show
 import com.example.myprojectjavaonkotlin.ui.utils.showSnackBar
@@ -20,31 +19,14 @@ private const val FRAGMENT_UUID_KEY = "FRAGMENT_UUID_KEY"
 
 class HistoryFragment : Fragment(R.layout.fragment_history) {
 
-    private val app: App get() = requireActivity().application as App
-
-    private val collectionVideoRepo: CollectionInteractor by lazy {
-        app.di.collectionInteractor
-    }
-
     private var _binding: FragmentHistoryBinding? = null
     private val binding get() = _binding!!
 
     private val viewModel: HistoryViewModel by lazy {
-        ViewModelProvider(this).get(HistoryViewModel::class.java)
+        ViewModelProvider(this)[HistoryViewModel::class.java]
     }
 
-//    private val viewModel: HistoryViewModel by lazy {
-//        ViewModelProvider(
-//            this,
-//            HistoryViewModel.Factory(
-//                collectionVideoRepo
-//            )
-//        )[HistoryViewModel::class.java]
-//    }
-
-    private val adapter: HistoryAdapter by lazy {
-        HistoryAdapter()
-    }
+    private lateinit var adapter: HistoryAdapter
 
     //уникальный id (для того чтобы можно было сохранить состояние экрана за пределами класса
     private lateinit var fragmentUid: String
@@ -67,26 +49,43 @@ class HistoryFragment : Fragment(R.layout.fragment_history) {
 
         _binding = FragmentHistoryBinding.bind(view)
 
+        initView()
+
         viewModel.historyLiveData.observe(viewLifecycleOwner) {
             renderData(it)
         }
+
+        viewModel.selectedVideoLiveData.observe(viewLifecycleOwner) {
+            getController().openDetailsVideo(it)
+        }
+
         viewModel.getAllHistory()
+    }
+
+    private fun initView() {
+        binding.historyCollectionVideoRecyclerView.layoutManager = LinearLayoutManager(context)
+        adapter = HistoryAdapter(
+            onVideoClickListener = {
+                viewModel.onVideoClick(it)
+            }
+        )
+        binding.historyCollectionVideoRecyclerView.adapter = adapter
     }
 
     private fun renderData(appStateMovie: AppStateMovie) {
         when (appStateMovie) {
             is AppStateMovie.SuccessMovie -> {
                 binding.historyCollectionVideoRecyclerView.show()
-                binding.progressTaskBar.progressTaskBar.hide()
+                binding.progressTaskBar.hide()
                 adapter.setData(appStateMovie.movieData)
             }
             is AppStateMovie.Loading -> {
                 binding.historyCollectionVideoRecyclerView.hide()
-                binding.progressTaskBar.progressTaskBar.show()
+                binding.progressTaskBar.show()
             }
             is AppStateMovie.Error -> {
                 binding.historyCollectionVideoRecyclerView.show()
-                binding.progressTaskBar.progressTaskBar.hide()
+                binding.progressTaskBar.hide()
                 binding.historyCollectionVideoRecyclerView.showSnackBar(
                     "Ошибка",
                     "Перезагрузить"
