@@ -24,7 +24,7 @@ class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        //
+        // для контактов
         context = applicationContext
 
         appInstance = this

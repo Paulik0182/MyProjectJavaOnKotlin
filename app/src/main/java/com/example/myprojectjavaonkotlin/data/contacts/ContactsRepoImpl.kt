@@ -22,7 +22,7 @@ class ContactsRepoImpl(
                 null,
                 null,
                 null,
-                ContactsContract.Contacts.DISPLAY_NAME + "ASC"
+                ContactsContract.Contacts.DISPLAY_NAME
             )
 
         val answer = mutableListOf<String>()
