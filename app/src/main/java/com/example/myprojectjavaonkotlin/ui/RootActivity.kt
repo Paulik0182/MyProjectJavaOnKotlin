@@ -31,6 +31,8 @@ class RootActivity : AppCompatActivity(),
 
     private lateinit var binding: ActivityRootBinding
 
+    private val videoListFragment: VideoListFragment by lazy { VideoListFragment() }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityRootBinding.inflate(layoutInflater)
@@ -43,16 +45,13 @@ class RootActivity : AppCompatActivity(),
         } else {
             //todo иначе достать из --
         }
-        if (binding.fragmentContainerFrameLayout.id == R.id.video_list_item) {
-            binding.bottomNavBar.visibility = View.VISIBLE
-        }
     }
 
     private fun onBottomNavBar() {
         binding.bottomNavBar.setOnItemSelectedListener {
             title = it.title
             val fragment = when (it.itemId) {
-                R.id.video_list_item -> VideoListFragment()
+                R.id.video_list_item -> videoListFragment
                 R.id.favorite_item -> FavouritesFragment()
                 R.id.history_item -> HistoryFragment()
                 R.id.settings_item -> SettingsFragment()
