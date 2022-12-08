@@ -1,6 +1,11 @@
 package com.example.myprojectjavaonkotlin.ui
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -14,11 +19,14 @@ import com.example.myprojectjavaonkotlin.ui.history.HistoryFragment
 import com.example.myprojectjavaonkotlin.ui.map.MapsFragment
 import com.example.myprojectjavaonkotlin.ui.settings.SettingsFragment
 import com.example.myprojectjavaonkotlin.ui.video.VideoListFragment
+import com.google.firebase.messaging.FirebaseMessaging
 
 private const val TAG_DETAILS_VIDEO_KEY = "TAG_DETAILS_VIDEO_KEY"
 private const val TAG_MAIN_CONTAINER_LAYOUT_KEY = "TAG_MAIN_CONTAINER_LAYOUT_KEY"
 private const val TAG_CONTACTS_KEY = "TAG_CONTACTS_KEY"
 private const val TAG_MAPS_KEY = "TAG_MAPS_KEY"
+const val CHANNEL_ID = "CHANNEL_ID"
+const val TAG_FIREBASE = "FIREBASE_MESSAGING"
 
 class RootActivity : AppCompatActivity(),
     VideoListFragment.Controller,
@@ -31,7 +39,7 @@ class RootActivity : AppCompatActivity(),
 
     private lateinit var binding: ActivityRootBinding
 
-    private val videoListFragment: VideoListFragment by lazy { VideoListFragment() }
+//    private val videoListFragment: VideoListFragment by lazy { VideoListFragment() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,13 +53,41 @@ class RootActivity : AppCompatActivity(),
         } else {
             //todo иначе достать из --
         }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val notificationManager =
+                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            createNotificationChannel(notificationManager)
+        }
+
+        // получаем token
+        FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val token = task.result
+                Log.d(TAG_FIREBASE, token)
+            } else {
+                Log.w(TAG_FIREBASE, "Неизвестная ошибка, отсутствует token")
+            }
+        }
+    }
+
+    // создаем канал
+    private fun createNotificationChannel(notificationManager: NotificationManager) {
+        val channelName = "Channel name"
+        val descriptionText = "Channel description"
+        val importance = NotificationManager.IMPORTANCE_HIGH
+        val channel = NotificationChannel(CHANNEL_ID, channelName, importance)
+            .apply {
+                description = descriptionText
+            }
+        notificationManager.createNotificationChannel(channel)
     }
 
     private fun onBottomNavBar() {
         binding.bottomNavBar.setOnItemSelectedListener {
             title = it.title
             val fragment = when (it.itemId) {
-                R.id.video_list_item -> videoListFragment
+                R.id.video_list_item -> VideoListFragment()
                 R.id.favorite_item -> FavouritesFragment()
                 R.id.history_item -> HistoryFragment()
                 R.id.settings_item -> SettingsFragment()
