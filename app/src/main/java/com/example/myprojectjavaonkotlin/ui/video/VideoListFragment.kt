@@ -67,6 +67,7 @@ class VideoListFragment : Fragment(R.layout.fragment_video_list) {
         _binding = FragmentVideoListBinding.bind(view)
 
         initView()
+//        throw RuntimeException("Test Crash") // Force a crash
 
         viewModel.inProgressLiveData.observe(viewLifecycleOwner) { inProgress ->
             binding.collectionVideoRecyclerView.isVisible = !inProgress
