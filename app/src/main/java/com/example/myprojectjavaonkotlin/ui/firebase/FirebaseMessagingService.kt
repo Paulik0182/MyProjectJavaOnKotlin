@@ -40,6 +40,7 @@ class FirebaseMessagingService : FirebaseMessagingService() {
 
     // вывод на экран
     override fun onNewToken(token: String) {
+        super.onNewToken(token)
         Log.d(TAG_FIREBASE, token)
     }
 
