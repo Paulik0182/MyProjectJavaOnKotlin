@@ -58,4 +58,17 @@
         android:textSize="15sp"
         app:backgroundTint="@color/green_grass" />
 
+    <Button
+        android:id="@+id/version_button"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:background="@color/black"
+        android:text="О приложении"
+        android:textAllCaps="false"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        app:backgroundTint="@color/green_grass" />
+
 </LinearLayout>
