@@ -1,6 +1,5 @@
 package com.example.myprojectjavaonkotlin.ui.map
 
-import android.content.Context
 import android.graphics.Color
 import android.location.Address
 import android.location.Geocoder
@@ -38,7 +37,6 @@ class MapsFragment : Fragment(R.layout.fragment_maps) {
             addMarkerToArray(latLng) //
             drawLine() // для рисования линии
         }
-
 
         /**
          * Manipulates the map once available.
@@ -87,7 +85,6 @@ class MapsFragment : Fragment(R.layout.fragment_maps) {
             )
         }
     }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -157,17 +154,6 @@ class MapsFragment : Fragment(R.layout.fragment_maps) {
                 }
             }.start()
         }
-    }
-
-    interface Controller {
-        // TODO
-    }
-
-    private fun getController(): Controller = activity as Controller
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        getController()
     }
 
     companion object {

@@ -23,8 +23,6 @@ class CollectionInteractorImpl(
         // что-то вроде таблицы для облегчения поиска (String - жанр, CollectionEntity - пришедшие значения)
         val hashMapMovies = HashMap<String, CollectionEntity>()
 
-//        Handler(Looper.getMainLooper()).postDelayed({
-
         //скачиваем список фильмов
         movieWithFavoriteRepo.getMovies(genres) { movies ->
             //проходим по фильмам
@@ -44,6 +42,5 @@ class CollectionInteractorImpl(
             }
             callback(hashMapMovies.values.toList())//превратили в hashMapMovies отдали в callback
         }
-//        }, 1_000)
     }
 }

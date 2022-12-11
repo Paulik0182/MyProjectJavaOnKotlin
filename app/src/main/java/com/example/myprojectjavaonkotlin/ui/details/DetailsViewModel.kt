@@ -52,9 +52,6 @@ class DetailsViewModel(
         historyLocalRepo.saveEntity(favoriteMovieDto)
     }
 
-    //изменение лайка
-    val isFavoriteLiveData: LiveData<Boolean> = MutableLiveData()
-
     val videoLiveData: LiveData<FavoriteMovieDto> = MutableLiveData()
 
     init {

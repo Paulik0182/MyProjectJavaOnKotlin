@@ -44,7 +44,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         showListOfMovies()
 
         binding.setContactsButton.setOnClickListener {
-//            checkPermission()
+            checkPermission()
             getController().openContacts()
         }
 
@@ -112,7 +112,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
     }
 
     // Геолокация
-    val requestPermission =
+    private val requestPermission =
         registerForActivityResult(
             ActivityResultContracts.RequestPermission()
         ) { isGranted: Boolean ->
@@ -173,7 +173,6 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
                             title = "GPS отключён",
                             message = "Местонахождение неизвестно. Включите GPS"
                         )
-//                        showRationaleDialog()
                     } else {
                         getAddressAsync(context, location)
                         showDialog(
@@ -197,6 +196,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             }
         }
 
+        @Deprecated("Deprecated in Java")
         override fun onStatusChanged(provider: String, status: Int, extras: Bundle) {}
         override fun onProviderEnabled(provider: String) {}
         override fun onProviderDisabled(provider: String) {}
@@ -226,45 +226,6 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             }
         }.start()
     }
-
-    // Геолокация
-//    private fun showAddressDialog(address: String, location: Location) {
-//        activity?.let {
-//            AlertDialog.Builder(it)
-//                .setTitle("Ваш адрес")
-//                .setMessage(address)
-//                .setPositiveButton("Узнать где показывают фильм") { _, _ ->
-//                    openDetailsFragment(
-//                        Weather(
-//                            City(
-//                                address,
-//                                location.latitude,
-//                                location.longitude
-//                            )
-//                        )
-//                    )
-//                }
-//                .setNegativeButton("Закрыть") { dialog, _ -> dialog.dismiss() }
-//                .create()
-//                .show()
-//        }
-//    }
-
-    // Геолокация
-//    private fun openDetailsFragment(
-//        weather: Weather
-//    ) {
-//        activity?.supportFragmentManager?.apply {
-//            beginTransaction()
-//                .add(
-//                    R.id.container,
-//                    DetailsFragment.newInstance(weather)
-//                )
-//                .addToBackStack("")
-//                .commitAllowingStateLoss()
-//        }
-//    }
-
 
     private fun showListOfMovies() {
         isDataSetAdult =

@@ -1,5 +1,6 @@
 package com.example.myprojectjavaonkotlin.ui
 
+import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
@@ -33,17 +34,15 @@ const val TAG_FIREBASE = "FIREBASE_MESSAGING"
 
 class RootActivity : AppCompatActivity(),
     VideoListFragment.Controller,
-    DetailsVideoFragment.Controller,
     FavouritesFragment.Controller,
     SettingsFragment.Controller,
-    HistoryFragment.Controller,
-    ContactsFragment.Controller,
-    MapsFragment.Controller {
+    HistoryFragment.Controller {
 
     private lateinit var binding: ActivityRootBinding
 
 //    private val videoListFragment: VideoListFragment by lazy { VideoListFragment() }
 
+    @SuppressLint("ObsoleteSdkInt")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityRootBinding.inflate(layoutInflater)

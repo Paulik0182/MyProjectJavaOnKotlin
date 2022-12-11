@@ -1,6 +1,5 @@
 package com.example.myprojectjavaonkotlin.ui.details
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -161,17 +160,6 @@ class DetailsVideoFragment : Fragment() {
             else
                 R.drawable.favourites_icon
         )
-    }
-
-    interface Controller {
-        // TODO
-    }
-
-    private fun getController(): Controller = activity as Controller
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        getController()
     }
 
     companion object {

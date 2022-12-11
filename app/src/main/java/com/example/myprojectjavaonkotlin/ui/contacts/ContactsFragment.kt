@@ -1,8 +1,8 @@
 package com.example.myprojectjavaonkotlin.ui.contacts
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.AlertDialog
-import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.View
@@ -25,7 +25,7 @@ class ContactsFragment : Fragment(R.layout.fragment_contacts) {
     private val adapter: ContactsAdapter by lazy { ContactsAdapter() }
 
     private val viewModel: ContactsViewModel by lazy {
-        ViewModelProvider(this).get(ContactsViewModel::class.java)
+        ViewModelProvider(this)[ContactsViewModel::class.java]
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -42,6 +42,7 @@ class ContactsFragment : Fragment(R.layout.fragment_contacts) {
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun renderData(data: AppState) {
         when (data) {
             is AppState.Success -> {
@@ -110,18 +111,6 @@ class ContactsFragment : Fragment(R.layout.fragment_contacts) {
 
     private fun getContacts() {
         viewModel.getContacts()
-//        Toast.makeText(requireContext(), "Список контактов получен", Toast.LENGTH_SHORT).show()
-    }
-
-    interface Controller {
-        // TODO
-    }
-
-    private fun getController(): Controller = activity as Controller
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        getController()
     }
 
     companion object {
