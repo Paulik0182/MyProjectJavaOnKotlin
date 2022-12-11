@@ -53,7 +53,7 @@ android {
         viewBinding = true
     }
 
-    flavorDimensions 'version'
+    flavorDimensions 'version', 'versionPlus'
     productFlavors {
         two {
             dimension 'version'
@@ -63,6 +63,14 @@ android {
             dimension 'version'
             versionNameSuffix '.pro'
 
+        }
+        demo {
+            dimension 'versionPlus'
+            versionNameSuffix '.versionPlus.demo'
+        }
+        simple {
+            dimension 'versionPlus'
+            versionNameSuffix '.versionPlus.simple'
         }
     }
 }
