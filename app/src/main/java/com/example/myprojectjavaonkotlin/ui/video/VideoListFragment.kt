@@ -37,7 +37,7 @@ class VideoListFragment : Fragment(R.layout.fragment_video_list) {
     private val viewModel: VideoListViewModel by lazy {
         ViewModelProvider(
             this,
-            VideoListViewModel.Factory(
+            VideoListViewModelFactory(
                 collectionVideoRepo
             )
         )[VideoListViewModel::class.java]
