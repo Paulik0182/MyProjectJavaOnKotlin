@@ -2,6 +2,7 @@ package com.example.myprojectjavaonkotlin.ui.utils
 
 import android.content.Context
 import com.example.myprojectjavaonkotlin.App.Companion.getHistoryMovieViewingDao
+import com.example.myprojectjavaonkotlin.BuildConfig
 import com.example.myprojectjavaonkotlin.MyReceiver
 import com.example.myprojectjavaonkotlin.data.*
 import com.example.myprojectjavaonkotlin.data.retrofit.ImdbApi
@@ -18,7 +19,6 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 private const val BASE_URL = "https://imdb-api.com/ru/API/"
-private const val API_KEY = "k_r6gwl7te" //todo должен быть в gradle secret properties
 
 class Di(
     private val context: Context
@@ -44,7 +44,7 @@ class Di(
     }
 
     private val movieDtoRepo: MovieDtoRepo by lazy {
-        RetrofitMovieDtoRepoImpl(imdbApi, API_KEY, context)
+        RetrofitMovieDtoRepoImpl(imdbApi, BuildConfig.API_KEY, context)
     }
 
     val favoriteMovieRepo: FavoriteMovieRepo = FavoriteMovieRepoImpl()
