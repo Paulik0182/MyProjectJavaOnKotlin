@@ -23,7 +23,7 @@ class HistoryLocalRepoImpl(
                 yearRelease = it.yearRelease,
                 isFavorite = it.isFavorite,
 
-                id = "1",
+                id = it.id,
                 description = "Обычный фильм",
                 runtimeStr = "",
                 genres = "comedy",

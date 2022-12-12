@@ -89,7 +89,7 @@ class RootActivity : AppCompatActivity(),
 
     private fun onBottomNavBar() {
         binding.bottomNavBar.setOnItemSelectedListener {
-            title = it.title
+            TitleUtils.setupTitle(this, it)
             val fragment = when (it.itemId) {
                 R.id.video_list_item -> VideoListFragment()
                 R.id.favorite_item -> FavouritesFragment()
