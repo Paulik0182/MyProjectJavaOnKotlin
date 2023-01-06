@@ -15,13 +15,11 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import com.example.myprojectjavaonkotlin.App
 import com.example.myprojectjavaonkotlin.R
 import com.example.myprojectjavaonkotlin.databinding.FragmentSettingsBinding
 import com.example.myprojectjavaonkotlin.ui.utils.snack
 import java.io.IOException
-
-private const val IS_ADULT_KEY = "IS_ADULT_KEY"
-private const val SAVE_SETTINGS_KEY = "SAVE_SETTINGS_KEY"
 
 // Геолокация
 private const val REFRESH_PERIOD = 60000L
@@ -32,16 +30,20 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
     private var _binding: FragmentSettingsBinding? = null
     private val binding get() = _binding!!
 
-    private var isDataSetAdult: Boolean = false
+    private val app: App by lazy {
+        requireActivity().application as App
+    }
+
+    private val adultInteractor by lazy {
+        app.di.adultInteractor
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         _binding = FragmentSettingsBinding.bind(view)
 
-        setAdultContent()
-
-        showListOfMovies()
+        initAdultContentView()
 
         binding.setContactsButton.setOnClickListener {
             checkPermission()
@@ -61,15 +63,16 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         }
     }
 
-    private fun setAdultContent() {
-        binding.switchContent.setOnCheckedChangeListener { buttonContent, isChecked ->
-            isDataSetAdult = !isDataSetAdult
-            if (isChecked) {
-                Toast.makeText(requireContext(), "Взрослый контент", Toast.LENGTH_SHORT).show()
-                saveListOfMovies()
-            } else {
-                Toast.makeText(requireContext(), "Выключено", Toast.LENGTH_SHORT).show()
-            }
+    private fun initAdultContentView() {
+        binding.switchContent.isChecked = adultInteractor.isAdult.value ?: false
+        binding.switchContent.setOnCheckedChangeListener { _, isChecked ->
+            adultInteractor.isAdult.postValue(isChecked)
+
+            Toast.makeText(
+                requireContext(),
+                if (isChecked) "Взрослый контент" else "Выключено",
+                Toast.LENGTH_SHORT
+            ).show()
         }
     }
 
@@ -197,7 +200,9 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         }
 
         @Deprecated("Deprecated in Java")
-        override fun onStatusChanged(provider: String, status: Int, extras: Bundle) {}
+        override fun onStatusChanged(provider: String, status: Int, extras: Bundle) {
+        }
+
         override fun onProviderEnabled(provider: String) {}
         override fun onProviderDisabled(provider: String) {}
     }
@@ -225,19 +230,6 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
                 e.printStackTrace()
             }
         }.start()
-    }
-
-    private fun showListOfMovies() {
-        isDataSetAdult =
-            requireActivity().getSharedPreferences(SAVE_SETTINGS_KEY, Context.MODE_PRIVATE)
-                .getBoolean(IS_ADULT_KEY, true)
-        binding.switchContent.isChecked = isDataSetAdult
-    }
-
-    private fun saveListOfMovies() {
-        requireActivity().getSharedPreferences(SAVE_SETTINGS_KEY, Context.MODE_PRIVATE).edit()
-            .putBoolean(IS_ADULT_KEY, isDataSetAdult)
-            .apply()
     }
 
     // проверяем разрешения чтения контактов

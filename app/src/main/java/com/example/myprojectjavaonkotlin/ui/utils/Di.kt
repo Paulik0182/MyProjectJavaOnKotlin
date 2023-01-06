@@ -9,6 +9,7 @@ import com.example.myprojectjavaonkotlin.data.retrofit.ImdbApi
 import com.example.myprojectjavaonkotlin.data.retrofit.RetrofitMovieDtoRepoImpl
 import com.example.myprojectjavaonkotlin.data.room.HistoryLocalRepo
 import com.example.myprojectjavaonkotlin.data.room.HistoryLocalRepoImpl
+import com.example.myprojectjavaonkotlin.domain.interactor.AdultInteractor
 import com.example.myprojectjavaonkotlin.domain.interactor.CollectionInteractor
 import com.example.myprojectjavaonkotlin.domain.interactor.LikeInteractor
 import com.example.myprojectjavaonkotlin.domain.repo.FavoriteMovieRepo
@@ -31,6 +32,10 @@ class Di(
         GenreRepoImpl()
     }
 
+    val adultInteractor: AdultInteractor by lazy {
+        SharedPrefAdultInteractionImpl(context)
+    }
+
     val historyLocalRepo: HistoryLocalRepo by lazy {
         HistoryLocalRepoImpl(getHistoryMovieViewingDao()) //реализация в App
     }
@@ -44,7 +49,7 @@ class Di(
     }
 
     private val movieDtoRepo: MovieDtoRepo by lazy {
-        RetrofitMovieDtoRepoImpl(imdbApi, BuildConfig.API_KEY, context)
+        RetrofitMovieDtoRepoImpl(imdbApi, BuildConfig.apiKey, context)
     }
 
     val favoriteMovieRepo: FavoriteMovieRepo = FavoriteMovieRepoImpl()
