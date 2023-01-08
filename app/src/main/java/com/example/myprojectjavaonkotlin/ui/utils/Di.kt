@@ -29,7 +29,7 @@ class Di(
 
     // todo переделать
     private val genreRepo: GenreRepo by lazy {
-        GenreRepoImpl()
+        GenreRepoImpl(adultInteractor)
     }
 
     val adultInteractor: AdultInteractor by lazy {

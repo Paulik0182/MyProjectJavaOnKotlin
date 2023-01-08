@@ -33,6 +33,7 @@ class FavoriteViewHolder(
                 //Picasso
                 Picasso.get()
                     .load(data.image)
+                    .fit() // это значит, что картинка будет размещена по выделенному размеру для нее.
                     .placeholder(R.drawable.uploading_images)
                     .into(coverImageView)
                 coverImageView.scaleType =
